@@ -62,7 +62,12 @@ export default {
 }
 
 form {
+    font-size: 20px;
     position: relative;
+    top: 250px;
+    left: 250px;
+    right: 250px;
+    bottom: 250px;
     width: 50%;
     height: 400px;
     display: flex;

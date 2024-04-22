@@ -41,7 +41,7 @@ export default {
 
 .box1 {
     position: absolute;
-    background-color: #fda1a1;
+    background-color: #ffffff;
     width: 50%;
     height: 100vh;
 }
@@ -55,18 +55,24 @@ export default {
 }
 
 form {
+    font-size: 20px;
     position: relative;
+    top: 250px;
+    left: 250px;
+    right: 250px;
+    bottom: 250px;
     width: 50%;
-    height: 450px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 form > input {
-    border: none;
+    border: 1px solid rgba(135, 135, 135, 0.917);
     width: 100%;
     height: 50px;
+   
 }
 
 form>label {
