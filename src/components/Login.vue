@@ -1,11 +1,17 @@
 <template>
     <div class="container">
         <div class="box1">
-
+            <div class="icon">
+                🤘
+            </div>
+            <h3>A fortuna fica ao lado daquele que ousa.
+            </h3>
+            <p>Todo progresso ocorre fora da zona de conforto.</p>
         </div>
         <div class="box2">
+            <h1>Login</h1>
             <form>
-                <h1>Login</h1>
+               
                 <label for="form-label">Endereço de e-mail</label>
                 <input type="text" name="email" id="" placeholder="Digite seu e-mail" autocomplete="off">
 
@@ -34,35 +40,88 @@ export default {
     /* display: grid; */
     /* grid-template-columns: 1fr 1fr; */
     position: relative;
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     box-sizing: border-box;
     /* border: 10px solid; */
 
 }
 
-.box1 {
-    position: absolute;
+.box1,
+.box2 {
+    /* position: absolute;
 
-    background-color: #db3535;
+    background-color: #b71010;
     width: 50%;
+    height: 100vh; */
+
     height: 100vh;
+    position: absolute;
+    box-sizing: border-box;
+    width: calc(50% - 60px);
+    height: calc(100vh - 60px);
+    transition: background-color 0.3s ease;
 
 
 
 }
+.box2>h1{
+    margin-top: 250px;
+    font-size: 40px;
+}
 
+.box1 {
+    position: absolute;
+    background-color: rgba(229, 229, 229, 0.885);
+    top: 27px;
+    left: 27px;
+
+}
+.box1>h3 {
+    text-align: center;
+    position: absolute;
+    top: 400px;
+    left: 30px;
+    font-size: 40px
+}
+.box1>p {
+    font-size: 20px;
+    color: #575757fb;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 500px;
+    left: 200px;
+
+}
+.icon {
+    font-size: 100px;
+    position: absolute;
+    top: 150px;
+    left: 30px;
+    transition: transform 0.3s ease;
+    
+}
 .box2 {
 
     position: absolute;
-    width: 50%;
-    height: 100%;
-    left: 50%;
-    background-color: rgb(198, 188, 188);
+    top: 27px;
+    right: 27px;
 
+    background-color: rgb(255, 255, 255);
+
+}
+.box1:hover{
+    background-color: #000000;
+}
+.box1:hover h3,.box1:hover p{
+    color: #ffffff;
+}
+.box1:hover .icon{
+    transform: translateY(-20px);
 }
 
 form {
-    font-size: 20px;
+    /* font-size: 20px;
     position: relative;
     top: 250px;
     left: 250px;
@@ -72,23 +131,29 @@ form {
     height: 400px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; */
+    position: absolute;
+    top: 40%;
+    font-size: 20px;
+    
 
 }
 
-form > input {
-    border: none;
+
+form>input {
+    margin-top: 20px;
+    margin-bottom: 20px;
     width: 100%;
     height: 50px;
 }
 
-form > label {
-    padding: 10px 0px;
+form>label {
+    padding: 30px 0px;
 }
 
 form button {
 
-    position: absolute;
+    /* position: absolute;
     bottom: 0px;
     right: 0px;
     width: 150px;
@@ -96,14 +161,22 @@ form button {
     background-color: #000000;
     color: #ffffff;
     border: none;
-    
+
+    cursor: pointer; */
+    color: #ffffff;
+    background-color: #000000;
+    position: absolute;
+    top: 300px;
+    right: 0;
+    width: 200px;
+    height: 50px;
     cursor: pointer;
 }
 
 form>a {
     position: absolute;
-    bottom: 10px;
-    left: 0px;
+    top: 300px;
+    left: 0;
     text-decoration: none;
     color: gray;
 }

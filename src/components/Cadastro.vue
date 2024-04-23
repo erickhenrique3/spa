@@ -1,8 +1,9 @@
 <template>
     <div class="container">
         <div class="box1">
+            <h1>Inscreva-se</h1>
             <form>
-                <h1>Inscreva-se</h1>
+                
                 <label for="form-label">Nome completo</label>
                 <input type="text" name="name" id="" placeholder="Digite seu nome" autocomplete="off">
 
@@ -86,7 +87,7 @@ export default {
     position: absolute;
     top: 150px;
     left: 30px;
-    border: none;
+    transition: transform 0.3s ease;
 }
 
 .box1 {
@@ -98,6 +99,12 @@ export default {
     bottom: 50px;
     margin-right: 30px;
 
+}
+
+.box1 h1{
+    font-size: 40px;
+    margin-top: 150px;
+    margin-left: 90px;
 }
 
 .box2 {
@@ -117,10 +124,13 @@ export default {
 .box2:hover h3,.box2:hover p{
     color: #ffffff;
 }
+.box2:hover .icon{
+    transform: translateY(-20px);
+}
 
 
 form {
-    font-size: 20px;
+    /* font-size: 20px;
     position: relative;
     top: 250px;
     left: 250px;
@@ -130,23 +140,32 @@ form {
     height: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; */
+    position: absolute;
+    left: 10%;
+    top: 30%;
+    font-size: 20px;
+    width: 70%;
 }
 
 form>input {
-    border: 1px solid rgba(135, 135, 135, 0.917);
+    /* border: 1px solid rgba(135, 135, 135, 0.917);
+    width: 100%;
+    height: 50px; */
+    margin-top: 20px;
+    margin-bottom: 20px;
     width: 100%;
     height: 50px;
 
 }
 
 form>label {
-    padding: 10px 0px;
+    padding: 30px 0px;
 }
 
 form button {
 
-    position: absolute;
+    /* position: absolute;
     bottom: 0px;
     right: 0px;
     width: 150px;
@@ -155,13 +174,21 @@ form button {
     color: #ffffff;
     border: none;
 
+    cursor: pointer; */
+    color: #ffffff;
+    background-color: #000000;
+    position: absolute;
+    top: 400px;
+    right: 0;
+    width: 200px;
+    height: 50px;
     cursor: pointer;
 }
 
 form>a {
     position: absolute;
-    bottom: 10px;
-    left: 0px;
+    top: 400px;
+    left: 0;
     text-decoration: none;
     color: gray;
 }
