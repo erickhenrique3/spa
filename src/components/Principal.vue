@@ -3,10 +3,10 @@
     <header>
 
     </header>
-    <div class="menu">
+    <div class="box1">
        
     </div>
-    <div class="conteudo">
+    <div class="box2">
 
     </div>
    </div>
@@ -36,13 +36,13 @@ export default{
     height: 100px;
     background-color: brown;
 }
-.menu{
+.box1{
     flex:  1;
     height: 100vh;
     width: 50%;
     background-color: black;
 }
-.conteudo{
+.box2{
     flex: 1;
     height: 100vh;
     background-color: blue;
