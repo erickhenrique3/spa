@@ -27,7 +27,24 @@
         </div>
         <div class="box2">
             <div class="conteudo">
+                <h1>Entrada</h1>
+                <div class="card">
+                    <input type="checkbox" id="comprar-pao">
+                    <ul>
 
+
+                        <label for="comprar-pao">Comprar pao</label>
+
+                    </ul>
+                    <ul>
+                        <li>comprar ate as 10:00</li>
+
+                    </ul>
+                    <span class="data"><i class='bx bx-notepad'></i>12/09/2008</span>
+
+                    <hr>
+                    <button><i class='bx bx-plus' style='color: #000;'></i> Criar subtarefa </button>
+                </div>
             </div>
         </div>
     </div>
@@ -121,5 +138,74 @@ header .icons {
     height: 100vh;
     background-color: rgb(255, 255, 255);
 
+}
+
+.conteudo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+
+}
+
+.conteudo h1 {
+    position: absolute;
+    margin-left: 0;
+    top: 20%;
+    left: 40%;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.data {
+    background-color: rgba(40, 252, 160, 0.742);
+    margin: 5px;
+}
+
+.card label {
+    margin-bottom: 10px;
+    font-size: 25px;
+    font-style: italic;
+
+}
+
+.card input {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    margin-top: 0;
+    margin-left: -20px;
+    position: relative;
+    top: 15%;
+    left: 100%;
+}
+
+ /* input[type="checkbox"]:checked {
+    background-color:  rgba(40, 252, 160, 0.742);
+} */
+.card {
+    margin: 0 auto;
+    padding: 20px;
+    width: 50%;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px #ccc;
+}
+
+.card button {
+    border: none;
+    text-align: center;
+
+    background-color: #ffffff;
+    cursor: pointer;
+    margin-top: 20px;
 }
 </style>
