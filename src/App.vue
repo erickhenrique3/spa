@@ -2,7 +2,8 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <!-- <Capa/> -->
   <!-- <Login/> -->
-  <Cadastro/>
+  <!-- <Cadastro/> -->
+  <Principal/>
 </template>
 
 <script>
@@ -10,12 +11,14 @@
 import Capa from './components/Capa.vue'
 import Login from './components/Login.vue'
 import Cadastro from './components/Cadastro.vue'
+import Principal from './components/Principal.vue'
 export default {
   name: 'App',
   components: {
-   Capa,
-   Login,
-   Cadastro,
+  //  Capa,
+  //  Login,
+  // Cadastro,
+   Principal
   }
 }
 </script>
