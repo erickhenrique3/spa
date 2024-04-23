@@ -5,12 +5,17 @@
                 🤘
             </div>
             <div class="icons">
-                <i class='bx bx-plus' style='color:#ffff'></i>
+                <i class='bx bx-plus' style='color:#ffff' @click="ShowModal = true"></i>
                 <i class='bx bx-help-circle' style='color:#ffff'></i>
                 <i class='bx bx-bell' style='color:#ffff'></i>
                 <i class='bx bx-user' style='color:#ffff'></i>
             </div>
+            
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+                crossorigin="anonymous">
 
+                
         </header>
         <div class="box1">
             <div>
@@ -52,6 +57,11 @@
 <script>
 export default {
     name: 'Principal',
+    data() {
+        return {
+            ShowModal: true,
+        }
+    },
 }
 </script>
 
@@ -97,6 +107,7 @@ header .icons {
 
 .icons i {
     margin-right: 40px;
+    cursor: pointer;
 }
 
 .box1 {
@@ -189,7 +200,7 @@ li {
     left: 100%;
 }
 
- /* input[type="checkbox"]:checked {
+/* input[type="checkbox"]:checked {
     background-color:  rgba(40, 252, 160, 0.742);
 } */
 .card {
