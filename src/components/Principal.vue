@@ -15,18 +15,20 @@
         <div class="box1">
             <div>
                 <button>
-                    <i class='bx bx-store-alt' style='color:rgba(32,32,32,0.92)'  ></i>  Entrada
+                    <i class='bx bx-store-alt' style='color:rgba(32,32,32,0.92)'></i> Entrada
                 </button>
                 <button>
-                    <i class='bx bx-notepad'></i>  Tarefas de hoje
+                    <i class='bx bx-notepad'></i> Tarefas de hoje
                 </button>
                 <button>
-                    <i class='bx bx-error-alt'></i>   Vencidos
+                    <i class='bx bx-error-alt'></i> Vencidos
                 </button>
             </div>
         </div>
         <div class="box2">
+            <div class="conteudo">
 
+            </div>
         </div>
     </div>
 </template>
@@ -84,30 +86,30 @@ header .icons {
     flex: 1;
 
     height: 100vh;
-    display: flex; 
-    flex-direction: column; 
-    margin-top: 100px; 
-    padding:  20px 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    padding: 20px 0;
     background-color: rgba(237, 237, 237, 0.901);
-    
+
 }
 
 .box1 button {
-    
-    background-color:  rgba(237, 237, 237, 0.901);
+
+    background-color: rgba(237, 237, 237, 0.901);
     margin-bottom: 20px;
     height: 40px;
     width: 100%;
     font-size: 25px;
     border: none;
-    
+
 }
 
-.box1  i{
-   margin-left: 5px;
+.box1 i {
+    margin-left: 5px;
 }
 
-.box1 button:hover{
+.box1 button:hover {
     cursor: pointer;
     background-color: #ffffff
 }
