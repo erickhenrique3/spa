@@ -1,9 +1,9 @@
 <template>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <!-- <Capa/> -->
+  <Capa/>
   <!-- <Login/> -->
   <!-- <Cadastro/> -->
-  <Principal/>
+  <!-- <Principal/> -->
 </template>
 
 <script>
@@ -15,10 +15,10 @@ import Principal from './components/Principal.vue'
 export default {
   name: 'App',
   components: {
-  //  Capa,
+   Capa,
   //  Login,
   // Cadastro,
-   Principal
+  //  Principal
   }
 }
 </script>

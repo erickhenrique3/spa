@@ -11,6 +11,7 @@
             </footer>
             <div class="icon">
             <i @mouseenter="proximo" class='bx bx-chevrons-right'></i>
+            
         </div>
         </div>
         
@@ -104,5 +105,6 @@ footer{
 }
 .icon:hover{
     transform: translateY(-10px);
+    cursor: pointer;
 }
 </style>
