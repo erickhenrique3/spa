@@ -13,8 +13,12 @@
                 <label for="form-label">Senha de acesso:</label>
                 <input type="password" name="password" id="" placeholder="Digite sua senha" autocomplete="off">
 
-                <a href="#">Já tenho uma conta</a>
-                <button>Cadastrar</button>
+                <router-link to="/login">
+                    <a class="a">Já tenho uma conta</a>
+                </router-link>
+                <router-link to="/login">
+                    <button>Cadastrar</button>
+                </router-link>
             </form>
         </div>
         <div class="box2">
@@ -184,8 +188,7 @@ form button {
     height: 50px;
     cursor: pointer;
 }
-
-form>a {
+.a {
     position: absolute;
     top: 400px;
     left: 0;
@@ -193,7 +196,7 @@ form>a {
     color: gray;
 }
 
-form>a:hover {
+.a:hover {
     text-decoration: underline;
 
 }

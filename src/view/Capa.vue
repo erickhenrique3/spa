@@ -10,7 +10,10 @@
                 <strong>Erick Henrique</strong>😎
             </footer>
             <div class="icon">
-            <i @mouseenter="proximo" class='bx bx-chevrons-right'></i>
+             <router-link to="/login" >
+                <i class='bx bx-chevrons-right' style="color: black;"></i>
+             </router-link>
+           
             
         </div>
         </div>
@@ -97,6 +100,7 @@ footer{
     
 }
 .icon{
+   
     position: absolute;
     top: 600px;
     left: 90px;

@@ -18,8 +18,12 @@
                 <label for="form-label">Senha de acesso:</label>
                 <input type="password" name="password" id="" placeholder="Digite sua senha" autocomplete="off">
 
-                <a href="#">Não tenho conta</a>
-                <button>Acessar</button>
+                <router-link to="/cadastro">
+                    <a class="a">Não tenho conta</a>
+                </router-link>
+                <router-link to="/principal">
+                    <button>Acessar</button>
+                </router-link>
             </form>
 
         </div>
@@ -173,7 +177,7 @@ form button {
     cursor: pointer;
 }
 
-form>a {
+.a {
     position: absolute;
     top: 300px;
     left: 0;
@@ -181,7 +185,7 @@ form>a {
     color: gray;
 }
 
-form>a:hover {
+.a:hover {
     text-decoration: underline;
 
 }
