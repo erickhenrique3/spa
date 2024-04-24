@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <header>
+
             <div class="emoji">
                 🤘
             </div>
@@ -10,13 +11,27 @@
                 <i class='bx bx-bell' style='color:#ffff'></i>
                 <i class='bx bx-user' style='color:#ffff'></i>
             </div>
-            
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-                crossorigin="anonymous">
 
-                
         </header>
+        <div class="modal" v-if="ShowModal">
+
+
+
+            <form class="modal-body">
+
+                <input type="text" name="Title" id="Title" placeholder="Nome da tarefa">
+                <input type="text" name="Descripition" id="Description" placeholder="Descrição">
+                <input type="datetime" id="date" placeholder="Data de vencimento">
+
+                <div class="buttons">
+                    <button type="button" class="btn-save" @click="ShowModal = false">Salvar</button>
+                    <button type="button" class="btn-close" @click="ShowModal = false">Cancelar</button>
+                </div>
+            </form>
+
+
+
+        </div>
         <div class="box1">
             <div>
                 <button>
@@ -66,6 +81,65 @@ export default {
 </script>
 
 <style scoped>
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+
+
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: violet;
+    height: 200px;
+    width: 600px;
+}
+
+.modal-body input {
+    border: none;
+    font-size: 20px;
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+
+.modal button {
+    border: none;
+    font-size: 20px; 
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+   
+    margin-right: 50px;
+   
+}
+
+.buttons {
+    font-size: 20px;
+    
+}
+
+/* .btn-close{
+    position: absolute;
+    top: 58%;
+    left: 20%;
+}
+.btn-save{
+    position: absolute;
+    top: 58%;
+    left: 10%;
+} */
+
 .container {
     width: 100vw;
     height: 100vh;
