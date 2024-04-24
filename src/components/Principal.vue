@@ -21,8 +21,8 @@
 
                 <input type="text" name="Title" id="Title" placeholder="Nome da tarefa">
                 <input type="text" name="Descripition" id="Description" placeholder="Descrição">
-                <input type="datetime" id="date" placeholder="Data de vencimento">
-
+                <input type="datetime" id="date" placeholder=" Data de vencimento">
+                <hr>
                 <div class="buttons">
                     <button type="button" class="btn-save" @click="ShowModal = false">Salvar</button>
                     <button type="button" class="btn-close" @click="ShowModal = false">Cancelar</button>
@@ -32,6 +32,28 @@
 
 
         </div>
+        <div class="modal" v-if="ShowModalSub">
+
+
+
+            <form class="modal-body">
+
+                <input type="text" name="Title" id="Title" placeholder="Nome da subtarefa">
+                <input type="text" name="Descripition" id="Description" placeholder="Descrição">
+
+                <hr>
+                <div class="buttons">
+                    <button type="button" class="btn-save" @click="ShowModalSub = false">Salvar</button>
+                    <button type="button" class="btn-close" @click="ShowModalSub = false">Cancelar</button>
+                </div>
+            </form>
+
+
+
+        </div>
+
+
+
         <div class="box1">
             <div>
                 <button>
@@ -48,8 +70,13 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card">
+                <div class="card" @mouseover="ShowIcons" @mouseout="HideIcons">
                     <input type="checkbox" id="comprar-pao">
+                    <div class="icons" :class="{ 'visible': IconsVisible }">
+                        <i class='bx bx-edit-alt'></i>
+                        <i class='bx bx-notepad'></i>
+                        <i class='bx bx-trash'></i>
+                    </div>
                     <ul>
 
 
@@ -63,7 +90,8 @@
                     <span class="data"><i class='bx bx-notepad'></i>12/09/2008</span>
 
                     <hr>
-                    <button><i class='bx bx-plus' style='color: #000;'></i> Criar subtarefa </button>
+                    <button @click="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
+                    </button>
                 </div>
             </div>
         </div>
@@ -74,7 +102,20 @@ export default {
     name: 'Principal',
     data() {
         return {
-            ShowModal: true,
+            ShowModal: false,
+            ShowModalSub: false,
+            IconsVisible: false,
+
+        };
+
+
+    },
+    methods: {
+        ShowIcons() {
+            this.IconsVisible = true;
+        },
+        HideIcons() {
+            this.IconsVisible = false;
         }
     },
 }
@@ -82,11 +123,16 @@ export default {
 
 <style scoped>
 .modal {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-
+    align-items: center; */
+    position: fixed;
+    top: 50%;
+    /* Alinha o topo do modal ao centro vertical */
+    left: 50%;
+    /* Alinha o lado esquerdo do modal ao centro horizontal */
+    transform: translate(-50%, -50%);
 }
 
 
@@ -98,9 +144,12 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: violet;
+    background-color: #ffffff;
     height: 200px;
     width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .modal-body input {
@@ -110,23 +159,39 @@ export default {
     height: 40px;
     margin-top: 5px;
     margin-bottom: 5px;
+    padding: 5px;
+    background-color: #ffffff;
 
+}
+
+.modal-body input:focus {
+    outline: none;
 }
 
 .modal button {
     border: none;
-    font-size: 20px; 
-    width: 100px;
-    height: 30px;
+    font-size: 20px;
+    width: 120px;
+    height: 40px;
     cursor: pointer;
-   
+    padding: 10px 20px;
+    margin-top: 10px;
     margin-right: 50px;
-   
+    background-color: #ffffff;
+    /* border: 1px solid rgba(210, 210, 210, 0.929); */
+
+
+
+}
+
+.modal button:hover {
+    background-color: #000;
+    color: #ffffff;
 }
 
 .buttons {
     font-size: 20px;
-    
+
 }
 
 /* .btn-close{
@@ -272,6 +337,7 @@ li {
     position: relative;
     top: 15%;
     left: 100%;
+    cursor: pointer;
 }
 
 /* input[type="checkbox"]:checked {
@@ -289,8 +355,34 @@ li {
     border: none;
     text-align: center;
 
-    background-color: #ffffff;
+    background-color: #ededede5;
     cursor: pointer;
     margin-top: 20px;
 }
+
+.card button:hover {
+    background-color: #fffffffd;
+
+
+}
+
+.card:hover {
+    background-color: #ededede5;
+}
+
+.card>.icons {
+    position: relative;
+    top: 40%;
+    left: 80%;
+    margin-left: -30px;
+   
+    cursor: pointer;
+}
+
+.card> .icons>i {
+    font-size: 20px;
+}
+
+
+
 </style>
