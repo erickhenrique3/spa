@@ -6,7 +6,9 @@
                 🤘
             </div>
             <div class="icons">
-                <i class='bx bx-plus' style='color:#ffff' @click="ShowModal = true"></i>
+                <i class='bx bx-plus' style='color:#ffff' @click="ShowModal = true" @mouseover="showTooltip = true"
+                    @mouseout="showTooltip = false"></i>
+                <div class="tooltip" v-show="showTooltip">Adicionar Tarefa</div>
                 <i class='bx bx-help-circle' style='color:#ffff'></i>
                 <i class='bx bx-bell' style='color:#ffff'></i>
                 <i class='bx bx-user' style='color:#ffff'></i>
@@ -14,8 +16,6 @@
 
         </header>
         <div class="modal" v-if="ShowModal">
-
-
 
             <form class="modal-body">
 
@@ -53,6 +53,13 @@
         </div>
 
 
+        <div class="modal-task">
+         <div class="modal-body-task">
+            
+         </div>
+        </div>
+
+
 
         <div class="box1">
             <div>
@@ -70,9 +77,9 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" @mouseover="ShowIcons" @mouseout="HideIcons">
+                <div class="card" @click="ShowTask">
                     <input type="checkbox" id="comprar-pao">
-                    <div class="icons" :class="{ 'visible': IconsVisible }">
+                    <div class="icons" >
                         <i class='bx bx-edit-alt'></i>
                         <i class='bx bx-notepad'></i>
                         <i class='bx bx-trash'></i>
@@ -104,7 +111,9 @@ export default {
         return {
             ShowModal: false,
             ShowModalSub: false,
-            IconsVisible: false,
+            showTooltip: false,
+            ShowTask: false
+            
 
         };
 
@@ -116,6 +125,9 @@ export default {
         },
         HideIcons() {
             this.IconsVisible = false;
+        },
+        ShowTask(){
+            this.ShowTask = true
         }
     },
 }
@@ -123,21 +135,11 @@ export default {
 
 <style scoped>
 .modal {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; */
     position: fixed;
     top: 50%;
-    /* Alinha o topo do modal ao centro vertical */
     left: 50%;
-    /* Alinha o lado esquerdo do modal ao centro horizontal */
     transform: translate(-50%, -50%);
 }
-
-
-
-
 
 .modal-body {
     display: flex;
@@ -192,6 +194,25 @@ export default {
 .buttons {
     font-size: 20px;
 
+}
+.modal-task{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-body-task{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ffffff;
+    height: 200px;
+    width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* .btn-close{
@@ -375,14 +396,36 @@ li {
     top: 40%;
     left: 80%;
     margin-left: -30px;
-   
+
     cursor: pointer;
 }
 
-.card> .icons>i {
+.card>.icons>i {
     font-size: 20px;
 }
+.tooltip {
+  position: absolute;
+  top: 10px; 
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 10px;
+  display: none; 
+}
 
-
+.tooltip:hover {
+  /* content: ''; */
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  
+ 
+}
+    
 
 </style>
