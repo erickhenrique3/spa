@@ -51,18 +51,46 @@
         </div>
 
 
-        <div class="modal-task">
-            <div class="modal-body-task">
+        <div class="modal-task" v-if="openTaskModal" >
+            <div class="modal-body-task" >
+                <div class="modal-header-task">
+                    Visualizar tarefa
+                    <i class='bx bx-dots-horizontal-rounded'></i>
+                    <i @click="closeModal" class='bx bx-x'></i>
+                </div>
+                <hr>
+                <div class="box1-modal-task">
+                    
+                        <h3>Comprar pão </h3>
+                        <p> Lorem ipsum dolor sit amet consectetur,.</p>
+                        <span>12/09/2008</span>
+                        
+                        <h4 >Subtarefas</h4>
+                        <hr class="hr_sub">
+                        <p class="sub">Comprar remedio</p>
+                   
+                </div>
+                <div class="box2-modal-task">
 
+                </div>
+                
+            </div>
+            <!-- <div class="modal-body-task" >
+                <div class="modal-header-task">
+                    Visualizar tarefa
+                    <i class='bx bx-dots-horizontal-rounded'></i>
+                    <i @click="closeModal" class='bx bx-x'></i>
+                </div>
+                <hr>
                 <h1>title </h1>
                 <p>description</p>
                 <p>12/09/2008</p>
-                <hr>
+                
                 <h1>Criar subtarefa</h1>
                 <div class="modal-menu-task">
 
                 </div>
-            </div>
+            </div> -->
         </div>
 
 
@@ -83,7 +111,7 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" @click="ShowTask" @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
+                <div class="card" @click="openTaskModal" @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
                     <input type="checkbox" id="comprar-pao">
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
@@ -113,7 +141,7 @@
 
 
 
-    
+
 
 </template>
 <script>
@@ -124,7 +152,7 @@ export default {
             ShowModal: false,
             ShowModalSub: false,
             showTooltip: false,
-            ShowTask: false,
+            openTaskModal: true,
             ShowIcons: false
 
         };
@@ -136,14 +164,20 @@ export default {
         //     this.IconsVisible = true;
         // },
 
-        ShowTask() {
-            this.ShowTask = false
-        }
+        openTaskModal() {
+            this.openTaskModal = true
+        },
+        closeModal() {
+                this.openTaskModal = false
+            }
     },
 }
 </script>
 
 <style scoped>
+
+
+
 .modal {
     position: fixed;
     top: 50%;
@@ -247,13 +281,34 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    display: none;
+
+
+    /* display: none; */
 }
 
-/* .modal-header-task{
-    height: 100px;
-    background-color: #000;
-} */
+.modal-header-task {
+    position: absolute;
+    top: 0;
+    width: 95%;
+    height: 15%;
+    background-color: #ffffffe7;
+    color: #020202;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header-task>i {
+    margin-right: 10px;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.modal-header-task>.bx-dots-horizontal-rounded {
+    position: absolute;
+    left: 85%;
+}
+
 
 .modal-body-task {
     display: flex;
@@ -266,15 +321,77 @@ export default {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: none;
+    /* display: none; */
     position: fixed;
+}
+.modal-body-task > hr{
+    width: 100%;
+    position: absolute;
+    top: 13%;
 }
 
 .modal-menu-task {
     height: 100%;
     width: 20%;
+    margin-top: 20px;
     background-color: #eb0303;
 }
+
+.box1-modal-task{
+   
+    position: absolute;
+    top: 79px;
+    flex: 1;
+    left: 0;
+    width: 70%;
+    height: 87%;
+    padding: 2%;
+    background-color: #ffffff;
+}
+.box1-modal-task h3 {
+    position: absolute;
+    left: 10%;
+}
+.box1-modal-task p{
+    position: absolute;
+    left: 10%;
+    top: 10%;
+}
+.box1-modal-task span{
+    position: absolute;
+    left: 10%;
+    top: 15%;
+}
+.box1-modal-task h4{
+    position: absolute;
+    left: 10%;
+    top: 30%;
+  
+}
+.box1-modal-task .hr_sub{
+    position: absolute;
+    left: 10%;
+    top: 38%;
+    width: 80%;
+}
+.box1-modal-task .sub{
+    position: absolute;
+    left: 10%;
+    top: 38%;
+}
+
+.box2-modal-task{
+    position: absolute;
+    top: 79px;
+    right: 0;
+    flex: 1;
+    background-color: rgba(167, 167, 167, 0.937);
+    width: 30%;
+    height: 87%;
+}
+
+
+
 
 /* .btn-close{
     position: absolute;
