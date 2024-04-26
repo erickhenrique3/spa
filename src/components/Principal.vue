@@ -70,9 +70,11 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" @mouseover="ShowIcons" @mouseout="HideIcons">
+
+
+                <div class="card" @mouseover="ShowIcons = true" @mouseleave=" ShowIcons= false">
                     <input type="checkbox" id="comprar-pao">
-                    <div class="icons" :class="{ 'visible': IconsVisible }">
+                    <div class="icons-task" v-show="ShowIcons">
                         <i class='bx bx-edit-alt'></i>
                         <i class='bx bx-notepad'></i>
                         <i class='bx bx-trash'></i>
@@ -104,20 +106,21 @@ export default {
         return {
             ShowModal: false,
             ShowModalSub: false,
-            IconsVisible: false,
+            // IconsVisible: false,
+            ShowIcons:false
 
         };
 
 
     },
-    methods: {
-        ShowIcons() {
-            this.IconsVisible = true;
-        },
-        HideIcons() {
-            this.IconsVisible = false;
-        }
-    },
+    // methods: {
+    //     ShowIcons() {
+    //         this.IconsVisible = true;
+    //     },
+    //     HideIcons() {
+    //         this.IconsVisible = false;
+    //     }
+    // },
 }
 </script>
 
@@ -370,16 +373,16 @@ li {
     background-color: #ededede5;
 }
 
-.card>.icons {
+.card > .icons-task {
     position: relative;
     top: 40%;
     left: 80%;
     margin-left: -30px;
-   
+    opacity: 0;
     cursor: pointer;
 }
 
-.card> .icons>i {
+.card> .icons-task>i {
     font-size: 20px;
 }
 

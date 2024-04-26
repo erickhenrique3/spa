@@ -24,12 +24,10 @@
                 <input type="datetime" id="date" placeholder=" Data de vencimento">
                 <hr>
                 <div class="buttons">
-                    <button type="button" class="btn-save" @click="ShowModal = false">Salvar</button>
-                    <button type="button" class="btn-close" @click="ShowModal = false">Cancelar</button>
+                    <button type="button" class="btn-save" @click="ShowModal = false">Cancelar</button>
+                    <button type="button" class="btn-close" @click="ShowModal = false">Criar Tarefa</button>
                 </div>
             </form>
-
-
 
         </div>
         <div class="modal" v-if="ShowModalSub">
@@ -54,9 +52,17 @@
 
 
         <div class="modal-task">
-         <div class="modal-body-task">
-            
-         </div>
+            <div class="modal-body-task">
+
+                <h1>title </h1>
+                <p>description</p>
+                <p>12/09/2008</p>
+                <hr>
+                <h1>Criar subtarefa</h1>
+                <div class="modal-menu-task">
+
+                </div>
+            </div>
         </div>
 
 
@@ -77,15 +83,16 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" @click="ShowTask">
+                <div class="card" @click="ShowTask" @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
                     <input type="checkbox" id="comprar-pao">
-                    <div class="icons" >
-                        <i class='bx bx-edit-alt'></i>
-                        <i class='bx bx-notepad'></i>
-                        <i class='bx bx-trash'></i>
+                    <div class="icons-task">
+                        <div class="container-icons" v-show="ShowIcons">
+                            <i class='bx bx-edit-alt'></i>
+                            <i class='bx bx-notepad'></i>
+                            <i class='bx bx-trash'></i>
+                        </div>
                     </div>
                     <ul>
-
 
                         <label for="comprar-pao">Comprar pao</label>
 
@@ -103,6 +110,11 @@
             </div>
         </div>
     </div>
+
+
+
+    
+
 </template>
 <script>
 export default {
@@ -112,22 +124,20 @@ export default {
             ShowModal: false,
             ShowModalSub: false,
             showTooltip: false,
-            ShowTask: false
-            
+            ShowTask: false,
+            ShowIcons: false
 
         };
 
 
     },
     methods: {
-        ShowIcons() {
-            this.IconsVisible = true;
-        },
-        HideIcons() {
-            this.IconsVisible = false;
-        },
-        ShowTask(){
-            this.ShowTask = true
+        // ShowIcons() {
+        //     this.IconsVisible = true;
+        // },
+
+        ShowTask() {
+            this.ShowTask = false
         }
     },
 }
@@ -139,6 +149,16 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .modal-body {
@@ -147,11 +167,14 @@ export default {
     align-items: center;
     flex-direction: column;
     background-color: #ffffff;
-    height: 200px;
+    height: 250px;
     width: 600px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    position: relative;
+
 }
 
 .modal-body input {
@@ -173,13 +196,11 @@ export default {
 .modal button {
     border: none;
     font-size: 20px;
-    width: 120px;
-    height: 40px;
     cursor: pointer;
     padding: 10px 20px;
     margin-top: 10px;
     margin-right: 50px;
-    background-color: #ffffff;
+    background-color: rgba(237, 237, 237, 0.901);
     /* border: 1px solid rgba(210, 210, 210, 0.929); */
 
 
@@ -193,26 +214,66 @@ export default {
 
 .buttons {
     font-size: 20px;
-
+    display: flex;
+    gap: .8rem;
+    align-items: flex-end;
+    justify-content: flex-end;
+    border-top: 2px solid rgba(237, 237, 237, 0.901);
+    width: 100%;
+    position: relative
 }
-.modal-task{
+
+.btn-save {
+    position: relative;
+    right: 5%;
+}
+
+.modal-task {
+    /* position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
 }
 
-.modal-body-task{
+/* .modal-header-task{
+    height: 100px;
+    background-color: #000;
+} */
+
+.modal-body-task {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: #ffffff;
-    height: 200px;
-    width: 600px;
+    height: 600px;
+    width: 800px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    position: fixed;
+}
+
+.modal-menu-task {
+    height: 100%;
+    width: 20%;
+    background-color: #eb0303;
 }
 
 /* .btn-close{
@@ -272,10 +333,12 @@ header .icons {
 
 .box1 {
     flex: 1;
-
     height: 100vh;
     display: flex;
     flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    text-align: left;
     margin-top: 100px;
     padding: 20px 0;
     background-color: rgba(237, 237, 237, 0.901);
@@ -284,12 +347,14 @@ header .icons {
 
 .box1 button {
 
-    background-color: rgba(237, 237, 237, 0.901);
+    background-color: transparent;
     margin-bottom: 20px;
     height: 40px;
     width: 100%;
     font-size: 25px;
+    text-align: left;
     border: none;
+    padding-left: .8rem;
 
 }
 
@@ -370,12 +435,13 @@ li {
     width: 50%;
     border: 1px solid #ccc;
     box-shadow: 2px 2px 5px #ccc;
+    position: relative;
+    z-index: 9;
 }
 
 .card button {
     border: none;
     text-align: center;
-
     background-color: #ededede5;
     cursor: pointer;
     margin-top: 20px;
@@ -391,41 +457,41 @@ li {
     background-color: #ededede5;
 }
 
-.card>.icons {
-    position: relative;
-    top: 40%;
+.card>.icons-task .container-icons {
+    position: absolute;
+    top: 50%;
     left: 80%;
-    margin-left: -30px;
-
+    display: flex;
+    width: 20%;
+    gap: .8rem;
     cursor: pointer;
+    font-size: 1.5rem;
+
+
 }
 
-.card>.icons>i {
-    font-size: 20px;
-}
+
 .tooltip {
-  position: absolute;
-  top: 10px; 
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #ffffff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 10px;
-  display: none; 
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 10px;
+    display: none;
 }
 
 .tooltip:hover {
-  /* content: ''; */
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 5px;
-  
- 
-}
-    
+    /* content: ''; */
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
 
+
+}
 </style>
