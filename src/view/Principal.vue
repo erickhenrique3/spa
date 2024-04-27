@@ -17,15 +17,15 @@
         </header>
         <div class="modal" v-if="ShowModal">
 
-            <form class="modal-body">
+            <form class="modal-body" @submit.prevent="postTasks">
 
-                <input type="text" name="Title" id="Title" placeholder="Nome da tarefa">
-                <input type="text" name="Descripition" id="Description" placeholder="Descrição">
-                <input type="datetime" id="date" placeholder=" Data de vencimento">
+                <input type="text" v-model="newTask.title" name="Title" id="Title" placeholder="Nome da tarefa">
+                <input type="text" v-model="newTask.description" name="Descripition" id="Description" placeholder="Descrição">
+                <input type="datetime" v-model="newTask.due_date" id="date" placeholder=" Data de vencimento">
                 <hr>
                 <div class="buttons">
                     <button type="button" class="btn-save" @click="ShowModal = false">Cancelar</button>
-                    <button type="button" class="btn-close" @click="ShowModal = false">Criar Tarefa</button>
+                    <button type="button" class="btn-close" @click="postTasks" >Criar Tarefa</button>
                 </div>
             </form>
 
@@ -164,6 +164,11 @@ export default {
             ShowIcons: false,
             selectedColor: '',
             tasks: [],
+            newTask: {
+                title: '',
+                description: '',
+                due_date: '',
+            }
 
         };
 
@@ -178,7 +183,7 @@ export default {
             this.openTaskModal = true
         },
         closeModal() {
-            this.openTaskModal = false
+            this.ShowModal = false
         },
 
 
@@ -194,6 +199,23 @@ export default {
                 .finally(() => {
                     console.log('A requisição acabou!');
                 })
+        },
+        postTasks(){
+            axios.post('tasks', this.newTask)
+            .then(response =>{
+                console.log('Tarefa criada com sucesso: ', response.data);
+                this.newTask ={
+                    title: '',
+                    description: '',
+                    due_date: '',
+                };
+                this.getTasks();
+                this.closeModal();
+
+            })
+            .catch(error => {
+                console.error('Erro ao criar a tarefa', error);
+            });
         }
 
 
