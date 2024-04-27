@@ -152,7 +152,7 @@ import axios from 'axios';
 export default {
 
     name: 'Principal',
-    
+
 
     data() {
         return {
@@ -179,9 +179,26 @@ export default {
         closeModal() {
             this.openTaskModal = false
         },
+        getProducts() {
+            axios.get('tasks')
+                .then((response) => {
+                    this.tasks = response.data.data
+                    console.log(this.tasks)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+                .finally(() => {
+                    console.log('A requisição acabou!');
+                })
+        }
 
 
     },
+    mounted() {
+        axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
+        this.getProducts()
+    }
 }
 </script>
 
