@@ -393,13 +393,13 @@ export default {
 .box2-modal-task h4{
     margin-left: 10%;
     position: absolute;
-    top: 1%;
+    top: 3%;
 }
 
 .box2-modal-task p{
     margin-left: 10%;
     position: absolute;
-    top: 10%;
+    top: 15%;
 }
 
 
