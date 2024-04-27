@@ -2,4 +2,5 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './reset.css'
 import router from './router'
+import '@/axios'
 createApp(App).use(router).mount('#app')

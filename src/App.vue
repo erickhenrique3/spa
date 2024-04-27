@@ -13,6 +13,7 @@
 </template>
 
 <script>
+
 // import HelloWorld from './components/HelloWorld.vue'
 // import Capa from './components/Capa.vue'
 // import Login from './components/Login.vue'

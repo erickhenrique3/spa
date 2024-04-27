@@ -51,8 +51,8 @@
         </div>
 
 
-        <div class="modal-task" v-if="openTaskModal" >
-            <div class="modal-body-task" >
+        <div class="modal-task" v-if="openTaskModal">
+            <div class="modal-body-task">
                 <div class="modal-header-task">
                     Visualizar tarefa
                     <i class='bx bx-dots-horizontal-rounded'></i>
@@ -60,21 +60,21 @@
                 </div>
                 <hr>
                 <div class="box1-modal-task">
-                    
-                        <h3>Comprar pão </h3>
-                        <p> Lorem ipsum dolor sit amet consectetur,.</p>
-                        <span>12/09/2008</span>
-                        
-                        <h4 >Subtarefas</h4>
-                        <hr class="hr_sub">
-                        <p class="sub">Comprar remedio</p>
-                   
+
+                    <h3>Comprar pão </h3>
+                    <p> Lorem ipsum dolor sit amet consectetur,.</p>
+                    <span>12/09/2008</span>
+
+                    <h4>Subtarefas</h4>
+                    <hr class="hr_sub">
+                    <p class="sub">Comprar remedio</p>
+
                 </div>
                 <div class="box2-modal-task">
-                     <h4>data de vencimento:</h4>
-                     <p>Id da tarefa:</p>
+                    <h4>data de vencimento:</h4>
+                    <p>Id da tarefa:</p>
                 </div>
-                
+
             </div>
             <!-- <div class="modal-body-task" >
                 <div class="modal-header-task">
@@ -135,6 +135,7 @@
                     <hr>
                     <button @click="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
                     </button>
+                    <!-- {{ tasks }} -->
                 </div>
             </div>
         </div>
@@ -146,8 +147,13 @@
 
 </template>
 <script>
+import axios from 'axios';
+
 export default {
+
     name: 'Principal',
+    
+
     data() {
         return {
             ShowModal: false,
@@ -155,7 +161,8 @@ export default {
             showTooltip: false,
             openTaskModal: false,
             ShowIcons: false,
-            selectedColor: ''
+            selectedColor: '',
+            // tasks: [],
 
         };
 
@@ -170,16 +177,15 @@ export default {
             this.openTaskModal = true
         },
         closeModal() {
-                this.openTaskModal = false
-            }
+            this.openTaskModal = false
+        },
+
+
     },
 }
 </script>
 
 <style scoped>
-
-
-
 .modal {
     position: fixed;
     top: 50%;
@@ -326,7 +332,8 @@ export default {
     /* display: none; */
     position: fixed;
 }
-.modal-body-task > hr{
+
+.modal-body-task>hr {
     width: 100%;
     position: absolute;
     top: 13%;
@@ -339,8 +346,8 @@ export default {
     background-color: #eb0303;
 }
 
-.box1-modal-task{
-   
+.box1-modal-task {
+
     position: absolute;
     top: 79px;
     flex: 1;
@@ -350,39 +357,45 @@ export default {
     padding: 2%;
     background-color: #ffffff;
 }
+
 .box1-modal-task h3 {
     position: absolute;
     left: 10%;
 }
-.box1-modal-task p{
+
+.box1-modal-task p {
     position: absolute;
     left: 10%;
     top: 10%;
 }
-.box1-modal-task span{
+
+.box1-modal-task span {
     position: absolute;
     left: 10%;
     top: 15%;
 }
-.box1-modal-task h4{
+
+.box1-modal-task h4 {
     position: absolute;
     left: 10%;
     top: 30%;
-  
+
 }
-.box1-modal-task .hr_sub{
+
+.box1-modal-task .hr_sub {
     position: absolute;
     left: 10%;
     top: 38%;
     width: 80%;
 }
-.box1-modal-task .sub{
+
+.box1-modal-task .sub {
     position: absolute;
     left: 10%;
     top: 38%;
 }
 
-.box2-modal-task{
+.box2-modal-task {
     position: absolute;
     top: 79px;
     right: 0;
@@ -391,13 +404,14 @@ export default {
     width: 30%;
     height: 87%;
 }
-.box2-modal-task h4{
+
+.box2-modal-task h4 {
     margin-left: 10%;
     position: absolute;
     top: 3%;
 }
 
-.box2-modal-task p{
+.box2-modal-task p {
     margin-left: 10%;
     position: absolute;
     top: 15%;
@@ -533,14 +547,14 @@ li {
 }
 
 .data {
-    
+
     background-color: rgba(40, 252, 160, 0.742);
     margin: 5px;
 }
 
 .card label {
     margin-bottom: 10px;
-    
+
     font-size: 25px;
     font-style: italic;
 
