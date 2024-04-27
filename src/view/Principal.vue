@@ -112,7 +112,8 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" @click="openTaskModal" @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
+                <div class="card" v-for="task in tasks" :key="task.id"
+                 @click="openTaskModal" @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
                     <input type="radio" id="comprar-pao">
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
@@ -123,19 +124,19 @@
                     </div>
                     <ul>
 
-                        <label for="comprar-pao">Comprar pao</label>
+                        <label for="comprar-pao">{{ task.title }}</label>
 
                     </ul>
                     <ul>
-                        <li>comprar ate as 10:00</li>
+                        <li>{{ task.description }}</li>
 
                     </ul>
-                    <span class="data"><i class='bx bx-notepad'></i>12/09/2008</span>
+                    <span class="data"><i class='bx bx-notepad'></i>{{ task.due_date }}</span>
 
                     <hr>
                     <button @click="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
                     </button>
-                    <!-- {{ tasks }} -->
+                    
                 </div>
             </div>
         </div>
@@ -162,7 +163,7 @@ export default {
             openTaskModal: false,
             ShowIcons: false,
             selectedColor: '',
-            // tasks: [],
+            tasks: [],
 
         };
 
@@ -179,7 +180,9 @@ export default {
         closeModal() {
             this.openTaskModal = false
         },
-        getProducts() {
+
+
+        getTasks() {
             axios.get('tasks')
                 .then((response) => {
                     this.tasks = response.data.data
@@ -197,7 +200,7 @@ export default {
     },
     mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
-        this.getProducts()
+        this.getTasks()
     }
 }
 </script>
@@ -566,7 +569,7 @@ li {
 .data {
 
     background-color: rgba(40, 252, 160, 0.742);
-    margin: 5px;
+    
 }
 
 .card label {
@@ -596,6 +599,9 @@ li {
 } */
 .card {
     margin: 0 auto;
+    top: 10%;
+    margin-top: 4%;
+
     padding: 20px;
     width: 50%;
     border: 1px solid #ccc;
