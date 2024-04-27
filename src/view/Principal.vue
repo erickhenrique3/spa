@@ -113,7 +113,7 @@
             <div class="conteudo">
                 <h1>Entrada</h1>
                 <div class="card" @click="openTaskModal" @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
-                    <input type="checkbox" id="comprar-pao">
+                    <input type="radio" id="comprar-pao">
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
                             <i class='bx bx-edit-alt'></i>
@@ -153,8 +153,9 @@ export default {
             ShowModal: false,
             ShowModalSub: false,
             showTooltip: false,
-            openTaskModal: true,
-            ShowIcons: false
+            openTaskModal: false,
+            ShowIcons: false,
+            selectedColor: ''
 
         };
 
@@ -532,12 +533,14 @@ li {
 }
 
 .data {
+    
     background-color: rgba(40, 252, 160, 0.742);
     margin: 5px;
 }
 
 .card label {
     margin-bottom: 10px;
+    
     font-size: 25px;
     font-style: italic;
 
@@ -547,13 +550,15 @@ li {
     width: 20px;
     height: 20px;
     border: 2px solid #ccc;
+    margin-bottom: 10px;
     margin-top: 0;
-    margin-left: -20px;
+    /* margin-left: 20px; */
     position: relative;
-    top: 15%;
-    left: 100%;
+    /* top: 15%; */
+    /* left: 5%; */
     cursor: pointer;
 }
+
 
 /* input[type="checkbox"]:checked {
     background-color:  rgba(40, 252, 160, 0.742);
@@ -588,7 +593,7 @@ li {
 
 .card>.icons-task .container-icons {
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 80%;
     display: flex;
     width: 20%;
