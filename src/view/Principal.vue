@@ -71,7 +71,8 @@
                    
                 </div>
                 <div class="box2-modal-task">
-
+                     <h4>data de vencimento:</h4>
+                     <p>Id da tarefa:</p>
                 </div>
                 
             </div>
@@ -385,9 +386,20 @@ export default {
     top: 79px;
     right: 0;
     flex: 1;
-    background-color: rgba(167, 167, 167, 0.937);
+    background-color: rgba(218, 217, 217, 0.986);
     width: 30%;
     height: 87%;
+}
+.box2-modal-task h4{
+    margin-left: 10%;
+    position: absolute;
+    top: 1%;
+}
+
+.box2-modal-task p{
+    margin-left: 10%;
+    position: absolute;
+    top: 10%;
 }
 
 
