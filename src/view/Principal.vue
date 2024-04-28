@@ -20,12 +20,13 @@
             <form class="modal-body" @submit.prevent="postTasks">
 
                 <input type="text" v-model="newTask.title" name="Title" id="Title" placeholder="Nome da tarefa">
-                <input type="text" v-model="newTask.description" name="Descripition" id="Description" placeholder="Descrição">
+                <input type="text" v-model="newTask.description" name="Descripition" id="Description"
+                    placeholder="Descrição">
                 <input type="datetime" v-model="newTask.due_date" id="date" placeholder=" Data de vencimento">
                 <hr>
                 <div class="buttons">
                     <button type="button" class="btn-save" @click="ShowModal = false">Cancelar</button>
-                    <button type="button" class="btn-close" @click="postTasks" >Criar Tarefa</button>
+                    <button type="button" class="btn-close" @click="postTasks">Criar Tarefa</button>
                 </div>
             </form>
 
@@ -112,14 +113,14 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" v-for="task in tasks" :key="task.id"
-                 @click="openTaskModal" @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
-                    <input type="radio" id="comprar-pao">
+                <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModal"
+                    @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
+                    <input type="radio">
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
                             <i class='bx bx-edit-alt'></i>
                             <i class='bx bx-notepad'></i>
-                            <i class='bx bx-trash'></i>
+                            <i class='bx bx-trash' @click="deleteTask(task.id)"></i>
                         </div>
                     </div>
                     <ul>
@@ -132,11 +133,12 @@
 
                     </ul>
                     <span class="data"><i class='bx bx-notepad'></i>{{ task.due_date }}</span>
+                    
 
                     <hr>
                     <button @click="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
                     </button>
-                    
+
                 </div>
             </div>
         </div>
@@ -200,22 +202,33 @@ export default {
                     console.log('A requisição acabou!');
                 })
         },
-        postTasks(){
+        postTasks() {
             axios.post('tasks', this.newTask)
-            .then(response =>{
-                console.log('Tarefa criada com sucesso: ', response.data);
-                this.newTask ={
-                    title: '',
-                    description: '',
-                    due_date: '',
-                };
-                this.getTasks();
-                this.closeModal();
+                .then(response => {
+                    console.log('Tarefa criada com sucesso: ', response.data);
+                    this.newTask = {
+                        title: '',
+                        description: '',
+                        due_date: '',
+                    };
+                    this.getTasks();
+                    this.closeModal();
 
+                })
+                .catch(error => {
+                    console.error('Erro ao criar a tarefa', error);
+                });
+        },
+        deleteTask(tasks){
+            axios.delete(`tasks/${tasks}`)
+            .then(response =>{
+                this.tasks = this.tasks.filter(task => task.id !== tasks);
+                console.log('Tarefa excluída com sucesso:', response.data);
             })
             .catch(error => {
-                console.error('Erro ao criar a tarefa', error);
+                console.error('Erro ao excluir a tarefa:', error);
             });
+            
         }
 
 
@@ -591,7 +604,7 @@ li {
 .data {
 
     background-color: rgba(40, 252, 160, 0.742);
-    
+
 }
 
 .card label {
