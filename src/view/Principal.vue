@@ -53,7 +53,7 @@
 
 
         <div class="modal-task" v-if="openTaskModal">
-            <div class="modal-body-task" >
+            <div class="modal-body-task">
                 <div class="modal-header-task">
                     Visualizar tarefa
                     <i class='bx bx-dots-horizontal-rounded'></i>
@@ -62,9 +62,9 @@
                 <hr>
                 <div class="box1-modal-task">
 
-                    <h3>Comprar pão </h3>
-                    <p> Lorem ipsum dolor sit amet consectetur,.</p>
-                    <span>12/09/2008</span>
+                    <h3>{{ selectedTask.title }} </h3>
+                    <p> {{ selectedTask.description }}</p>
+                    <span>{{ selectedTask.due_date }}</span>
 
                     <h4>Subtarefas</h4>
                     <hr class="hr_sub">
@@ -73,7 +73,8 @@
                 </div>
                 <div class="box2-modal-task">
                     <h4>data de vencimento:</h4>
-                    <p>Id da tarefa:</p>
+                    <p>Id da tarefa: <br>
+                        {{ selectedTask.id }} </p>
                 </div>
 
             </div>
@@ -113,7 +114,7 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModalClick"
+                <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModalClick(task)"
                     @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
                     <input type="radio">
                     <div class="icons-task">
@@ -133,7 +134,7 @@
 
                     </ul>
                     <span class="data"><i class='bx bx-notepad'></i>{{ task.due_date }}</span>
-                    
+
 
                     <hr>
                     <button @click="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
@@ -166,6 +167,7 @@ export default {
             ShowIcons: false,
             selectedColor: '',
             tasks: [],
+            selectedTask: null,
             newTask: {
                 title: '',
                 description: '',
@@ -181,10 +183,11 @@ export default {
         //     this.IconsVisible = true;
         // },
 
-        openTaskModalClick(){
+        openTaskModalClick(task) {
+            this.selectedTask = task
             this.openTaskModal = true
         },
-        closeModalTaskClick(){
+        closeModalTaskClick() {
             this.openTaskModal = false
         },
         closeModal() {
@@ -222,16 +225,16 @@ export default {
                     console.error('Erro ao criar a tarefa', error);
                 });
         },
-        deleteTask(tasks){
+        deleteTask(tasks) {
             axios.delete(`tasks/${tasks}`)
-            .then(response =>{
-                this.tasks = this.tasks.filter(task => task.id !== tasks);
-                console.log('Tarefa excluída com sucesso:', response.data);
-            })
-            .catch(error => {
-                console.error('Erro ao excluir a tarefa:', error);
-            });
-            
+                .then(response => {
+                    this.tasks = this.tasks.filter(task => task.id !== tasks);
+                    console.log('Tarefa excluída com sucesso:', response.data);
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir a tarefa:', error);
+                });
+
         }
 
 
