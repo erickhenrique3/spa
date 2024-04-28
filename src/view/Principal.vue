@@ -100,19 +100,19 @@
 
 
         <div class="modal-update-task" v-if="showUpdateTask">
-                        <div class="modal-body-update-task">
-                            <h1>Editar tarefa</h1>
-                            <hr>
-                            <input type="text" placeholder="Digite um novo titulo!">
-                            <input type="text" placeholder="Digite uma nova descrição!">
-                            <input type="dateTime" placeholder="Digite uma nova data!">
+            <div class="modal-body-update-task">
+                <h1>Editar tarefa</h1>
+                <hr>
+                <input type="text" placeholder="Digite um novo titulo!" v-model="taskToUpdate.title">
+                <input type="text" placeholder="Digite uma nova descrição!" v-model="taskToUpdate.description">
+                <input type="dateTime" placeholder="Digite uma nova data!" v-model="taskToUpdate.due_date">
 
-                            <div class="buttons-update">
-                                <button type="button" class="btn-close" @click.stop="closeUpdateTask">Cancelar</button>
-                                <button type="button" class="btn-save" @click.stop="putTask">Salvar</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="buttons-update">
+                    <button type="button" class="btn-close" @click.stop="closeUpdateTask">Cancelar</button>
+                    <button type="button" class="btn-save" @click.stop="putTask(taskToUpdate.id)">Salvar</button>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -158,7 +158,7 @@
                     <button @click.stop="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
                     </button>
 
-                    
+
 
                 </div>
             </div>
@@ -267,12 +267,17 @@ export default {
                 });
 
         },
-        putTask() {
-            axios.put(`tasks/${this.taskToUpdate.id}`, this.taskToUpdate)
+        putTask(id) {
+            axios.put(`tasks/${id}`, {
+                title: this.taskToUpdate.title,
+                description: this.taskToUpdate.description,
+                due_date: this.taskToUpdate.due_date
+            })
                 .then(response => {
+
                     console.log('Tarefa atualizada com sucesso:', response.data);
-                    this.getTasks(); 
-                    this.closeUpdateTask(); 
+                    this.getTasks();
+                    this.closeUpdateTask();
                 })
                 .catch(error => {
                     console.error('Erro ao atualizar a tarefa:', error);
@@ -526,7 +531,8 @@ export default {
     top: 7%;
     background-color: rgba(40, 252, 160, 0.742);
 }
-.modal-update-task{
+
+.modal-update-task {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -541,7 +547,8 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.modal-body-update-task{
+
+.modal-body-update-task {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -555,10 +562,12 @@ export default {
     z-index: 10;
     position: relative;
 }
-.modal-body-update-task h1{
+
+.modal-body-update-task h1 {
     text-align: center;
 }
-.modal-body-update-task > input{
+
+.modal-body-update-task>input {
     border: none;
     font-size: 20px;
     width: 100%;
@@ -568,7 +577,8 @@ export default {
     padding: 5px;
     background-color: #ffffff;
 }
-.modal-body-update-task > button{
+
+.modal-body-update-task>button {
     font-size: 20px;
     display: flex;
     gap: .8rem;
@@ -578,7 +588,8 @@ export default {
     width: 100%;
     position: relative
 }
-.modal-body-update-task button{
+
+.modal-body-update-task button {
     border: none;
     font-size: 20px;
     cursor: pointer;
@@ -587,12 +598,13 @@ export default {
     margin-right: 50px;
     background-color: rgba(237, 237, 237, 0.901);
 }
-.modal-body-update-task button:hover{
+
+.modal-body-update-task button:hover {
     background-color: #000;
-    color:#ffffff;
+    color: #ffffff;
 }
 
-.buttons-update{
+.buttons-update {
     display: flex;
     justify-content: space-between;
     width: 70%;
