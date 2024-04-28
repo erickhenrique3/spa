@@ -53,11 +53,11 @@
 
 
         <div class="modal-task" v-if="openTaskModal">
-            <div class="modal-body-task">
+            <div class="modal-body-task" >
                 <div class="modal-header-task">
                     Visualizar tarefa
                     <i class='bx bx-dots-horizontal-rounded'></i>
-                    <i @click="closeModal" class='bx bx-x'></i>
+                    <i @click="closeModalTaskClick" class='bx bx-x'></i>
                 </div>
                 <hr>
                 <div class="box1-modal-task">
@@ -113,7 +113,7 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModal"
+                <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModalClick"
                     @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
                     <input type="radio">
                     <div class="icons-task">
@@ -181,8 +181,11 @@ export default {
         //     this.IconsVisible = true;
         // },
 
-        openTaskModal() {
+        openTaskModalClick(){
             this.openTaskModal = true
+        },
+        closeModalTaskClick(){
+            this.openTaskModal = false
         },
         closeModal() {
             this.ShowModal = false
