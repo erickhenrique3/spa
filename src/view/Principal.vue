@@ -76,7 +76,7 @@
                     <p>Id da tarefa: <br>
                         <strong>{{ selectedTask.id }}</strong>
                     </p>
-                    <span><strong><i class='bx bx-notepad'></i>{{ selectedTask.due_date }}</strong></span>
+                    <span><strong><i class='bx bx-notepad'></i>{{ formatDate(selectedTask.due_date) }}</strong></span>
                 </div>
 
             </div>
@@ -151,7 +151,8 @@
                         <li>{{ task.description }}</li>
 
                     </ul>
-                    <span class="data"><i class='bx bx-notepad'></i>{{ task.due_date }}</span>
+                    <span class="data"><i class='bx bx-notepad'></i>{{ formatDate(task.due_date)
+                        }}</span>
 
 
                     <hr>
@@ -172,6 +173,7 @@
 </template>
 <script>
 import axios from 'axios';
+import moment from 'moment';
 
 export default {
 
@@ -194,7 +196,8 @@ export default {
                 title: '',
                 description: '',
                 due_date: '',
-            }
+            },
+
 
         };
 
@@ -204,6 +207,9 @@ export default {
         // ShowIcons() {
         //     this.IconsVisible = true;
         // },
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY');
+        },
         openUpdateTask(task) {
             this.taskToUpdate = task
             this.showUpdateTask = true;
@@ -289,7 +295,9 @@ export default {
     mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
         this.getTasks()
-    }
+        this.data = moment(this.data).format('DD/MM/YYYY');
+    },
+
 }
 </script>
 
