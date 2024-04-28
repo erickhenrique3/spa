@@ -64,7 +64,7 @@
 
                     <h3>{{ selectedTask.title }} </h3>
                     <p> {{ selectedTask.description }}</p>
-                    <span>{{ selectedTask.due_date }}</span>
+
 
                     <h4>Subtarefas</h4>
                     <hr class="hr_sub">
@@ -72,9 +72,11 @@
 
                 </div>
                 <div class="box2-modal-task">
-                    <h4>data de vencimento:</h4>
+                    <p class="p1">data de vencimento:</p>
                     <p>Id da tarefa: <br>
-                        {{ selectedTask.id }} </p>
+                        <strong>{{ selectedTask.id }}</strong>
+                    </p>
+                    <span><strong><i class='bx bx-notepad'></i>{{ selectedTask.due_date }}</strong></span>
                 </div>
 
             </div>
@@ -95,6 +97,22 @@
                 </div>
             </div> -->
         </div>
+
+
+        <div class="modal-update-task" v-if="showUpdateTask">
+                        <div class="modal-body-update-task">
+                            <h1>Editar tarefa</h1>
+                            <hr>
+                            <input type="text" placeholder="Digite um novo titulo!">
+                            <input type="text" placeholder="Digite uma nova descrição!">
+                            <input type="dateTime" placeholder="Digite uma nova data!">
+
+                            <div class="buttons-update">
+                                <button type="button" class="btn-close" @click.stop="closeUpdateTask">Cancelar</button>
+                                <button type="button" class="btn-save" @click.stop="putTask">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -119,9 +137,9 @@
                     <input type="radio">
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
-                            <i class='bx bx-edit-alt'></i>
+                            <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
                             <i class='bx bx-notepad'></i>
-                            <i class='bx bx-trash' @click="deleteTask(task.id)"></i>
+                            <i class='bx bx-trash' @click.stop="deleteTask(task.id)"></i>
                         </div>
                     </div>
                     <ul>
@@ -137,8 +155,10 @@
 
 
                     <hr>
-                    <button @click="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
+                    <button @click.stop="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
                     </button>
+
+                    
 
                 </div>
             </div>
@@ -164,6 +184,8 @@ export default {
             ShowModalSub: false,
             showTooltip: false,
             openTaskModal: false,
+            showUpdateTask: false,
+            taskToUpdate: null,
             ShowIcons: false,
             selectedColor: '',
             tasks: [],
@@ -182,10 +204,19 @@ export default {
         // ShowIcons() {
         //     this.IconsVisible = true;
         // },
+        openUpdateTask(task) {
+            this.taskToUpdate = task
+            this.showUpdateTask = true;
+        },
 
         openTaskModalClick(task) {
             this.selectedTask = task
             this.openTaskModal = true
+        },
+        closeUpdateTask() {
+            this.showUpdateTask = false
+            this.taskToUpdate = null
+            this.showUpdateTask = false
         },
         closeModalTaskClick() {
             this.openTaskModal = false
@@ -235,6 +266,17 @@ export default {
                     console.error('Erro ao excluir a tarefa:', error);
                 });
 
+        },
+        putTask() {
+            axios.put(`tasks/${this.taskToUpdate.id}`, this.taskToUpdate)
+                .then(response => {
+                    console.log('Tarefa atualizada com sucesso:', response.data);
+                    this.getTasks(); 
+                    this.closeUpdateTask(); 
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar a tarefa:', error);
+                });
         }
 
 
@@ -466,7 +508,7 @@ export default {
     height: 87%;
 }
 
-.box2-modal-task h4 {
+.box2-modal-task>.p1 {
     margin-left: 10%;
     position: absolute;
     top: 3%;
@@ -477,6 +519,86 @@ export default {
     position: absolute;
     top: 15%;
 }
+
+.box2-modal-task span {
+    margin-left: 10%;
+    position: absolute;
+    top: 7%;
+    background-color: rgba(40, 252, 160, 0.742);
+}
+.modal-update-task{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-body-update-task{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ffffff;
+    height: 250px;
+    width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    position: relative;
+}
+.modal-body-update-task h1{
+    text-align: center;
+}
+.modal-body-update-task > input{
+    border: none;
+    font-size: 20px;
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #ffffff;
+}
+.modal-body-update-task > button{
+    font-size: 20px;
+    display: flex;
+    gap: .8rem;
+    align-items: flex-end;
+    justify-content: flex-end;
+    border-top: 2px solid rgba(237, 237, 237, 0.901);
+    width: 100%;
+    position: relative
+}
+.modal-body-update-task button{
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-right: 50px;
+    background-color: rgba(237, 237, 237, 0.901);
+}
+.modal-body-update-task button:hover{
+    background-color: #000;
+    color:#ffffff;
+}
+
+.buttons-update{
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    padding: 5px;
+}
+
 
 
 
