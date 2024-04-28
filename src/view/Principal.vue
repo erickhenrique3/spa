@@ -105,7 +105,7 @@
                 <hr>
                 <input type="text" placeholder="Digite um novo titulo!" v-model="taskToUpdate.title">
                 <input type="text" placeholder="Digite uma nova descrição!" v-model="taskToUpdate.description">
-                <input type="dateTime" placeholder="Digite uma nova data!" v-model="taskToUpdate.due_date">
+                <input type="date" placeholder="Digite uma nova data!" v-model="taskToUpdate.due_date">
 
                 <div class="buttons-update">
                     <button type="button" class="btn-close" @click.stop="closeUpdateTask">Cancelar</button>
@@ -562,7 +562,7 @@ export default {
     align-items: center;
     flex-direction: column;
     background-color: #ffffff;
-    height: 250px;
+    
     width: 600px;
     padding: 20px;
     border-radius: 8px;
