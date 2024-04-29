@@ -114,6 +114,17 @@
             </div>
         </div>
 
+        <div class="modal-date-task" v-if="showUpdateDate">
+            <div class="modal-body-date-task">
+                <h1>Alterar data</h1>
+                <input type="date" placeholder="Digite nova data" v-model="taskToUpdate.due_date">
+                <div class="buttons-date">
+                    <button type="button" class="btn-close" @click.stop="closeUpdateDate">Cancelar</button>
+                    <button type="button" class="btn-save" @click.stop="putTask(taskT.id)">Salvar</button>
+                </div>
+            </div>
+        </div>
+
 
 
         <div class="box1">
@@ -138,7 +149,7 @@
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
                             <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
-                            <i class='bx bx-notepad'></i>
+                            <i @click.stop="openUpdateDate" class='bx bx-notepad'></i>
                             <i class='bx bx-trash' @click.stop="deleteTask(task.id)"></i>
                         </div>
                     </div>
@@ -187,6 +198,7 @@ export default {
             showTooltip: false,
             openTaskModal: false,
             showUpdateTask: false,
+            showUpdateDate: false,
             taskToUpdate: null,
             ShowIcons: false,
             selectedColor: '',
@@ -207,8 +219,18 @@ export default {
         // ShowIcons() {
         //     this.IconsVisible = true;
         // },
+
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY');
+        },
+        openUpdateDate(task){
+           this.taskToUpdate = task
+           this.showUpdateDate = true    
+        },
+        closeUpdateDate(){
+           this.showUpdateDate = false
+           this.taskToUpdate = null
+           
         },
         openUpdateTask(task) {
             this.taskToUpdate = task
@@ -222,7 +244,7 @@ export default {
         closeUpdateTask() {
             this.showUpdateTask = false
             this.taskToUpdate = null
-            this.showUpdateTask = false
+            // this.showUpdateTask = false
         },
         closeModalTaskClick() {
             this.openTaskModal = false
@@ -562,7 +584,7 @@ export default {
     align-items: center;
     flex-direction: column;
     background-color: #ffffff;
-    
+
     width: 600px;
     padding: 20px;
     border-radius: 8px;
@@ -617,6 +639,71 @@ export default {
     justify-content: space-between;
     width: 70%;
     padding: 5px;
+}
+
+
+
+.modal-date-task{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-body-date-task{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ffffff;
+
+    width: 600px;
+    height: 20%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    position: relative;
+}
+.modal-body-date-task h1{
+    position: absolute;
+    top: 5%;
+    
+}
+.modal-body-date-task > .buttons-date{
+    position: absolute;
+    bottom: 5%;
+}
+.modal-body-date-task input{
+    border: none;
+    font-size: 20px;
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #ffffff;
+}
+.modal-body-date-task button{
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-right: 50px;
+    background-color: rgba(237, 237, 237, 0.901);
+}
+.modal-body-date-task button:hover{
+    background-color: #000;
+    color: #ffffff;
 }
 
 
