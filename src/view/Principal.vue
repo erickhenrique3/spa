@@ -114,13 +114,16 @@
             </div>
         </div>
 
+
         <div class="modal-date-task" v-if="showUpdateDate">
             <div class="modal-body-date-task">
                 <h1>Alterar data</h1>
-                <input type="date" placeholder="Digite nova data" v-model="taskToUpdate.due_date">
+                <input type="date" v-model="taskToUpdateDate.due_date">
                 <div class="buttons-date">
                     <button type="button" class="btn-close" @click.stop="closeUpdateDate">Cancelar</button>
-                    <button type="button" class="btn-save" @click.stop="putTask(taskT.id)">Salvar</button>
+                    <button type="button" class="btn-save"
+                        @click.stop="patchUpdateDate(taskToUpdateDate, taskToUpdate.id)">Salvar</button>
+                    {{ taskToUpdate.id }}
                 </div>
             </div>
         </div>
@@ -149,7 +152,7 @@
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
                             <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
-                            <i @click.stop="openUpdateDate" class='bx bx-notepad'></i>
+                            <i @click.stop="openUpdateDate(task)" class='bx bx-notepad'></i>
                             <i class='bx bx-trash' @click.stop="deleteTask(task.id)"></i>
                         </div>
                     </div>
@@ -200,6 +203,9 @@ export default {
             showUpdateTask: false,
             showUpdateDate: false,
             taskToUpdate: null,
+            taskToUpdateDate: {
+                due_date: ''
+            },
             ShowIcons: false,
             selectedColor: '',
             tasks: [],
@@ -223,14 +229,21 @@ export default {
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY');
         },
-        openUpdateDate(task){
-           this.taskToUpdate = task
-           this.showUpdateDate = true    
+        openUpdateDate(task) {
+            // this.taskToUpdate = { id: task, due_date: '' };
+
+            // this.showUpdateDate = true
+            if (task && task.id) {
+                this.taskToUpdate = { id: task.id, due_date: task.due_date };
+                this.showUpdateDate = true;
+            } else {
+                console.error("A tarefa está ausente ou não tem um ID válido.");
+            }
         },
-        closeUpdateDate(){
-           this.showUpdateDate = false
-           this.taskToUpdate = null
-           
+        closeUpdateDate() {
+            this.showUpdateDate = false
+            this.taskToUpdate = null
+
         },
         openUpdateTask(task) {
             this.taskToUpdate = task
@@ -239,6 +252,7 @@ export default {
 
         openTaskModalClick(task) {
             this.selectedTask = task
+            this.selectedTaskId = task.id;
             this.openTaskModal = true
         },
         closeUpdateTask() {
@@ -309,6 +323,21 @@ export default {
                 })
                 .catch(error => {
                     console.error('Erro ao atualizar a tarefa:', error);
+                });
+        },
+        patchUpdateDate(tasks, taskToUpdateDate) {
+            // const formattedDate = moment(taskToUpdateDate.due_date,).format('DD-MM-YY')
+            
+            axios.patch(`tasks/${tasks}`, {
+                due_date: taskToUpdateDate.due_date
+            })
+                .then(response => {
+                    console.log('Data da tarefa atualizada com sucesso:', response.data);
+                    this.getTasks();
+                    this.closeUpdateDate();
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar a data da tarefa:', error);
                 });
         }
 
@@ -643,7 +672,7 @@ export default {
 
 
 
-.modal-date-task{
+.modal-date-task {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -658,7 +687,8 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.modal-body-date-task{
+
+.modal-body-date-task {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -673,16 +703,19 @@ export default {
     z-index: 10;
     position: relative;
 }
-.modal-body-date-task h1{
+
+.modal-body-date-task h1 {
     position: absolute;
     top: 5%;
-    
+
 }
-.modal-body-date-task > .buttons-date{
+
+.modal-body-date-task>.buttons-date {
     position: absolute;
     bottom: 5%;
 }
-.modal-body-date-task input{
+
+.modal-body-date-task input {
     border: none;
     font-size: 20px;
     width: 100%;
@@ -692,7 +725,8 @@ export default {
     padding: 5px;
     background-color: #ffffff;
 }
-.modal-body-date-task button{
+
+.modal-body-date-task button {
     border: none;
     font-size: 20px;
     cursor: pointer;
@@ -701,7 +735,8 @@ export default {
     margin-right: 50px;
     background-color: rgba(237, 237, 237, 0.901);
 }
-.modal-body-date-task button:hover{
+
+.modal-body-date-task button:hover {
     background-color: #000;
     color: #ffffff;
 }
