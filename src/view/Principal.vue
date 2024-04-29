@@ -157,7 +157,7 @@
                 <h1>Entrada</h1>
                 <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModalClick(task)"
                     @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
-                    <input type="radio">
+                    <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status" value="completed" @change="updateTaskStatus(task)">
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
                             <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
@@ -224,6 +224,7 @@ export default {
                 description: '',
                 due_date: '',
             },
+            // selectedTaskStatus: ''
 
 
         };
@@ -234,7 +235,9 @@ export default {
         // ShowIcons() {
         //     this.IconsVisible = true;
         // },
-
+        stopModal(event){
+            event.stopPropagation();
+        },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY');
         },
@@ -348,6 +351,15 @@ export default {
                 .catch(error => {
                     console.error('Erro ao atualizar a data da tarefa:', error);
                 });
+        },
+        updateTaskStatus(task){
+            axios.patch(`tasks/${task.id}/status`, { status: task.status })
+            .then(response => {
+                console.log('Status da tarefa atualizado com sucesso:', response.data);
+            })
+            .catch(error => {
+                console.error('Erro ao atualizar o status da tarefa:', error);
+            });
         }
 
 
