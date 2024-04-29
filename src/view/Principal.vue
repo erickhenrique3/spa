@@ -63,12 +63,21 @@
                 <div class="box1-modal-task">
 
                     <h3>{{ selectedTask.title }} </h3>
-                    <p> {{ selectedTask.description }}</p>
+                    <p class="description-task"> {{ selectedTask.description }}</p>
 
 
                     <h4>Subtarefas</h4>
+                   
                     <hr class="hr_sub">
-                    <p class="sub">Comprar remedio</p>
+                    <ul v-if="selectedTask.subtarefas && selectedTask.subtarefas.length">
+                        <li v-for="subtask in selectedTask.subtarefas" :key="subtask.id">
+                            <p class="sub"><strong>{{ subtask.title }}</strong></p>
+                            <p class="description-subtask">{{ subtask.description }}</p>
+                        </li>
+
+                    </ul>
+                    
+                    
 
                 </div>
                 <div class="box2-modal-task">
@@ -530,7 +539,7 @@ export default {
     left: 10%;
 }
 
-.box1-modal-task p {
+.box1-modal-task > .description-task {
     position: absolute;
     left: 10%;
     top: 10%;
@@ -558,7 +567,7 @@ export default {
 
 .box1-modal-task .sub {
     position: absolute;
-    left: 10%;
+    left: 15%;
     top: 38%;
 }
 
@@ -969,5 +978,10 @@ li {
     border-width: 5px;
 
 
+}
+.description-subtask{
+ position: absolute;
+ top: 45%;
+ left: 15%;
 }
 </style>
