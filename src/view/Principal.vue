@@ -85,26 +85,12 @@
                     <p>Id da tarefa: <br>
                         <strong>{{ selectedTask.id }}</strong>
                     </p>
-                    <span :style="{ backgroundColor: BackgroundColorDate(selectedTask.due_date) }"><strong><i class='bx bx-notepad'></i>{{ formatDate(selectedTask.due_date) }}</strong></span>
+                    <span :style="{ backgroundColor: BackgroundColorDate(selectedTask.due_date) }"><strong><i
+                                class='bx bx-notepad'></i>{{ formatDate(selectedTask.due_date) }}</strong></span>
                 </div>
 
             </div>
-            <!-- <div clsas="modal-body-task" >
-                <div class="modal-header-task">
-                    Visualizar tarefa
-                    <i class='bx bx-dots-horizontal-rounded'></i>
-                    <i @click="closeModal" class='bx bx-x'></i>
-                </div>
-                <hr>
-                <h1>title </h1>
-                <p>description</p>
-                <p>12/09/2008</p>
-                
-                <h1>Criar subtarefa</h1>
-                <div class="modal-menu-task">
 
-                </div>
-            </div> -->
         </div>
 
 
@@ -246,7 +232,7 @@ export default {
             const today = new Date();
             const taskDueDate = new Date(dueDate);
 
-          
+
             return taskDueDate < today ? '#f11919cf' : ' rgba(40, 252, 160, 0.742)';
         },
         stopModal(event) {
@@ -389,8 +375,9 @@ export default {
 
 <style scoped>
 .datecolor-background {
-  background-color: #f63535; 
+    background-color: #f63535;
 }
+
 .modal {
     position: fixed;
     top: 50%;
