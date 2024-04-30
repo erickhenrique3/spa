@@ -142,11 +142,11 @@
             <div class="conteudo">
                 <h1>Entrada</h1>
                 <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModalClick(task)"
-                    @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
+                @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
                     <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status"
                         value="completed" @change="updateTaskStatus(task)">
                     <div class="icons-task">
-                        <div class="container-icons" v-show="ShowIcons">
+                        <div class="container-icons" v-show="task.ShowIcons">
                             <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
                             <i @click.stop="openUpdateDate(task)" class='bx bx-notepad'></i>
                             <i class='bx bx-trash' @click.stop="deleteTask(task.id)"></i>
@@ -228,6 +228,7 @@ export default {
         //     const taskDueDate = moment(due_Date, 'YYYY/MM/DD');
         //     return taskDueDate.isBefore(today, 'day');
         // },
+
         BackgroundColorDate(dueDate) {
             const today = new Date();
             const taskDueDate = new Date(dueDate);
@@ -368,6 +369,9 @@ export default {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
         this.getTasks()
         this.data = moment(this.data).format('DD/MM/YYYY');
+        this.tasks.forEach(task => {
+        this.$set(task, 'showIcons', false);
+    });
     },
 
 }
