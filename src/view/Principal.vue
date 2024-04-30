@@ -67,7 +67,7 @@
 
 
                     <h4>Subtarefas</h4>
-                   
+
                     <hr class="hr_sub">
                     <ul v-if="selectedTask.subtarefas && selectedTask.subtarefas.length">
                         <li v-for="subtask in selectedTask.subtarefas" :key="subtask.id">
@@ -76,8 +76,8 @@
                         </li>
 
                     </ul>
-                    
-                    
+
+
 
                 </div>
                 <div class="box2-modal-task">
@@ -85,11 +85,11 @@
                     <p>Id da tarefa: <br>
                         <strong>{{ selectedTask.id }}</strong>
                     </p>
-                    <span><strong><i class='bx bx-notepad'></i>{{ formatDate(selectedTask.due_date) }}</strong></span>
+                    <span :style="{ backgroundColor: BackgroundColorDate(selectedTask.due_date) }"><strong><i class='bx bx-notepad'></i>{{ formatDate(selectedTask.due_date) }}</strong></span>
                 </div>
 
             </div>
-            <!-- <div class="modal-body-task" >
+            <!-- <div clsas="modal-body-task" >
                 <div class="modal-header-task">
                     Visualizar tarefa
                     <i class='bx bx-dots-horizontal-rounded'></i>
@@ -129,9 +129,9 @@
                 <h1>Alterar data</h1>
                 <input type="date" v-model="taskToUpdateDate.due_date">
                 <div class="buttons-date">
-                    <button type="button" class="btn-close" @click.stop="closeUpdateDate">Cancelar</button>
+                    <button type="button" class="btn-close" @click="closeUpdateDate">Cancelar</button>
                     <button type="button" class="btn-save"
-                        @click.stop="patchUpdateDate(taskToUpdateDate, taskToUpdate.id)">Salvar</button>
+                        @click="patchUpdateDate(taskToUpdateDate, taskToUpdate.id)">Salvar</button>
                     {{ taskToUpdate.id }}
                 </div>
             </div>
@@ -157,7 +157,8 @@
                 <h1>Entrada</h1>
                 <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModalClick(task)"
                     @mouseover="ShowIcons = true" @mouseleave="ShowIcons = false">
-                    <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status" value="completed" @change="updateTaskStatus(task)">
+                    <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status"
+                        value="completed" @change="updateTaskStatus(task)">
                     <div class="icons-task">
                         <div class="container-icons" v-show="ShowIcons">
                             <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
@@ -174,7 +175,8 @@
                         <li>{{ task.description }}</li>
 
                     </ul>
-                    <span class="data"><i class='bx bx-notepad'></i>{{ formatDate(task.due_date)
+                    <span class="data" :style="{ backgroundColor: BackgroundColorDate(task.due_date) }">
+                        <i class='bx bx-notepad'></i>{{ formatDate(task.due_date)
                         }}</span>
 
 
@@ -235,7 +237,19 @@ export default {
         // ShowIcons() {
         //     this.IconsVisible = true;
         // },
-        stopModal(event){
+        // isOverdue(due_Date) {
+        //     const today = moment();
+        //     const taskDueDate = moment(due_Date, 'YYYY/MM/DD');
+        //     return taskDueDate.isBefore(today, 'day');
+        // },
+        BackgroundColorDate(dueDate) {
+            const today = new Date();
+            const taskDueDate = new Date(dueDate);
+
+          
+            return taskDueDate < today ? '#f11919cf' : ' rgba(40, 252, 160, 0.742)';
+        },
+        stopModal(event) {
             event.stopPropagation();
         },
         formatDate(date) {
@@ -338,10 +352,10 @@ export default {
                 });
         },
         patchUpdateDate(tasks, taskToUpdateDate) {
-            // const formattedDate = moment(taskToUpdateDate.due_date,).format('DD-MM-YY')
-            
-            axios.patch(`tasks/${tasks}`, {
-                due_date: taskToUpdateDate.due_date
+            const formattedDate = moment(taskToUpdateDate.due_date,).format('DD-MM-YY')
+
+            axios.patch(`tasks/${tasks}/due_date`, {
+                due_date: formattedDate
             })
                 .then(response => {
                     console.log('Data da tarefa atualizada com sucesso:', response.data);
@@ -352,14 +366,14 @@ export default {
                     console.error('Erro ao atualizar a data da tarefa:', error);
                 });
         },
-        updateTaskStatus(task){
+        updateTaskStatus(task) {
             axios.patch(`tasks/${task.id}/status`, { status: task.status })
-            .then(response => {
-                console.log('Status da tarefa atualizado com sucesso:', response.data);
-            })
-            .catch(error => {
-                console.error('Erro ao atualizar o status da tarefa:', error);
-            });
+                .then(response => {
+                    console.log('Status da tarefa atualizado com sucesso:', response.data);
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar o status da tarefa:', error);
+                });
         }
 
 
@@ -374,6 +388,9 @@ export default {
 </script>
 
 <style scoped>
+.datecolor-background {
+  background-color: #f63535; 
+}
 .modal {
     position: fixed;
     top: 50%;
@@ -551,7 +568,7 @@ export default {
     left: 10%;
 }
 
-.box1-modal-task > .description-task {
+.box1-modal-task>.description-task {
     position: absolute;
     left: 10%;
     top: 10%;
@@ -892,11 +909,7 @@ li {
     margin-bottom: 10px;
 }
 
-.data {
 
-    background-color: rgba(40, 252, 160, 0.742);
-
-}
 
 .card label {
     margin-bottom: 10px;
@@ -991,9 +1004,10 @@ li {
 
 
 }
-.description-subtask{
- position: absolute;
- top: 45%;
- left: 15%;
+
+.description-subtask {
+    position: absolute;
+    top: 45%;
+    left: 15%;
 }
 </style>
