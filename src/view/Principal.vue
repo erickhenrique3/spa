@@ -127,13 +127,13 @@
 
         <div class="box1">
             <div>
-                <button>
+                <button @click="showAllTasks">
                     <i class='bx bx-store-alt' style='color:rgba(32,32,32,0.92)'></i> Entrada
                 </button>
-                <button>
+                <button @click="showTodayTasks">
                     <i class='bx bx-notepad'></i> Tarefas de hoje
                 </button>
-                <button>
+                <button @click="showOverdueTasks">
                     <i class='bx bx-error-alt'></i> Vencidos
                 </button>
             </div>
@@ -141,8 +141,8 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" v-for="task in tasks" :key="task.id" @click="openTaskModalClick(task)"
-                @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
+                <div class="card" v-for="task in filteredTasks" :key="task.id" @click="openTaskModalClick(task)"
+                    @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
                     <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status"
                         value="completed" @change="updateTaskStatus(task)">
                     <div class="icons-task">
@@ -212,6 +212,9 @@ export default {
                 description: '',
                 due_date: '',
             },
+            filteredTasks: [],
+            currentDate: new Date(),
+            showOverdue: false,
             // selectedTaskStatus: ''
 
 
@@ -220,6 +223,33 @@ export default {
 
     },
     methods: {
+        showTodayTasks() {
+            
+
+
+            const todayWithoutTime = new Date();
+            todayWithoutTime.setHours(0, 0, 0, 0); 
+            this.filteredTasks = this.tasks.filter(task => {
+                const taskDueDate = new Date(task.due_date);
+                taskDueDate.setHours(0, 0, 0, 0); 
+                return taskDueDate.getTime() === todayWithoutTime.getTime();
+            });
+        },
+
+        showOverdueTasks() {
+            const todayWithoutTime = new Date();
+            todayWithoutTime.setHours(0, 0, 0, 0); 
+            this.filteredTasks = this.tasks.filter(task => {
+                const taskDueDate = new Date(task.due_date);
+                taskDueDate.setHours(0, 0, 0, 0); 
+                return taskDueDate < todayWithoutTime;
+            });
+        },
+
+
+        showAllTasks() {
+            this.filteredTasks = this.tasks;
+        },
         // ShowIcons() {
         //     this.IconsVisible = true;
         // },
@@ -286,6 +316,7 @@ export default {
                 .then((response) => {
                     this.tasks = response.data.data
                     console.log(this.tasks)
+                    this.filteredTasks = this.tasks; 
                 })
                 .catch((error) => {
                     console.log(error)
@@ -304,6 +335,7 @@ export default {
                         due_date: '',
                     };
                     this.getTasks();
+                    this.filteredTasks = this.tasks; 
                     this.closeModal();
 
                 })
@@ -316,6 +348,7 @@ export default {
                 .then(response => {
                     this.tasks = this.tasks.filter(task => task.id !== tasks);
                     console.log('Tarefa excluída com sucesso:', response.data);
+                    this.filteredTasks = this.tasks; 
                 })
                 .catch(error => {
                     console.error('Erro ao excluir a tarefa:', error);
@@ -332,6 +365,7 @@ export default {
 
                     console.log('Tarefa atualizada com sucesso:', response.data);
                     this.getTasks();
+                    
                     this.closeUpdateTask();
                 })
                 .catch(error => {
@@ -370,8 +404,8 @@ export default {
         this.getTasks()
         this.data = moment(this.data).format('DD/MM/YYYY');
         this.tasks.forEach(task => {
-        this.$set(task, 'showIcons', false);
-    });
+            this.$set(task, 'showIcons', false);
+        });
     },
 
 }
