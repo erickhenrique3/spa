@@ -163,7 +163,8 @@
                             <i class='bx bx-notepad'></i>{{ formatDate(task.due_date)
                             }}</span>
                         <hr>
-                        <button @click.stop="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
+                        <button @click.stop="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar
+                            tarefa
                         </button>
                     </div>
                 </div>
@@ -179,6 +180,7 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import 'moment-timezone';
 
 export default {
 
@@ -218,26 +220,39 @@ export default {
     },
     methods: {
         showTodayTasks() {
-            
-
-            // const getToday = () => Intl.DateTimeFormat("pt-BR").format(new Date())
-            const todayWithoutTime = new Date();
-            todayWithoutTime.setHours(0, 0, 0, 0); 
+            const today = moment().tz('America/Sao_Paulo').startOf('day'); // Começo do dia de hoje no fuso horário de São Paulo
             this.filteredTasks = this.tasks.filter(task => {
-                const taskDueDate = new Date(task.due_date);
-                taskDueDate.setHours(0, 0, 0, 0); 
-                return taskDueDate.getTime() === todayWithoutTime.getTime();
-            // console.log(getToday);
+                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo'); // Converter a data de vencimento para o fuso horário de São Paulo
+                return taskDueDate.isSame(today, 'day');
+
+                // const getToday = () => Intl.DateTimeFormat("pt-BR").format(new Date());
+                // this.filteredTasks = this.tasks.filter(task => {
+                //     const today = getToday();
+                //     const taskDueDate = new Date(task.due_date);
+                //     const taskDate = Intl.DateTimeFormat("pt-BR").format(taskDueDate);
+                //     return taskDate === today;
             });
+            // const todayWithoutTime = new Date();
+            // todayWithoutTime.setHours(0, 0, 0, 0); 
+            // this.filteredTasks = this.tasks.filter(task => {
+            //     const taskDueDate = new Date(task.due_date);
+            //     taskDueDate.setHours(0, 0, 0, 0); 
+            //     return taskDueDate.getTime() === todayWithoutTime.getTime();
+            // console.log(getToday);
+
         },
 
         showOverdueTasks() {
-            const todayWithoutTime = new Date();
-            todayWithoutTime.setHours(0, 0, 0, 0); 
+            const today = moment().tz('America/Sao_Paulo').startOf('day');  
             this.filteredTasks = this.tasks.filter(task => {
-                const taskDueDate = new Date(task.due_date);
-                taskDueDate.setHours(0, 0, 0, 0); 
-                return taskDueDate < todayWithoutTime;
+                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo'); 
+                return taskDueDate.isBefore(today, 'day');
+                // const todayWithoutTime = new Date();
+                // todayWithoutTime.setHours(0, 0, 0, 0);
+                // this.filteredTasks = this.tasks.filter(task => {
+                //     const taskDueDate = new Date(task.due_date);
+                //     taskDueDate.setHours(0, 0, 0, 0);
+                //     return taskDueDate < todayWithoutTime;
             });
         },
 
@@ -255,11 +270,16 @@ export default {
         // },
 
         BackgroundColorDate(dueDate) {
-            const today = new Date();
-            const taskDueDate = new Date(dueDate);
+            const today = moment().tz('America/Sao_Paulo');  
+            today.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });  
 
+            const taskDueDate = moment.tz(dueDate, 'America/Sao_Paulo'); 
+            taskDueDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }); 
 
-            return taskDueDate < today ? '#f11919cf' : ' rgba(40, 252, 160, 0.742)';
+           
+            return taskDueDate.isBefore(today, 'day') ? '#f11919cf' : ' rgba(40, 252, 160, 0.742)';
+
+            
         },
         stopModal(event) {
             event.stopPropagation();
@@ -311,7 +331,7 @@ export default {
                 .then((response) => {
                     this.tasks = response.data.data
                     console.log(this.tasks)
-                    this.filteredTasks = this.tasks; 
+                    this.filteredTasks = this.tasks;
                 })
                 .catch((error) => {
                     console.log(error)
@@ -330,7 +350,7 @@ export default {
                         due_date: '',
                     };
                     this.getTasks();
-                    this.filteredTasks = this.tasks; 
+                    this.filteredTasks = this.tasks;
                     this.closeModal();
 
                 })
@@ -343,7 +363,7 @@ export default {
                 .then(response => {
                     this.tasks = this.tasks.filter(task => task.id !== tasks);
                     console.log('Tarefa excluída com sucesso:', response.data);
-                    this.filteredTasks = this.tasks; 
+                    this.filteredTasks = this.tasks;
                 })
                 .catch(error => {
                     console.error('Erro ao excluir a tarefa:', error);
@@ -360,7 +380,7 @@ export default {
 
                     console.log('Tarefa atualizada com sucesso:', response.data);
                     this.getTasks();
-                    
+
                     this.closeUpdateTask();
                 })
                 .catch(error => {
@@ -407,7 +427,7 @@ export default {
 </script>
 
 <style scoped>
-.card-container{
+.card-container {
     width: 100%;
     height: 100%;
     display: flex;
@@ -415,8 +435,9 @@ export default {
     align-items: center;
     max-height: calc(100vh - 202px);
     overflow-y: auto;
-    
+
 }
+
 .datecolor-background {
     background-color: #f63535;
 }
@@ -924,7 +945,7 @@ header .icons {
     width: 100%;
     margin-top: 3rem; */
     /* overflow-y: scroll; */
-    /* flex-direction: column; */ 
+    /* flex-direction: column; */
     padding-top: 10%;
     display: flex;
     flex-direction: column;
