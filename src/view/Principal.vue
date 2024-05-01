@@ -226,13 +226,14 @@ export default {
         showTodayTasks() {
             
 
-
+            // const getToday = () => Intl.DateTimeFormat("pt-BR").format(new Date())
             const todayWithoutTime = new Date();
             todayWithoutTime.setHours(0, 0, 0, 0); 
             this.filteredTasks = this.tasks.filter(task => {
                 const taskDueDate = new Date(task.due_date);
                 taskDueDate.setHours(0, 0, 0, 0); 
                 return taskDueDate.getTime() === todayWithoutTime.getTime();
+            // console.log(getToday);
             });
         },
 
@@ -430,6 +431,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* display:none; */
 
 }
 
@@ -909,11 +911,23 @@ header .icons {
 }
 
 .conteudo {
+    /* position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-wrap: wrap; */
+    /* height: 80%;
+    width: 100%;
+    margin-top: 3rem; */
+    /* overflow-y: scroll; */
+    /* flex-direction: column; */ 
+    padding-top: 30%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 80%;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
 
 }
 
@@ -962,7 +976,7 @@ li {
     background-color:  rgba(40, 252, 160, 0.742);
 } */
 .card {
-    margin: 0 auto;
+    /* margin: 0 auto; */
     top: 10%;
     margin-top: 4%;
 
