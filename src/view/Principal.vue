@@ -31,7 +31,7 @@
             </form>
 
         </div>
-        <div class="modal" v-if="ShowModalSub">
+        <div class="modal" v-if="ShowModalSub" >
 
 
 
@@ -56,7 +56,16 @@
             <div class="modal-body-task">
                 <div class="modal-header-task">
                     Visualizar tarefa
-                    <i class='bx bx-dots-horizontal-rounded'></i>
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            <i class='bx bx-dots-horizontal-rounded'></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#"> <i class='bx bx-link'></i>Copiar link </a>
+                            <a ><i class='bx bx-printer' ></i> Imprmir tarefa</a>
+                            <a href="#" style="color: red;"><i class='bx bx-trash' ></i>Deletar tarefa</a>
+                        </div>
+                    </div>
                     <i @click="closeModalTaskClick" class='bx bx-x'></i>
                 </div>
                 <hr>
@@ -229,15 +238,18 @@ export default {
 
     },
     methods: {
+        ModalSub(){
+           this.ShowModalSub = true
+        },
         formatTime(dateTime) {
 
             const formattedTime = new Date(dateTime).toLocaleTimeString();
             return formattedTime;
         },
         showTodayTasks() {
-            const today = moment().tz('America/Sao_Paulo').startOf('day'); 
+            const today = moment().tz('America/Sao_Paulo').startOf('day');
             this.filteredTasks = this.tasks.filter(task => {
-                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo'); 
+                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo');
                 return taskDueDate.isSame(today, 'day');
 
                 // const getToday = () => Intl.DateTimeFormat("pt-BR").format(new Date());
@@ -458,6 +470,66 @@ export default {
 </script>
 
 <style scoped>
+/* Estilize o botão do dropdown */
+.dropbtn {
+    background-color: #ffffff;
+
+    padding: 16px;
+    font-size: 30px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+   
+}
+
+/* Estilize o contêiner do dropdown (esconde o dropdown por padrão) */
+.dropdown {
+    position: absolute;
+    left: 80%;
+    top: 15%;
+    display: inline-block;
+}
+
+/* Estilize o conteúdo do dropdown (escondido por padrão) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Estilize os links do dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Mudar a cor do link quando passar o mouse */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Exibir o dropdown quando o mouse passar sobre o botão */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Alterar a cor do botão quando passar o mouse */
+/* .dropdown:hover .dropbtn {
+    background-color: #939493;
+} */
+
+
+
+
+
+
+
+
 .custom-radio {
     display: inline-block;
     position: relative;
@@ -747,7 +819,8 @@ export default {
     position: absolute;
     top: 30%;
 }
-.box2-modal-task> .p3{
+
+.box2-modal-task>.p3 {
     margin-left: 10%;
     position: absolute;
     top: 45%;
