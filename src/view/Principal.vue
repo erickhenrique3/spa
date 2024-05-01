@@ -336,9 +336,10 @@ export default {
         getTasks() {
             axios.get('tasks')
                 .then((response) => {
-                    this.tasks = response.data.data
+                    this.tasks = response.data
                     console.log(this.tasks)
                     this.filteredTasks = this.tasks;
+                    this.sortTasks();
                 })
                 .catch((error) => {
                     console.log(error)
@@ -411,13 +412,28 @@ export default {
         },
         updateTaskStatus(task) {
             axios.patch(`tasks/${task.id}/status`, { status: task.status })
+
                 .then(response => {
                     console.log('Status da tarefa atualizado com sucesso:', response.data);
+                    task.status = task.status === 'completed' ? 'pending' : 'completed';
+                   
+                    this.sortTasks();
+                   
                 })
                 .catch(error => {
                     console.error('Erro ao atualizar o status da tarefa:', error);
                 });
+
+        },
+        sortTasks() {
+            this.filteredTasks.sort((a, b) => {
+                if (a.status === 'completed' && b.status !== 'completed') return -1;
+                if (a.status !== 'completed' && b.status === 'completed') return 1;
+                
+                return 0;
+            });
         }
+
 
 
     },
@@ -455,7 +471,7 @@ export default {
     left: 0;
     height: 25px;
     width: 25px;
-    
+
     background-color: #ffffff;
     border-radius: 50%;
     border: 1px solid #ccc;
