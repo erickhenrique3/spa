@@ -144,8 +144,15 @@
                 <div class="card-container">
                     <div class="card" v-for="task in filteredTasks" :key="task.id" @click="openTaskModalClick(task)"
                         @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
-                        <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status"
-                            value="completed" @change="updateTaskStatus(task)">
+
+
+                        <label class="custom-radio" @click="stopModal">
+                            <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status"
+                                value="completed" @change="updateTaskStatus(task)">
+                            <span class="checkmark"></span>
+                        </label>
+
+
                         <div class="icons-task">
                             <div class="container-icons" v-show="task.ShowIcons">
                                 <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
@@ -243,9 +250,9 @@ export default {
         },
 
         showOverdueTasks() {
-            const today = moment().tz('America/Sao_Paulo').startOf('day');  
+            const today = moment().tz('America/Sao_Paulo').startOf('day');
             this.filteredTasks = this.tasks.filter(task => {
-                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo'); 
+                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo');
                 return taskDueDate.isBefore(today, 'day');
                 // const todayWithoutTime = new Date();
                 // todayWithoutTime.setHours(0, 0, 0, 0);
@@ -270,16 +277,16 @@ export default {
         // },
 
         BackgroundColorDate(dueDate) {
-            const today = moment().tz('America/Sao_Paulo');  
-            today.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });  
+            const today = moment().tz('America/Sao_Paulo');
+            today.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
 
-            const taskDueDate = moment.tz(dueDate, 'America/Sao_Paulo'); 
-            taskDueDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }); 
+            const taskDueDate = moment.tz(dueDate, 'America/Sao_Paulo');
+            taskDueDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
 
-           
+
             return taskDueDate.isBefore(today, 'day') ? '#f11919cf' : ' rgba(40, 252, 160, 0.742)';
 
-            
+
         },
         stopModal(event) {
             event.stopPropagation();
@@ -427,6 +434,49 @@ export default {
 </script>
 
 <style scoped>
+.custom-radio {
+    display: inline-block;
+    position: relative;
+    padding-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    
+    background-color: #ffffff;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.custom-radio:hover .checkmark {
+    background-color: #ffffff;
+}
+
+.custom-radio input:checked~.checkmark {
+    background-color: #050505;
+    background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 10 10'%3E%3Cg class='nc-icon-wrapper' stroke-width='1' fill='%23555555'%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' data-cap='butt' d='M2.83 4.72l1.58 1.58 2.83-2.83'/%3E%3C/g%3E%3C/svg%3E");
+    background-position: center;
+}
+
+
+
+
+
+
+
 .card-container {
     width: 100%;
     height: 100%;
@@ -976,7 +1026,7 @@ li {
 
 
 .card label {
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 
     font-size: 25px;
     font-style: italic;
