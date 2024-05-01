@@ -141,37 +141,31 @@
         <div class="box2">
             <div class="conteudo">
                 <h1>Entrada</h1>
-                <div class="card" v-for="task in filteredTasks" :key="task.id" @click="openTaskModalClick(task)"
-                    @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
-                    <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status"
-                        value="completed" @change="updateTaskStatus(task)">
-                    <div class="icons-task">
-                        <div class="container-icons" v-show="task.ShowIcons">
-                            <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
-                            <i @click.stop="openUpdateDate(task)" class='bx bx-notepad'></i>
-                            <i class='bx bx-trash' @click.stop="deleteTask(task.id)"></i>
+                <div class="card-container">
+                    <div class="card" v-for="task in filteredTasks" :key="task.id" @click="openTaskModalClick(task)"
+                        @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
+                        <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status"
+                            value="completed" @change="updateTaskStatus(task)">
+                        <div class="icons-task">
+                            <div class="container-icons" v-show="task.ShowIcons">
+                                <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
+                                <i @click.stop="openUpdateDate(task)" class='bx bx-notepad'></i>
+                                <i class='bx bx-trash' @click.stop="deleteTask(task.id)"></i>
+                            </div>
                         </div>
+                        <ul>
+                            <label for="comprar-pao">{{ task.title }}</label>
+                        </ul>
+                        <ul>
+                            <li>{{ task.description }}</li>
+                        </ul>
+                        <span class="data" :style="{ backgroundColor: BackgroundColorDate(task.due_date) }">
+                            <i class='bx bx-notepad'></i>{{ formatDate(task.due_date)
+                            }}</span>
+                        <hr>
+                        <button @click.stop="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
+                        </button>
                     </div>
-                    <ul>
-
-                        <label for="comprar-pao">{{ task.title }}</label>
-
-                    </ul>
-                    <ul>
-                        <li>{{ task.description }}</li>
-
-                    </ul>
-                    <span class="data" :style="{ backgroundColor: BackgroundColorDate(task.due_date) }">
-                        <i class='bx bx-notepad'></i>{{ formatDate(task.due_date)
-                        }}</span>
-
-
-                    <hr>
-                    <button @click.stop="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar tarefa
-                    </button>
-
-
-
                 </div>
             </div>
         </div>
@@ -413,6 +407,16 @@ export default {
 </script>
 
 <style scoped>
+.card-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: calc(100vh - 202px);
+    overflow-y: auto;
+    
+}
 .datecolor-background {
     background-color: #f63535;
 }
@@ -921,12 +925,12 @@ header .icons {
     margin-top: 3rem; */
     /* overflow-y: scroll; */
     /* flex-direction: column; */ 
-    padding-top: 30%;
+    padding-top: 10%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    max-height: calc(100vh - 200px);
+    height: 100%;
     overflow-y: auto;
 
 }
@@ -934,8 +938,8 @@ header .icons {
 .conteudo h1 {
     position: absolute;
     margin-left: 0;
-    top: 20%;
-    left: 40%;
+    top: 13%;
+    left: 55%;
 }
 
 ul {
