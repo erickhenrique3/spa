@@ -31,7 +31,7 @@
             </form>
 
         </div>
-        <div class="modal" v-if="ShowModalSub" >
+        <div class="modal" v-if="ShowModalSub">
 
 
 
@@ -61,9 +61,9 @@
                             <i class='bx bx-dots-horizontal-rounded'></i>
                         </button>
                         <div class="dropdown-content">
-                            <a href="#"> <i class='bx bx-link'></i>Copiar link </a>
-                            <a ><i class='bx bx-printer' ></i> Imprmir tarefa</a>
-                            <a href="#" style="color: red;"><i class='bx bx-trash' ></i>Deletar tarefa</a>
+                            <a @click="copyURL"> <i class='bx bx-link'></i>Copiar link </a>
+                            <a @click="printTask"><i class='bx bx-printer'></i> Imprmir tarefa</a>
+                            <a @click="deleteTask(selectedTask.id)" style="color: red;"><i class='bx bx-trash'></i>Deletar tarefa</a>
                         </div>
                     </div>
                     <i @click="closeModalTaskClick" class='bx bx-x'></i>
@@ -238,8 +238,21 @@ export default {
 
     },
     methods: {
-        ModalSub(){
-           this.ShowModalSub = true
+        copyURL() {
+            let url = window.location.href;
+            navigator.clipboard.writeText(url)
+                .then(() => {
+                    alert('URL copiada com sucesso!');
+                })
+                .catch((err) => {
+                    alert('Erro ao copiar URL: ' + err);
+                });
+        },
+        printTask() {
+            window.print()
+        },
+        ModalSub() {
+            this.ShowModalSub = true
         },
         formatTime(dateTime) {
 
@@ -392,6 +405,8 @@ export default {
                     this.tasks = this.tasks.filter(task => task.id !== tasks);
                     console.log('Tarefa excluída com sucesso:', response.data);
                     this.filteredTasks = this.tasks;
+                    this.openTaskModal = false;
+                   
                 })
                 .catch(error => {
                     console.error('Erro ao excluir a tarefa:', error);
@@ -479,7 +494,7 @@ export default {
     height: 30px;
     border: none;
     cursor: pointer;
-   
+
 }
 
 /* Estilize o contêiner do dropdown (esconde o dropdown por padrão) */
