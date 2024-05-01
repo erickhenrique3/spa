@@ -87,6 +87,9 @@
                     </p>
                     <span :style="{ backgroundColor: BackgroundColorDate(selectedTask.due_date) }"><strong><i
                                 class='bx bx-notepad'></i>{{ formatDate(selectedTask.due_date) }}</strong></span>
+
+                    <p class="p2">Criado em: <br><strong>{{ formatDate(selectedTask.created_at) }}</strong></p>
+                    <p class="p3">Hora de criação: <br><strong>{{ formatTime(selectedTask.created_at) }}</strong></p>
                 </div>
 
             </div>
@@ -226,10 +229,15 @@ export default {
 
     },
     methods: {
+        formatTime(dateTime) {
+
+            const formattedTime = new Date(dateTime).toLocaleTimeString();
+            return formattedTime;
+        },
         showTodayTasks() {
-            const today = moment().tz('America/Sao_Paulo').startOf('day'); // Começo do dia de hoje no fuso horário de São Paulo
+            const today = moment().tz('America/Sao_Paulo').startOf('day'); 
             this.filteredTasks = this.tasks.filter(task => {
-                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo'); // Converter a data de vencimento para o fuso horário de São Paulo
+                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo'); 
                 return taskDueDate.isSame(today, 'day');
 
                 // const getToday = () => Intl.DateTimeFormat("pt-BR").format(new Date());
@@ -396,9 +404,9 @@ export default {
                 });
         },
         patchUpdateDate(tasks, taskToUpdateDate) {
-            const formattedDate = moment(taskToUpdateDate.due_date,).format('DD-MM-YY')
+            const formattedDate = moment(taskToUpdateDate.due_date, 'DD-MM-YY').format('DD-MM-YY');
 
-            axios.patch(`tasks/${tasks}/due_date`, {
+            axios.patch(`tasks/${tasks}/due_date/`, {
                 due_date: formattedDate
             })
                 .then(response => {
@@ -416,9 +424,9 @@ export default {
                 .then(response => {
                     console.log('Status da tarefa atualizado com sucesso:', response.data);
                     task.status = task.status === 'completed' ? 'pending' : 'completed';
-                   
+
                     this.sortTasks();
-                   
+
                 })
                 .catch(error => {
                     console.error('Erro ao atualizar o status da tarefa:', error);
@@ -429,7 +437,7 @@ export default {
             this.filteredTasks.sort((a, b) => {
                 if (a.status === 'completed' && b.status !== 'completed') return -1;
                 if (a.status !== 'completed' && b.status === 'completed') return 1;
-                
+
                 return 0;
             });
         }
@@ -732,6 +740,17 @@ export default {
     margin-left: 10%;
     position: absolute;
     top: 3%;
+}
+
+.box2-modal-task>.p2 {
+    margin-left: 10%;
+    position: absolute;
+    top: 30%;
+}
+.box2-modal-task> .p3{
+    margin-left: 10%;
+    position: absolute;
+    top: 45%;
 }
 
 .box2-modal-task p {
