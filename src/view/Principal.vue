@@ -37,13 +37,14 @@
 
             <form class="modal-body">
 
-                <input type="text" name="Title" id="Title" placeholder="Nome da subtarefa">
-                <input type="text" name="Descripition" id="Description" placeholder="Descrição">
+                <input type="text" v-model="newSubtask.title" name="title" id="title" placeholder="Nome da subtarefa">
+                <input type="text" v-model="newSubtask.description" name="tescripition" id="Description" placeholder="Descrição">
+                <input type="number" v-model="newSubtask.task_id" name="task_id" id="task_id" placeholder="Task_id">
 
                 <hr>
                 <div class="buttons">
-                    <button type="button" class="btn-save" @click="ShowModalSub = false">Salvar</button>
-                    <button type="button" class="btn-close" @click="ShowModalSub = false">Cancelar</button>
+                    <button type="button" class="btn-save" @click="ShowModalSub = false">Cancelar</button>
+                    <button type="button" class="btn-close" @click="postSubtask">Salvar</button>
                 </div>
             </form>
 
@@ -63,7 +64,8 @@
                         <div class="dropdown-content">
                             <a @click="copyURL"> <i class='bx bx-link'></i>Copiar link </a>
                             <a @click="printTask"><i class='bx bx-printer'></i> Imprmir tarefa</a>
-                            <a @click="deleteTask(selectedTask.id)" style="color: red;"><i class='bx bx-trash'></i>Deletar tarefa</a>
+                            <a @click="deleteTask(selectedTask.id)" style="color: red;"><i
+                                    class='bx bx-trash'></i>Deletar tarefa</a>
                         </div>
                     </div>
                     <i @click="closeModalTaskClick" class='bx bx-x'></i>
@@ -76,7 +78,18 @@
 
 
                     <h4>Subtarefas</h4>
-
+                    <div class="dropdown2">
+                        <button class="dropbtn2">
+                            <i class='bx bx-dots-horizontal-rounded'></i>
+                        </button>
+                        <div class="dropdown-content2">
+                            <a @click="ModalSub"> <i class='bx bx-plus'></i>Criar subtarefa </a>
+                            <a> <i class='bx bx-edit-alt'></i>Editar subtarefa </a>
+                            <a @click="deleteTask(selectedTask.id)" style="color: red;"><i
+                                    class='bx bx-trash'></i>Deletar
+                                subtarefa</a>
+                        </div>
+                    </div>
                     <hr class="hr_sub">
                     <ul v-if="selectedTask.subtarefas && selectedTask.subtarefas.length">
                         <li v-for="subtask in selectedTask.subtarefas" :key="subtask.id">
@@ -227,6 +240,11 @@ export default {
                 description: '',
                 due_date: '',
             },
+            newSubtask: {
+                title: '',
+                description: '',
+                task_id: ''
+            },
             filteredTasks: [],
             currentDate: new Date(),
             showOverdue: false,
@@ -252,7 +270,8 @@ export default {
             window.print()
         },
         ModalSub() {
-            this.ShowModalSub = true
+            this.ShowModalSub = true;
+            this.openTaskModal = false;
         },
         formatTime(dateTime) {
 
@@ -406,7 +425,7 @@ export default {
                     console.log('Tarefa excluída com sucesso:', response.data);
                     this.filteredTasks = this.tasks;
                     this.openTaskModal = false;
-                   
+
                 })
                 .catch(error => {
                     console.error('Erro ao excluir a tarefa:', error);
@@ -453,6 +472,7 @@ export default {
                     task.status = task.status === 'completed' ? 'pending' : 'completed';
 
                     this.sortTasks();
+                    this.getTasks();
 
                 })
                 .catch(error => {
@@ -467,7 +487,21 @@ export default {
 
                 return 0;
             });
-        }
+        },
+        ////SUBTASK >>>>>>
+        postSubtask() {
+            axios.post('/subtasks', this.newSubtask)
+                .then(response => {
+                    
+                    console.log('Subtarefa salva com sucesso!');
+                    console.log(response.data);
+                    this.ShowModalSub = false;
+                    
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar a subtarefa:', error);
+                });
+        },
 
 
 
@@ -485,6 +519,72 @@ export default {
 </script>
 
 <style scoped>
+.dropbtn2 {
+    background-color: #ffffff;
+
+    padding: 16px;
+    font-size: 30px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+
+}
+
+/* Estilize o contêiner do dropdown (esconde o dropdown por padrão) */
+.dropdown2 {
+    position: absolute;
+    left: 80%;
+    top: 27%;
+    display: inline-block;
+}
+
+/* Estilize o conteúdo do dropdown (escondido por padrão) */
+.dropdown-content2 {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Estilize os links do dropdown */
+.dropdown-content2 a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Mudar a cor do link quando passar o mouse */
+.dropdown-content2 a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Exibir o dropdown quando o mouse passar sobre o botão */
+.dropdown2:hover .dropdown-content2 {
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Estilize o botão do dropdown */
 .dropbtn {
     background-color: #ffffff;
