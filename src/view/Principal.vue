@@ -111,8 +111,7 @@
                             <a v-for="subtask in selectedTask.subtarefas" :key="subtask.id"
                                 @click="openUpdateSubtask(subtask)"> <i class='bx bx-edit-alt'></i>Editar subtarefa
                             </a>
-                            <a @click="deleteTask(selectedTask.id)" style="color: red;"><i
-                                    class='bx bx-trash'></i>Deletar
+                            <a @click="deleteSubtask" style="color: red;"><i class='bx bx-trash'></i>Deletar
                                 subtarefa</a>
                         </div>
                     </div>
@@ -299,23 +298,13 @@ export default {
 
                 this.showUpdateModalSub = true;
                 this.openTaskModal = false;
-                // Outras operações...
+
             } else {
                 console.error('A tarefa selecionada não está definida ou não possui um ID válido.');
             }
 
 
-            // this.showUpdateModalSub = true;
-            // this.openTaskModal = false;
-            // this.taskToUpdateSub = subtask
-            // if (subtask && typeof subtask === 'object' && subtask.id) {
-            //     this.taskToUpdate = subtask;
-            //     this.showUpdateModalSub = true;
-            //     this.openTaskModal = false;
-            // } else {
-            //     console.error("O objeto subtask está ausente ou não tem uma propriedade 'id' válida.");
 
-            // }
         },
         copyURL() {
             let url = window.location.href;
@@ -600,27 +589,18 @@ export default {
             // } else {
             //     console.error('A tarefa a ser atualizada não está definida ou não possui um ID válido.');
             // }
+        },
+        deleteSubtask(subtask) {
+            axios.delete(`/subtasks/${subtask.id}`)
+                .then(response => {
+                    console.log('Subtarefa excluída com sucesso:', response.data);
+                   
+                    this.getTasks();
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir a subtarefa:', error);
+                });
         }
-        //     alert("ID da subtarefa: " + this.taskToUpdate.id); 
-        //     axios.put(`/subtasks/${this.taskToUpdate.id}`, {
-
-        //         title: this.taskToUpdate.title,
-        //         description: this.taskToUpdate.description,
-
-        //         // task_id: this.taskToUpdate.task_id,
-
-
-        //     })
-        //         .then(response => {
-
-        //             console.log('Subtarefa atualizada com sucesso:', response.data);
-        //             this.showUpdateModalSub = false;
-        //             this.getTasks();
-        //         })
-        //         .catch(error => {
-        //             console.error('Erro ao atualizar a subtarefa:', error);
-        //         });
-        // }
 
 
 
