@@ -58,7 +58,8 @@
 
             <form class="modal-body">
 
-                <input type="text" v-model="taskToUpdateSub.title" name="title" id="title" placeholder="Nome da subtarefa">
+                <input type="text" v-model="taskToUpdateSub.title" name="title" id="title"
+                    placeholder="Nome da subtarefa">
                 <input type="text" v-model="taskToUpdateSub.description" name="tescripition" id="Description"
                     placeholder="Descrição">
                 <!-- <input type="number" v-model="taskToUpdate.task_id" name="task_id" id="task_id"
@@ -107,7 +108,9 @@
                         </button>
                         <div class="dropdown-content2">
                             <a @click="ModalSub"> <i class='bx bx-plus'></i>Criar subtarefa </a>
-                            <a @click="openUpdateSubtask(taskToUpdateSub.id)"> <i class='bx bx-edit-alt'></i>Editar subtarefa </a>
+                            <a v-for="subtask in selectedTask.subtarefas" :key="subtask.id"
+                                @click="openUpdateSubtask(subtask)"> <i class='bx bx-edit-alt'></i>Editar subtarefa
+                            </a>
                             <a @click="deleteTask(selectedTask.id)" style="color: red;"><i
                                     class='bx bx-trash'></i>Deletar
                                 subtarefa</a>
@@ -118,6 +121,7 @@
                         <li v-for="subtask in selectedTask.subtarefas" :key="subtask.id">
                             <p class="sub"><strong>{{ subtask.title }}</strong></p>
                             <p class="description-subtask">{{ subtask.description }}</p>
+
                         </li>
 
                     </ul>
@@ -273,10 +277,10 @@ export default {
             showOverdue: false,
             showUpdateModalSub: false,
             taskToUpdateSub: {
-            
-            title: '',
-            description: ''
-        }
+                id: null,
+                title: '',
+                description: ''
+            }
             // selectedTaskStatus: ''
 
 
@@ -287,9 +291,23 @@ export default {
     methods: {
         openUpdateSubtask(subtask) {
 
-            this.showUpdateModalSub = true;
-            this.openTaskModal = false;
-            this.taskToUpdateSub = subtask
+
+            if (this.selectedTask && this.selectedTask.id) {
+                this.taskToUpdateSub.id = subtask.id;
+                console.log("ID da sub tarefa:", subtask);
+
+
+                this.showUpdateModalSub = true;
+                this.openTaskModal = false;
+                // Outras operações...
+            } else {
+                console.error('A tarefa selecionada não está definida ou não possui um ID válido.');
+            }
+
+
+            // this.showUpdateModalSub = true;
+            // this.openTaskModal = false;
+            // this.taskToUpdateSub = subtask
             // if (subtask && typeof subtask === 'object' && subtask.id) {
             //     this.taskToUpdate = subtask;
             //     this.showUpdateModalSub = true;
@@ -547,6 +565,8 @@ export default {
                 });
         },
         putSubtask() {
+
+
             if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
                 axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
                     title: this.taskToUpdateSub.title,
@@ -560,9 +580,26 @@ export default {
                     .catch(error => {
                         console.error('Erro ao atualizar a subtarefa:', error);
                     });
+
             } else {
-                console.error('A tarefa a ser atualizada não está definida ou não possui um ID válido.');
+                console.error('A subtarefa a ser atualizada não está definida.');
             }
+            // if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
+            //     axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
+            //         title: this.taskToUpdateSub.title,
+            //         description: this.taskToUpdateSub.description,
+            //     })
+            //         .then(response => {
+            //             console.log('Subtarefa atualizada com sucesso:', response.data);
+            //             this.showUpdateModalSub = false;
+            //             this.getTasks();
+            //         })
+            //         .catch(error => {
+            //             console.error('Erro ao atualizar a subtarefa:', error);
+            //         });
+            // } else {
+            //     console.error('A tarefa a ser atualizada não está definida ou não possui um ID válido.');
+            // }
         }
         //     alert("ID da subtarefa: " + this.taskToUpdate.id); 
         //     axios.put(`/subtasks/${this.taskToUpdate.id}`, {
