@@ -280,7 +280,7 @@ export default {
                 title: '',
                 description: ''
             }
-            // selectedTaskStatus: ''
+           
 
 
         };
@@ -369,14 +369,7 @@ export default {
         showAllTasks() {
             this.filteredTasks = this.tasks;
         },
-        // ShowIcons() {
-        //     this.IconsVisible = true;
-        // },
-        // isOverdue(due_Date) {
-        //     const today = moment();
-        //     const taskDueDate = moment(due_Date, 'YYYY/MM/DD');
-        //     return taskDueDate.isBefore(today, 'day');
-        // },
+        
 
         BackgroundColorDate(dueDate) {
             const today = moment().tz('America/Sao_Paulo');
@@ -652,15 +645,16 @@ export default {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
-    display: block;
+     display: block;
+    cursor: pointer;
 }
 
-/* Mudar a cor do link quando passar o mouse */
+
 .dropdown-content2 a:hover {
     background-color: #f1f1f1;
 }
 
-/* Exibir o dropdown quando o mouse passar sobre o botão */
+
 .dropdown2:hover .dropdown-content2 {
     display: block;
 }
@@ -704,7 +698,6 @@ export default {
     display: inline-block;
 }
 
-/* Estilize o conteúdo do dropdown (escondido por padrão) */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -714,28 +707,25 @@ export default {
     z-index: 1;
 }
 
-/* Estilize os links do dropdown */
 .dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    cursor: pointer;
 }
 
-/* Mudar a cor do link quando passar o mouse */
+
 .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
 
-/* Exibir o dropdown quando o mouse passar sobre o botão */
+
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
-/* Alterar a cor do botão quando passar o mouse */
-/* .dropdown:hover .dropbtn {
-    background-color: #939493;
-} */
+
 
 
 
@@ -1010,6 +1000,7 @@ export default {
     position: absolute;
     left: 15%;
     top: 38%;
+    margin-top: 10px;
 }
 
 .box2-modal-task {
