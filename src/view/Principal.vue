@@ -111,7 +111,7 @@
                             <a v-for="subtask in selectedTask.subtarefas" :key="subtask.id"
                                 @click="openUpdateSubtask(subtask)"> <i class='bx bx-edit-alt'></i>Editar subtarefa
                             </a>
-                            <a @click="deleteSubtask" style="color: red;"><i class='bx bx-trash'></i>Deletar
+                            <a v-for="subtask in selectedTask.subtarefas" :key="subtask.id" @click="deleteSubtask(subtask)" style="color: red;"><i class='bx bx-trash'></i>Deletar
                                 subtarefa</a>
                         </div>
                     </div>
@@ -594,7 +594,7 @@ export default {
             axios.delete(`/subtasks/${subtask.id}`)
                 .then(response => {
                     console.log('Subtarefa excluída com sucesso:', response.data);
-                   
+                    this.openTaskModal = false;
                     this.getTasks();
                 })
                 .catch(error => {
