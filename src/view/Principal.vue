@@ -62,8 +62,6 @@
                     placeholder="Nome da subtarefa">
                 <input type="text" v-model="taskToUpdateSub.description" name="tescripition" id="Description"
                     placeholder="Descrição">
-                <!-- <input type="number" v-model="taskToUpdate.task_id" name="task_id" id="task_id"
-                    placeholder="ID da Tarefa"> -->
 
                 <hr>
                 <div class="buttons">
@@ -170,8 +168,8 @@
                 <div class="buttons-date">
                     <button type="button" class="btn-close" @click="closeUpdateDate">Cancelar</button>
                     <button type="button" class="btn-save"
-                        @click="selectedTask && patchUpdateDate( taskToUpdateDate)">Salvar</button>
-                   
+                        @click="selectedTask && patchUpdateDate(taskToUpdateDate)">Salvar</button>
+
                 </div>
             </div>
         </div>
@@ -401,7 +399,7 @@ export default {
             return moment(date).format('DD/MM/YYYY');
         },
         openUpdateDate(task) {
-            
+
             if (task && task.id) {
                 this.taskToUpdate = { id: task.id, due_date: task.due_date };
                 this.showUpdateDate = true;
@@ -1285,7 +1283,7 @@ header .icons {
 }
 
 .conteudo {
-    
+
     padding-top: 10%;
     display: flex;
     flex-direction: column;
