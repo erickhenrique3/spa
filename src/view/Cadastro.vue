@@ -39,14 +39,7 @@ export default {
 
 <style scoped>
 .container {
-    /* width: 100vw;
-    height: 100vh;
-
     
-    position: relative;
-    background-color: #ffffff;
-    box-sizing: border-box; */
-
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -134,17 +127,7 @@ export default {
 
 
 form {
-    /* font-size: 20px;
-    position: relative;
-    top: 250px;
-    left: 250px;
-    right: 250px;
-    bottom: 250px;
-    width: 50%;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; */
+    
     position: absolute;
     left: 10%;
     top: 30%;
@@ -153,9 +136,7 @@ form {
 }
 
 form>input {
-    /* border: 1px solid rgba(135, 135, 135, 0.917);
-    width: 100%;
-    height: 50px; */
+   
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
@@ -169,16 +150,7 @@ form>label {
 
 form button {
 
-    /* position: absolute;
-    bottom: 0px;
-    right: 0px;
-    width: 150px;
-    height: 50px;
-    background-color: #000000;
-    color: #ffffff;
-    border: none;
-
-    cursor: pointer; */
+   
     color: #ffffff;
     background-color: #000000;
     position: absolute;

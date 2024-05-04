@@ -401,9 +401,7 @@ export default {
             return moment(date).format('DD/MM/YYYY');
         },
         openUpdateDate(task) {
-            // this.taskToUpdate = { id: task, due_date: '' };
-
-            // this.showUpdateDate = true
+            
             if (task && task.id) {
                 this.taskToUpdate = { id: task.id, due_date: task.due_date };
                 this.showUpdateDate = true;
@@ -676,25 +674,6 @@ export default {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Estilize o botão do dropdown */
 .dropbtn {
     background-color: #ffffff;
 
@@ -706,7 +685,7 @@ export default {
 
 }
 
-/* Estilize o contêiner do dropdown (esconde o dropdown por padrão) */
+
 .dropdown {
     position: absolute;
     left: 80%;
@@ -1214,16 +1193,7 @@ export default {
 
 
 
-/* .btn-close{
-    position: absolute;
-    top: 58%;
-    left: 20%;
-}
-.btn-save{
-    position: absolute;
-    top: 58%;
-    left: 10%;
-} */
+
 
 .container {
     width: 100vw;
@@ -1315,16 +1285,7 @@ header .icons {
 }
 
 .conteudo {
-    /* position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* flex-wrap: wrap; */
-    /* height: 80%;
-    width: 100%;
-    margin-top: 3rem; */
-    /* overflow-y: scroll; */
-    /* flex-direction: column; */
+    
     padding-top: 10%;
     display: flex;
     flex-direction: column;
@@ -1376,9 +1337,7 @@ li {
 }
 
 
-/* input[type="checkbox"]:checked {
-    background-color:  rgba(40, 252, 160, 0.742);
-} */
+
 .card {
     /* margin: 0 auto; */
     top: 10%;
