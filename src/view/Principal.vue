@@ -99,6 +99,7 @@
 
                     <h3>{{ selectedTask.title }} </h3>
                     <p class="description-task"> {{ selectedTask.description }}</p>
+                   
 
 
                     <h4>Subtarefas</h4>
@@ -288,6 +289,12 @@ export default {
 
     },
     methods: {
+      
+
+
+
+
+
         openUpdateSubtask(subtask) {
 
 
@@ -611,6 +618,10 @@ export default {
 </script>
 
 <style scoped>
+.radiotwo{
+   /* width: 100%; */
+   top: 37%;
+}
 .dropbtn2 {
     background-color: #ffffff;
 
@@ -622,7 +633,7 @@ export default {
 
 }
 
-/* Estilize o contêiner do dropdown (esconde o dropdown por padrão) */
+
 .dropdown2 {
     position: absolute;
     left: 80%;
@@ -630,7 +641,7 @@ export default {
     display: inline-block;
 }
 
-/* Estilize o conteúdo do dropdown (escondido por padrão) */
+
 .dropdown-content2 {
     display: none;
     position: absolute;
@@ -640,7 +651,7 @@ export default {
     z-index: 1;
 }
 
-/* Estilize os links do dropdown */
+
 .dropdown-content2 a {
     color: black;
     padding: 12px 16px;
