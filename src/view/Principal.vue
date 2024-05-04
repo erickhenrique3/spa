@@ -242,7 +242,7 @@ import 'moment-timezone';
 
 export default {
 
-    name: 'Principal',
+    // name: 'Principal',
 
 
     data() {

@@ -24,7 +24,7 @@
 
 <script>
 export default {
-    name: 'Capa',
+    // name: 'Capa',
     methods: {
     proximo() {
         console.log('ok');
