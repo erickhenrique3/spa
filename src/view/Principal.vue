@@ -99,7 +99,7 @@
 
                     <h3>{{ selectedTask.title }} </h3>
                     <p class="description-task"> {{ selectedTask.description }}</p>
-                   
+
 
 
                     <h4>Subtarefas</h4>
@@ -112,7 +112,8 @@
                             <a v-for="subtask in selectedTask.subtarefas" :key="subtask.id"
                                 @click="openUpdateSubtask(subtask)"> <i class='bx bx-edit-alt'></i>Editar subtarefa
                             </a>
-                            <a v-for="subtask in selectedTask.subtarefas" :key="subtask.id" @click="deleteSubtask(subtask)" style="color: red;"><i class='bx bx-trash'></i>Deletar
+                            <a v-for="subtask in selectedTask.subtarefas" :key="subtask.id"
+                                @click="deleteSubtask(subtask)" style="color: red;"><i class='bx bx-trash'></i>Deletar
                                 subtarefa</a>
                         </div>
                     </div>
@@ -169,8 +170,8 @@
                 <div class="buttons-date">
                     <button type="button" class="btn-close" @click="closeUpdateDate">Cancelar</button>
                     <button type="button" class="btn-save"
-                        @click="patchUpdateDate(taskToUpdateDate, taskToUpdate.id)">Salvar</button>
-                    {{ taskToUpdate.id }}
+                        @click="selectedTask && patchUpdateDate( taskToUpdateDate)">Salvar</button>
+                   
                 </div>
             </div>
         </div>
@@ -208,7 +209,7 @@
                         <div class="icons-task">
                             <div class="container-icons" v-show="task.ShowIcons">
                                 <i @click.stop="openUpdateTask(task)" class='bx bx-edit-alt'></i>
-                                <i @click.stop="openUpdateDate(task)" class='bx bx-notepad'></i>
+                                <i @click.stop="selectTask(task); openUpdateDate(task)" class='bx bx-notepad'></i>
                                 <i class='bx bx-trash' @click.stop="deleteTask(task.id)"></i>
                             </div>
                         </div>
@@ -281,7 +282,7 @@ export default {
                 title: '',
                 description: ''
             }
-           
+
 
 
         };
@@ -289,7 +290,10 @@ export default {
 
     },
     methods: {
-      
+        selectTask(task) {
+            this.selectedTask = task;
+            this.taskToUpdateDate.due_date = task.due_date;
+        },
 
 
 
@@ -376,7 +380,7 @@ export default {
         showAllTasks() {
             this.filteredTasks = this.tasks;
         },
-        
+
 
         BackgroundColorDate(dueDate) {
             const today = moment().tz('America/Sao_Paulo');
@@ -499,10 +503,10 @@ export default {
                     console.error('Erro ao atualizar a tarefa:', error);
                 });
         },
-        patchUpdateDate(tasks, taskToUpdateDate) {
-            const formattedDate = moment(taskToUpdateDate.due_date, 'DD-MM-YY').format('DD-MM-YY');
+        patchUpdateDate(taskToUpdateDate) {
 
-            axios.patch(`tasks/${tasks}/due_date/`, {
+            const formattedDate = this.formatDate(taskToUpdateDate.due_date);
+            axios.patch(`tasks/${this.selectedTask.id}/due_date/`, {
                 due_date: formattedDate
             })
                 .then(response => {
@@ -618,10 +622,11 @@ export default {
 </script>
 
 <style scoped>
-.radiotwo{
-   /* width: 100%; */
-   top: 37%;
+.radiotwo {
+    /* width: 100%; */
+    top: 37%;
 }
+
 .dropbtn2 {
     background-color: #ffffff;
 
@@ -656,7 +661,7 @@ export default {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
-     display: block;
+    display: block;
     cursor: pointer;
 }
 
