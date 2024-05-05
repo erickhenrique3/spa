@@ -2,10 +2,10 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 
 const routes = [
-    { path: "/", component: () => import('../view/Capa.vue') },
-    { path: "/login", component:() => import('../view/Login.vue') },
-    { path: "/cadastro", component: () => import('../view/Cadastro.vue')},
-    { path: "/principal", component:() => import('../view/Principal.vue') },
+    { path: "/", component: () => import('../view/CapaForm.vue') },
+    { path: "/login", component:() => import('../view/LoginForm.vue') },
+    { path: "/cadastro", component: () => import('../view/CadastroForm.vue')},
+    { path: "/principal", component:() => import('../view/PrincipalTask.vue') },
 ];
 
 
