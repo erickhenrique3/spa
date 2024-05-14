@@ -272,7 +272,7 @@ export default {
                 task_id: ''
             },
             filteredTasks: [],
-            currentDate: new Date(),
+            
             showOverdue: false,
             showUpdateModalSub: false,
             taskToUpdateSub: {
