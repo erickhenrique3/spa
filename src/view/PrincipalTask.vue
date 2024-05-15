@@ -22,7 +22,7 @@
                 <input type="text" v-model="newTask.title" name="Title" id="Title" placeholder="Nome da tarefa">
                 <input type="text" v-model="newTask.description" name="Descripition" id="Description"
                     placeholder="Descrição">
-                <input type="datetime" v-model="newTask.due_date" id="date" placeholder=" Data de vencimento">
+                <input type="text" v-model="newTask.due_date" id="date" placeholder=" Data de vencimento">
                 <hr>
                 <div class="buttons">
                     <button type="button" class="btn-save" @click="ShowModal = false">Cancelar</button>
@@ -126,16 +126,16 @@
                     </ul> -->
                     <div class="fullSubtasks" v-if="selectedTask.subtasks && selectedTask.subtasks.length">
                         <div class="allSubtasks" v-for="subtask in selectedTask.subtasks" :key="subtask.id">
-                            
-                                <div class="subtasks">
-                                    <div class="subtask-title">
-                                         {{ subtask.title }}
-                                    </div>
-                                    <div class="subtask-description">
-                                        {{ subtask.description }}
-                                    </div>
+
+                            <div class="subtasks">
+                                <div class="subtask-title">
+                                    {{ subtask.title }}
                                 </div>
-                            
+                                <div class="subtask-description">
+                                    {{ subtask.description }}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -229,7 +229,9 @@
                             </div>
                         </div>
                         <ul>
-                            <label for="comprar-pao">{{ task.title }}</label>
+                            <label for="comprar-pao">
+                                <h4>{{ task.title }}</h4>
+                            </label>
                         </ul>
                         <ul>
                             <li>{{ task.description }}</li>
@@ -468,6 +470,9 @@ export default {
                 })
         },
         postTasks() {
+            
+
+
             axios.post('tasks', this.newTask)
                 .then(response => {
                     console.log('Tarefa criada com sucesso: ', response.data);
@@ -562,6 +567,11 @@ export default {
 
                     console.log('Subtarefa salva com sucesso!');
                     console.log(response.data);
+                    this.newSubtask = {
+                            title: '',
+                            description: '',
+                            
+                        }
                     this.ShowModalSub = false;
                     this.getTasks()
 
@@ -580,6 +590,7 @@ export default {
                 })
                     .then(response => {
                         console.log('Subtarefa atualizada com sucesso:', response.data);
+                       
                         this.showUpdateModalSub = false;
                         this.getTasks();
                     })
@@ -620,19 +631,21 @@ export default {
 </script>
 
 <style scoped>
-.fullSubtasks{
+.fullSubtasks {
     position: absolute;
     top: 40%;
     width: 100%;
 }
-.subtasks{
 
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 5%;
- 
+.subtasks {
+
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5%;
+
 }
-.allSubtasks{
+
+.allSubtasks {
     position: relative;
     left: 8%;
 }
@@ -1333,10 +1346,10 @@ li {
 
 
 .card label {
-    /* margin-bottom: 10px; */
+
 
     font-size: 25px;
-    font-style: italic;
+
 
 }
 
