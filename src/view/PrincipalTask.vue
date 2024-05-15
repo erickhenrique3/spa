@@ -666,6 +666,12 @@ export default {
 </script>
 
 <style scoped>
+.error-message {
+    color: #e92626;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .fullSubtasks {
     position: absolute;
     top: 40%;
