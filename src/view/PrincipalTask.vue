@@ -116,14 +116,31 @@
                         </div>
                     </div>
                     <hr class="hr_sub">
-                    <ul v-if="selectedTask.subtasks && selectedTask.subtasks.length">
+                    <!-- <ul v-if="selectedTask.subtasks && selectedTask.subtasks.length">
                         <li v-for="subtask in selectedTask.subtasks" :key="subtask.id">
                             <p class="sub"><strong>{{ subtask.title }}</strong></p>
                             <p class="description-subtask">{{ subtask.description }}</p>
 
                         </li>
 
-                    </ul>
+                    </ul> -->
+                    <div class="fullSubtasks" v-if="selectedTask.subtasks && selectedTask.subtasks.length">
+                        <div class="allSubtasks" v-for="subtask in selectedTask.subtasks" :key="subtask.id">
+                            
+                                <div class="subtasks">
+                                    <div class="subtask-title">
+                                         {{ subtask.title }}
+                                    </div>
+                                    <div class="subtask-description">
+                                        {{ subtask.description }}
+                                    </div>
+                                </div>
+                            
+                        </div>
+                    </div>
+
+
+
 
 
 
@@ -272,7 +289,7 @@ export default {
                 task_id: ''
             },
             filteredTasks: [],
-            
+
             showOverdue: false,
             showUpdateModalSub: false,
             taskToUpdateSub: {
@@ -573,7 +590,7 @@ export default {
             } else {
                 console.error('A subtarefa a ser atualizada não está definida.');
             }
-            
+
         },
         deleteSubtask(subtask) {
             axios.delete(`/subtasks/${subtask.id}`)
@@ -603,8 +620,25 @@ export default {
 </script>
 
 <style scoped>
+.fullSubtasks{
+    position: absolute;
+    top: 40%;
+    width: 100%;
+}
+.subtasks{
+
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5%;
+ 
+}
+.allSubtasks{
+    position: relative;
+    left: 8%;
+}
+
 .radiotwo {
-   
+
     top: 37%;
 }
 
