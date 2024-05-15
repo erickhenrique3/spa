@@ -20,12 +20,20 @@
             <form class="modal-body" @submit.prevent="postTasks">
 
                 <input type="text" v-model="newTask.title" name="Title" id="Title" placeholder="Nome da tarefa">
+                <p v-if="formSubmitted && !newTask.title" class="error-message">Por favor, preencha o título da tarefa.
+                </p>
+
                 <input type="text" v-model="newTask.description" name="Descripition" id="Description"
                     placeholder="Descrição">
+                <p v-if="formSubmitted && !newTask.description" class="error-message">Por favor, preencha a descrição da
+                    tarefa.</p>
+
                 <input type="text" v-model="newTask.due_date" id="date" placeholder=" Data de vencimento">
+                <p v-if="formSubmitted && !newTask.due_date" class="error-message">Por favor, preencha a data de
+                    vencimento da tarefa.</p>
                 <hr>
                 <div class="buttons">
-                    <button type="button" class="btn-save" @click="ShowModal = false">Cancelar</button>
+                    <button type="button" class="btn-save" @click="closeModal">Cancelar</button>
                     <button type="button" class="btn-close" @click="postTasks">Criar Tarefa</button>
                 </div>
             </form>
@@ -40,7 +48,7 @@
                 <input type="text" v-model="newSubtask.title" name="title" id="title" placeholder="Nome da subtarefa">
                 <input type="text" v-model="newSubtask.description" name="tescripition" id="Description"
                     placeholder="Descrição">
-                
+
 
                 <hr>
                 <div class="buttons">
@@ -116,14 +124,7 @@
                         </div>
                     </div>
                     <hr class="hr_sub">
-                    <!-- <ul v-if="selectedTask.subtasks && selectedTask.subtasks.length">
-                        <li v-for="subtask in selectedTask.subtasks" :key="subtask.id">
-                            <p class="sub"><strong>{{ subtask.title }}</strong></p>
-                            <p class="description-subtask">{{ subtask.description }}</p>
 
-                        </li>
-
-                    </ul> -->
                     <div class="fullSubtasks" v-if="selectedTask.subtasks && selectedTask.subtasks.length">
                         <div class="allSubtasks" v-for="subtask in selectedTask.subtasks" :key="subtask.id">
 
@@ -303,7 +304,8 @@ export default {
                 id: null,
                 title: '',
                 description: ''
-            }
+            },
+            formSubmitted: false
 
 
 
@@ -449,13 +451,17 @@ export default {
         closeUpdateTask() {
             this.showUpdateTask = false
             this.taskToUpdate = null
-           
+
         },
         closeModalTaskClick() {
             this.openTaskModal = false
         },
         closeModal() {
+            this.newTask.title = '';
+            this.newTask.description = '';
+            this.newTask.due_date = '';
             this.ShowModal = false
+            this.formSubmitted = false
         },
 
 
@@ -475,25 +481,28 @@ export default {
                 })
         },
         postTasks() {
+            this.formSubmitted = true;
+            if (this.newTask.title && this.newTask.description && this.newTask.due_date) {
 
+                axios.post('tasks', this.newTask)
+                    .then(response => {
+                        console.log('Tarefa criada com sucesso: ', response.data);
+                        this.newTask = {
+                            title: '',
+                            description: '',
+                            due_date: '',
+                        };
+                        this.getTasks();
+                        this.filteredTasks = this.tasks;
+                        this.closeModal();
 
-
-            axios.post('tasks', this.newTask)
-                .then(response => {
-                    console.log('Tarefa criada com sucesso: ', response.data);
-                    this.newTask = {
-                        title: '',
-                        description: '',
-                        due_date: '',
-                    };
-                    this.getTasks();
-                    this.filteredTasks = this.tasks;
-                    this.closeModal();
-
-                })
-                .catch(error => {
-                    console.error('Erro ao criar a tarefa', error);
-                });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao criar a tarefa', error);
+                    });
+            } else {
+                console.log('Por favor, preencha todos os campos obrigatórios.');
+            }
         },
         deleteTask(tasks) {
             axios.delete(`tasks/${tasks}`)
@@ -582,9 +591,9 @@ export default {
         ////SUBTASK >>>>>>
         postSubtask() {
             if (this.selectedTask) {
-              
+
                 this.newSubtask.task_id = this.selectedTask.id;
-            
+
 
                 axios.post('/subtasks', this.newSubtask)
                     .then(response => {
@@ -605,55 +614,55 @@ export default {
                         console.error('Erro ao salvar a subtarefa:', error);
                     });
             }
-            },
-            putSubtask() {
+        },
+        putSubtask() {
 
 
-                if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
-                    axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
-                        title: this.taskToUpdateSub.title,
-                        description: this.taskToUpdateSub.description,
-                    })
-                        .then(response => {
-                            console.log('Subtarefa atualizada com sucesso:', response.data);
-
-                            this.showUpdateModalSub = false;
-                            this.getTasks();
-                        })
-                        .catch(error => {
-                            console.error('Erro ao atualizar a subtarefa:', error);
-                        });
-
-                } else {
-                    console.error('A subtarefa a ser atualizada não está definida.');
-                }
-
-            },
-            deleteSubtask(subtask) {
-                axios.delete(`/subtasks/${subtask.id}`)
+            if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
+                axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
+                    title: this.taskToUpdateSub.title,
+                    description: this.taskToUpdateSub.description,
+                })
                     .then(response => {
-                        console.log('Subtarefa excluída com sucesso:', response.data);
-                        this.openTaskModal = false;
+                        console.log('Subtarefa atualizada com sucesso:', response.data);
+
+                        this.showUpdateModalSub = false;
                         this.getTasks();
                     })
                     .catch(error => {
-                        console.error('Erro ao excluir a subtarefa:', error);
+                        console.error('Erro ao atualizar a subtarefa:', error);
                     });
+
+            } else {
+                console.error('A subtarefa a ser atualizada não está definida.');
             }
 
-
-
         },
-        mounted() {
-            axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
-            this.getTasks()
-            this.data = moment(this.data).format('DD/MM/YYYY');
-            this.tasks.forEach(task => {
-                this.$set(task, 'showIcons', false);
-            });
-        },
+        deleteSubtask(subtask) {
+            axios.delete(`/subtasks/${subtask.id}`)
+                .then(response => {
+                    console.log('Subtarefa excluída com sucesso:', response.data);
+                    this.openTaskModal = false;
+                    this.getTasks();
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir a subtarefa:', error);
+                });
+        }
 
-    }
+
+
+    },
+    mounted() {
+        axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
+        this.getTasks()
+        this.data = moment(this.data).format('DD/MM/YYYY');
+        this.tasks.forEach(task => {
+            this.$set(task, 'showIcons', false);
+        });
+    },
+
+}
 </script>
 
 <style scoped>
