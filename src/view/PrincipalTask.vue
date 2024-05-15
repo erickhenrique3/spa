@@ -40,7 +40,7 @@
                 <input type="text" v-model="newSubtask.title" name="title" id="title" placeholder="Nome da subtarefa">
                 <input type="text" v-model="newSubtask.description" name="tescripition" id="Description"
                     placeholder="Descrição">
-                <input type="number" v-model="newSubtask.task_id" name="task_id" id="task_id" placeholder="Task_id">
+                
 
                 <hr>
                 <div class="buttons">
@@ -215,8 +215,8 @@
 
 
                         <label class="custom-radio" @click="stopModal">
-                            <input @click="stopModal ,  updateTaskStatus(task) " type="radio" :id="'task-status-' + task.id" v-model="task.status"
-                                value="completed" 
+                            <input @click="stopModal, updateTaskStatus(task)" type="radio"
+                                :id="'task-status-' + task.id" v-model="task.status" value="completed"
                                 :checked="task.status === 'completed'">
                             <span class="checkmark" :class="{ 'checked': task.status === 'completed' }"></span>
                         </label>
@@ -449,7 +449,7 @@ export default {
         closeUpdateTask() {
             this.showUpdateTask = false
             this.taskToUpdate = null
-            // this.showUpdateTask = false
+           
         },
         closeModalTaskClick() {
             this.openTaskModal = false
@@ -541,15 +541,15 @@ export default {
                     console.error('Erro ao atualizar a data da tarefa:', error);
                 });
         },
-        
+
         updateTaskStatus(task) {
             const newStatus = task.status === 'completed' ? 'pending' : 'completed';
             if (task.status === 'pending') {
                 task.status = 'completed';
             } else if (task.status === 'completed') {
-                task.status = 'pending'; 
+                task.status = 'pending';
             } else {
-                task.status = 'pending'; 
+                task.status = 'pending';
             }
 
             axios.patch(`tasks/${task.id}/status`, { status: task.status })
@@ -581,72 +581,79 @@ export default {
         },
         ////SUBTASK >>>>>>
         postSubtask() {
-            axios.post('/subtasks', this.newSubtask)
-                .then(response => {
+            if (this.selectedTask) {
+              
+                this.newSubtask.task_id = this.selectedTask.id;
+            
 
-                    console.log('Subtarefa salva com sucesso!');
-                    console.log(response.data);
-                    this.newSubtask = {
-                        title: '',
-                        description: '',
-
-                    }
-                    this.ShowModalSub = false;
-                    this.getTasks()
-
-                })
-                .catch(error => {
-                    console.error('Erro ao salvar a subtarefa:', error);
-                });
-        },
-        putSubtask() {
-
-
-            if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
-                axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
-                    title: this.taskToUpdateSub.title,
-                    description: this.taskToUpdateSub.description,
-                })
+                axios.post('/subtasks', this.newSubtask)
                     .then(response => {
-                        console.log('Subtarefa atualizada com sucesso:', response.data);
 
-                        this.showUpdateModalSub = false;
+                        console.log('Subtarefa salva com sucesso!');
+                        console.log(response.data);
+                        this.newSubtask = {
+                            title: '',
+                            description: '',
+                            task_id: '',
+
+                        }
+                        this.ShowModalSub = false;
+                        this.getTasks()
+
+                    })
+                    .catch(error => {
+                        console.error('Erro ao salvar a subtarefa:', error);
+                    });
+            }
+            },
+            putSubtask() {
+
+
+                if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
+                    axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
+                        title: this.taskToUpdateSub.title,
+                        description: this.taskToUpdateSub.description,
+                    })
+                        .then(response => {
+                            console.log('Subtarefa atualizada com sucesso:', response.data);
+
+                            this.showUpdateModalSub = false;
+                            this.getTasks();
+                        })
+                        .catch(error => {
+                            console.error('Erro ao atualizar a subtarefa:', error);
+                        });
+
+                } else {
+                    console.error('A subtarefa a ser atualizada não está definida.');
+                }
+
+            },
+            deleteSubtask(subtask) {
+                axios.delete(`/subtasks/${subtask.id}`)
+                    .then(response => {
+                        console.log('Subtarefa excluída com sucesso:', response.data);
+                        this.openTaskModal = false;
                         this.getTasks();
                     })
                     .catch(error => {
-                        console.error('Erro ao atualizar a subtarefa:', error);
+                        console.error('Erro ao excluir a subtarefa:', error);
                     });
-
-            } else {
-                console.error('A subtarefa a ser atualizada não está definida.');
             }
 
+
+
         },
-        deleteSubtask(subtask) {
-            axios.delete(`/subtasks/${subtask.id}`)
-                .then(response => {
-                    console.log('Subtarefa excluída com sucesso:', response.data);
-                    this.openTaskModal = false;
-                    this.getTasks();
-                })
-                .catch(error => {
-                    console.error('Erro ao excluir a subtarefa:', error);
-                });
-        }
+        mounted() {
+            axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
+            this.getTasks()
+            this.data = moment(this.data).format('DD/MM/YYYY');
+            this.tasks.forEach(task => {
+                this.$set(task, 'showIcons', false);
+            });
+        },
 
-
-
-    },
-    mounted() {
-        axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
-        this.getTasks()
-        this.data = moment(this.data).format('DD/MM/YYYY');
-        this.tasks.forEach(task => {
-            this.$set(task, 'showIcons', false);
-        });
-    },
-
-}
+    }
 </script>
 
 <style scoped>
