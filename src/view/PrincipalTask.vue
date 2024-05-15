@@ -215,10 +215,14 @@
 
 
                         <label class="custom-radio" @click="stopModal">
-                            <input @click="stopModal" type="radio" :id="'task-status-' + task.id" v-model="task.status"
-                                value="completed" @change="updateTaskStatus(task)">
-                            <span class="checkmark"></span>
+                            <input @click="stopModal ,  updateTaskStatus(task) " type="radio" :id="'task-status-' + task.id" v-model="task.status"
+                                value="completed" 
+                                :checked="task.status === 'completed'">
+                            <span class="checkmark" :class="{ 'checked': task.status === 'completed' }"></span>
                         </label>
+
+
+
 
 
                         <div class="icons-task">
@@ -266,6 +270,7 @@ export default {
 
     data() {
         return {
+            newStatus: '',
             ShowModal: false,
             ShowModalSub: false,
             showTooltip: false,
@@ -470,7 +475,7 @@ export default {
                 })
         },
         postTasks() {
-            
+
 
 
             axios.post('tasks', this.newTask)
@@ -536,12 +541,26 @@ export default {
                     console.error('Erro ao atualizar a data da tarefa:', error);
                 });
         },
+        
         updateTaskStatus(task) {
+            const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+            if (task.status === 'pending') {
+                task.status = 'completed';
+            } else if (task.status === 'completed') {
+                task.status = 'pending'; 
+            } else {
+                task.status = 'pending'; 
+            }
+
             axios.patch(`tasks/${task.id}/status`, { status: task.status })
 
                 .then(response => {
                     console.log('Status da tarefa atualizado com sucesso:', response.data);
-                    task.status = task.status === 'completed' ? 'pending' : 'completed';
+
+                    task.status = newStatus;
+
+
+
 
                     this.sortTasks();
                     this.getTasks();
@@ -568,10 +587,10 @@ export default {
                     console.log('Subtarefa salva com sucesso!');
                     console.log(response.data);
                     this.newSubtask = {
-                            title: '',
-                            description: '',
-                            
-                        }
+                        title: '',
+                        description: '',
+
+                    }
                     this.ShowModalSub = false;
                     this.getTasks()
 
@@ -590,7 +609,7 @@ export default {
                 })
                     .then(response => {
                         console.log('Subtarefa atualizada com sucesso:', response.data);
-                       
+
                         this.showUpdateModalSub = false;
                         this.getTasks();
                     })
@@ -795,6 +814,25 @@ export default {
     background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 10 10'%3E%3Cg class='nc-icon-wrapper' stroke-width='1' fill='%23555555'%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' data-cap='butt' d='M2.83 4.72l1.58 1.58 2.83-2.83'/%3E%3C/g%3E%3C/svg%3E");
     background-position: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
