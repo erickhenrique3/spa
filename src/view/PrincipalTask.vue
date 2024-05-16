@@ -215,6 +215,7 @@
                         @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
 
 
+
                         <label class="custom-radio" @click="stopModal">
                             <input @click="stopModal, updateTaskStatus(task)" type="radio"
                                 :id="'task-status-' + task.id" v-model="task.status" value="completed"
@@ -245,11 +246,27 @@
                             <i class='bx bx-notepad'></i>{{ formatDate(task.due_date)
                             }}</span>
                         <hr>
+                        <div v-if="task.subtasks.length > 0">
+                            <!-- <div class="cardsSub">
+                                <li  v-for="subtask in task.subtasks" :key="subtask.id">
+                                    <h5>{{ subtask.title }}</h5></li>
+                            </div> -->
+                            <div v-for="subtask in task.subtasks" :key="subtask.id" class="cardsSub">
+                                <label class="subtask-label">
+                                    <input type="radio" name="subtask" :value="subtask.id">
+                                    <span class="subtask-title">{{ subtask.title }}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <hr v-if="task.subtasks.length > 0">
                         <button @click.stop="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar
                             tarefa
                         </button>
+
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -666,6 +683,20 @@ export default {
 </script>
 
 <style scoped>
+.subtask-label{
+    display: flex;
+    align-items: self-start;
+   padding: 5px;
+}
+.subtask-title{
+    margin-left: 5px;
+}
+.cardsSub>li {
+    margin-left: 5%;
+    margin-top: 1%;
+}
+
+
 .error-message {
     color: #e92626;
     cursor: pointer;
@@ -1400,6 +1431,7 @@ ul {
 }
 
 li {
+    list-style: none;
     margin-bottom: 10px;
 }
 
@@ -1411,6 +1443,9 @@ li {
     font-size: 25px;
 
 
+}
+.cardsSub > label {
+    font-size: 15px;
 }
 
 .card input {
