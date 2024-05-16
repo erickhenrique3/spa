@@ -252,9 +252,9 @@
                                     <h5>{{ subtask.title }}</h5></li>
                             </div> -->
                             <div v-for="subtask in task.subtasks" :key="subtask.id" class="cardsSub">
-                                <label class="subtask-label">
+                                <label class="subtask-label" @click.stop="updateSubtaskStatus(subtask.id)">
                                     <input type="radio" name="subtask" :value="subtask.id">
-                                    <span class="subtask-title">{{ subtask.title }}</span>
+                                    <span class="subtasksub-title ">{{ subtask.title }}</span>
                                 </label>
                             </div>
                         </div>
@@ -655,6 +655,17 @@ export default {
             }
 
         },
+        updateSubtaskStatus(subtaskId) {
+            axios.patch(`/subtasks/${subtaskId}`, { status: 'completed' })
+                .then(response => {
+                    console.log('Status da subtarefa atualizado:', response.data);
+                    // Faça qualquer ação adicional aqui, se necessário
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar o status da subtarefa:', error);
+                });
+        },
+
         deleteSubtask(subtask) {
             axios.delete(`/subtasks/${subtask.id}`)
                 .then(response => {
@@ -683,14 +694,16 @@ export default {
 </script>
 
 <style scoped>
-.subtask-label{
+.subtask-label {
     display: flex;
     align-items: self-start;
-   padding: 5px;
+    padding: 5px;
 }
-.subtask-title{
+
+.subtasksub-title {
     margin-left: 5px;
 }
+
 .cardsSub>li {
     margin-left: 5%;
     margin-top: 1%;
@@ -1444,7 +1457,8 @@ li {
 
 
 }
-.cardsSub > label {
+
+.cardsSub>label {
     font-size: 15px;
 }
 
