@@ -252,7 +252,7 @@
                                     <h5>{{ subtask.title }}</h5></li>
                             </div> -->
                             <div v-for="subtask in task.subtasks" :key="subtask.id" class="cardsSub">
-                                <label class="subtask-label" @click.stop="updateSubtaskStatus(subtask.id)">
+                                <label class="subtask-label" @click.stop="updateSubtaskStatus(subtask.id, subtask.status)">
                                     <input type="radio" name="subtask" :value="subtask.id">
                                     <span class="subtasksub-title ">{{ subtask.title }}</span>
                                 </label>
@@ -655,11 +655,18 @@ export default {
             }
 
         },
-        updateSubtaskStatus(subtaskId) {
-            axios.patch(`/subtasks/${subtaskId}`, { status: 'completed' })
+        updateSubtaskStatus(subtaskId, currentStatus) {
+            const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+           
+            
+            axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
                 .then(response => {
                     console.log('Status da subtarefa atualizado:', response.data);
-                    // Faça qualquer ação adicional aqui, se necessário
+
+
+                    this.getTasks();
+                   
+                    
                 })
                 .catch(error => {
                     console.error('Erro ao atualizar o status da subtarefa:', error);
