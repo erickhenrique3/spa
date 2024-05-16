@@ -247,15 +247,22 @@
                             }}</span>
                         <hr>
                         <div v-if="task.subtasks.length > 0">
-                            <!-- <div class="cardsSub">
-                                <li  v-for="subtask in task.subtasks" :key="subtask.id">
-                                    <h5>{{ subtask.title }}</h5></li>
-                            </div> -->
+
                             <div v-for="subtask in task.subtasks" :key="subtask.id" class="cardsSub">
-                                <label class="subtask-label"
-                                    @click.stop="updateSubtaskStatus(subtask.id, subtask.status)">
-                                    <input type="radio" name="subtask" :value="subtask.id">
-                                    <span  class="subtasksub-title checkmarkTwo" :class="{ 'completed': subtask.status === 'completed' }"><h5>{{ subtask.title }}</h5></span>
+
+
+
+
+
+                                <label class="subtask-label" @click.stop="stopModal">
+                                    <input type="checkbox" name="subtask" :value="subtask.id"
+                                        :checked="subtask.status === 'completed'">
+                                    <span
+                                        @click.stop="updateSubtaskStatus(subtask.id, subtask.status, subtask.status === 'completed' ? 'pending' : 'completed')"
+                                        class="subtasksub-title checkmarkTwo"
+                                        :class="{ 'completed': subtask.status === 'completed' }">
+                                        <h5>{{ subtask.title }}</h5>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -586,9 +593,6 @@ export default {
 
                     task.status = newStatus;
 
-
-
-
                     this.sortTasks();
                     this.getTasks();
 
@@ -656,8 +660,8 @@ export default {
             }
 
         },
-        updateSubtaskStatus(subtaskId, currentStatus) {
-            const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+        updateSubtaskStatus(subtaskId, _currentStatus, newStatus) {
+
 
 
             axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
@@ -706,10 +710,12 @@ export default {
     display: flex;
     align-items: self-start;
     padding: 5px;
+
 }
 
 .subtasksub-title {
     margin-left: 5px;
+
 }
 
 .cardsSub>li {
@@ -905,28 +911,30 @@ export default {
     display: flex;
     align-items: self-start;
     padding: 5px;
-   
+
 }
-.subtasksub-title > h5{
+
+.subtasksub-title>h5 {
     position: absolute;
     left: 100%;
     padding: 5px;
+    width: 400px;
 }
 
 .subtasksub-title {
     margin-left: 5px;
 }
 
-.subtask-label input[type="radio"] {
-    display: none; 
+.subtask-label input[type="checkbox"] {
+    display: none;
     position: absolute;
     left: 10%;
-   
+
 }
 
 .subtask-label .checkmarkTwo {
     position: relative;
-   
+
     height: 25px;
     width: 25px;
     background-color: #ffffff;
@@ -939,11 +947,16 @@ export default {
     background-color: #ffffff;
 }
 
-.subtask-label input[type="radio"]:checked + .checkmarkTwo {
+.subtask-label input[type="checkbox"]:checked+.checkmarkTwo {
     background-color: #000000;
     background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 10 10'%3E%3Cg class='nc-icon-wrapper' stroke-width='1' fill='%23555555'%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' data-cap='butt' d='M2.83 4.72l1.58 1.58 2.83-2.83'/%3E%3C/g%3E%3C/svg%3E");
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.subtask-label input[type="checkbox"]:checked.pending+.checkmarkTwo {
+    background-color: #ffffff;
+    background-image: none;
 }
 
 
