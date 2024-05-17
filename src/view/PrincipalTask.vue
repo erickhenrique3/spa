@@ -52,7 +52,7 @@
 
                 <hr>
                 <div class="buttons">
-                    <button type="button" class="btn-save" @click="ShowModalSub = false">Cancelar</button>
+                    <button type="button" class="btn-save" @click="closeModalsub()">Cancelar</button>
                     <button type="button" class="btn-close" @click="postSubtask">Salvar</button>
                 </div>
             </form>
@@ -73,7 +73,7 @@
 
                 <hr>
                 <div class="buttons">
-                    <button type="button" class="btn-save" @click="showUpdateModalSub = false">Cancelar</button>
+                    <button type="button" class="btn-save" @click="closeUpdateModalSub()">Cancelar</button>
                     <button type="button" class="btn-close" @click="putSubtask(taskToUpdateSub.id)">Salvar</button>
                 </div>
             </form>
@@ -359,6 +359,19 @@ export default {
 
     },
     methods: {
+        closeModalsub(){
+            this.newSubtask.title = '',
+            this.newSubtask.description = '',
+            this.ShowModalSub = false
+        },
+
+       closeUpdateModalSub(){
+      
+        this.taskToUpdateSub.title = ''; 
+        this.taskToUpdateSub.description = '';
+        this.showUpdateModalSub = false;
+       },
+
         showSubtaskIcons(subtaskId) {
             const subtask = this.selectedTask.subtasks.find(subtask => subtask.id === subtaskId);
             if (subtask) {
