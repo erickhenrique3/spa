@@ -104,10 +104,11 @@
                 <div class="box1-modal-task">
 
                     <label class="custom-radio">
-                        <input type="radio" :id="'task-status-' + selectedTask.id" v-model="selectedTask.status"
-                            value="completed" :checked="selectedTask.status === 'completed'">
+                        <input @click="updateTaskStatus(selectedTask)" type="radio"
+                            :id="'task-status-' + selectedTask.id" v-model="selectedTask.status" value="completed">
                         <span class="checkmark" :class="{ 'checked': selectedTask.status === 'completed' }"></span>
                     </label>
+
                     <h3>{{ selectedTask.title }} </h3>
                     <p class="description-task"> {{ selectedTask.description }}</p>
 
@@ -127,10 +128,18 @@
 
                     <div class="fullSubtasks" v-if="selectedTask.subtasks && selectedTask.subtasks.length">
                         <div class="allSubtasks" v-for="subtask in selectedTask.subtasks" :key="subtask.id">
-                            <label class="custom-radio">
-                                <input type="radio" :id="'subtask-status-' + subtask.id" v-model="subtask.status"
-                                    value="completed" :checked="subtask.status === 'completed'">
-                                <span class="checkmark" :class="{ 'checked': subtask.status === 'completed' }"></span>
+                            <label class="custom-checkbox">
+
+
+                                <input
+                                    @click="updateSubtaskStatus(subtask.id, subtask.status, subtask.status === 'completed' ? 'pending' : 'completed')"
+                                    type="checkbox" :id="'subtask-status-' + subtask.id" 
+                                    value="completed" :checked="subtask.status === 'completed'"
+                                   >
+
+
+                                <span class="checkmark checked"
+                                    :class="{ 'checked': subtask.status === 'completed' }"></span>
                             </label>
 
                             <div class="subtasks" @mouseenter="showSubtaskIcons(subtask.id)"
@@ -608,15 +617,9 @@ export default {
 
         updateTaskStatus(task) {
             const newStatus = task.status === 'completed' ? 'pending' : 'completed';
-            if (task.status === 'pending') {
-                task.status = 'completed';
-            } else if (task.status === 'completed') {
-                task.status = 'pending';
-            } else {
-                task.status = 'pending';
-            }
 
-            axios.patch(`tasks/${task.id}/status`, { status: task.status })
+
+            axios.patch(`tasks/${task.id}/status`, { status: newStatus })
 
                 .then(response => {
                     console.log('Status da tarefa atualizado com sucesso:', response.data);
@@ -736,10 +739,11 @@ export default {
 </script>
 
 <style scoped>
-.subtask-title{
+.subtask-title {
     position: relative;
     top: -5px;
 }
+
 .content-subtask {
     position: absolute;
     left: 40px;
@@ -767,7 +771,8 @@ export default {
 
 .subtasksub-title {
     margin-left: 5px;
-    
+
+
 
 }
 
@@ -954,6 +959,48 @@ export default {
 
 
 
+.custom-checkbox {
+    display: inline-block;
+    position: relative;
+    padding-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+
+    background-color: #ffffff;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.custom-checkbox:hover .checkmark {
+    background-color: #ffffff;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #050505;
+}
+
+.checkmark.checked {
+    background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 10 10'%3E%3Cg class='nc-icon-wrapper' stroke-width='1' fill='%23555555'%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' data-cap='butt' d='M2.83 4.72l1.58 1.58 2.83-2.83'/%3E%3C/g%3E%3C/svg%3E");
+    background-position: center;
+}
+
+
+
 
 
 
@@ -976,6 +1023,7 @@ export default {
     left: 100%;
     padding: 5px;
     width: 400px;
+    margin-left: 30%;
 }
 
 .subtasksub-title {
@@ -1015,6 +1063,14 @@ export default {
     background-color: #ffffff;
     background-image: none;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -1243,7 +1299,7 @@ export default {
 .box1-modal-task>.description-task {
     position: absolute;
     left: 10%;
-    top: 10%;
+    top: 13%;
 }
 
 .box1-modal-task span {
@@ -1692,4 +1748,7 @@ li {
     top: 45%;
     left: 15%;
 }
+
+
+
 </style>
