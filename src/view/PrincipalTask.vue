@@ -115,12 +115,7 @@
                         </button>
                         <div class="dropdown-content2">
                             <a @click="ModalSub"> <i class='bx bx-plus'></i>Criar subtarefa </a>
-                            <a v-for="subtask in selectedTask.subtasks" :key="subtask.id"
-                                @click="openUpdateSubtask(subtask)"> <i class='bx bx-edit-alt'></i>Editar subtarefa
-                            </a>
-                            <a v-for="subtask in selectedTask.subtasks" :key="subtask.id"
-                                @click="deleteSubtask(subtask)" style="color: red;"><i class='bx bx-trash'></i>Deletar
-                                subtarefa</a>
+                            
                         </div>
                     </div>
                     <hr class="hr_sub">
@@ -134,6 +129,11 @@
                                 </div>
                                 <div class="subtask-description">
                                     {{ subtask.description }}
+                                </div>
+                                <div class="subtask-icons">
+                                    <i @click.stop="openUpdateSubtask(subtask)" class='bx bx-edit-alt'></i>
+                                    <i @click.stop="deleteSubtask(subtask)" class='bx bx-trash'
+                                        style="color: red;"></i>
                                 </div>
                             </div>
 
@@ -706,6 +706,16 @@ export default {
 </script>
 
 <style scoped>
+.subtask-icons{
+    position: relative ;
+    left: 85%;
+    top: -25px;
+}
+.subtask-icons > i{
+    font-size: 20px;
+    padding: 5px;
+    cursor: pointer;
+}
 .subtask-label {
     display: flex;
     align-items: self-start;
@@ -747,6 +757,7 @@ export default {
 .allSubtasks {
     position: relative;
     left: 8%;
+    width: 80%;
 }
 
 .radiotwo {
