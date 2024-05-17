@@ -103,6 +103,11 @@
                 <hr>
                 <div class="box1-modal-task">
 
+                    <label class="custom-radio">
+                        <input type="radio" :id="'task-status-' + selectedTask.id" v-model="selectedTask.status"
+                            value="completed" :checked="selectedTask.status === 'completed'">
+                        <span class="checkmark" :class="{ 'checked': selectedTask.status === 'completed' }"></span>
+                    </label>
                     <h3>{{ selectedTask.title }} </h3>
                     <p class="description-task"> {{ selectedTask.description }}</p>
 
@@ -122,13 +127,21 @@
 
                     <div class="fullSubtasks" v-if="selectedTask.subtasks && selectedTask.subtasks.length">
                         <div class="allSubtasks" v-for="subtask in selectedTask.subtasks" :key="subtask.id">
+                            <label class="custom-radio">
+                                <input type="radio" :id="'subtask-status-' + subtask.id" v-model="subtask.status"
+                                    value="completed" :checked="subtask.status === 'completed'">
+                                <span class="checkmark" :class="{ 'checked': subtask.status === 'completed' }"></span>
+                            </label>
 
-                            <div class="subtasks" @mouseenter="showSubtaskIcons(subtask.id)" @mouseleave="hideSubtaskIcons(subtask.id)">
-                                <div class="subtask-title">
-                                    {{ subtask.title }}
-                                </div>
-                                <div class="subtask-description">
-                                    {{ subtask.description }}
+                            <div class="subtasks" @mouseenter="showSubtaskIcons(subtask.id)"
+                                @mouseleave="hideSubtaskIcons(subtask.id)">
+                                <div class="content-subtask">
+                                    <div class="subtask-title">
+                                        <strong>{{ subtask.title }}</strong>
+                                    </div>
+                                    <div class="subtask-description">
+                                        {{ subtask.description }}
+                                    </div>
                                 </div>
                                 <div class="subtask-icons" v-show="subtask.showIcons">
                                     <i @click.stop="openUpdateSubtask(subtask)" class='bx bx-edit-alt'></i>
@@ -723,6 +736,15 @@ export default {
 </script>
 
 <style scoped>
+.subtask-title{
+    position: relative;
+    top: -5px;
+}
+.content-subtask {
+    position: absolute;
+    left: 40px;
+    width: 100%;
+}
 
 .subtask-icons {
     position: absolute;
@@ -745,8 +767,11 @@ export default {
 
 .subtasksub-title {
     margin-left: 5px;
+    
 
 }
+
+
 
 .cardsSub>li {
     margin-left: 5%;
@@ -770,7 +795,7 @@ export default {
 
     display: flex;
     flex-direction: column;
-    margin-bottom: 5%;
+    margin-bottom: 10%;
 
 }
 
@@ -778,6 +803,7 @@ export default {
     position: relative;
     left: 8%;
     width: 80%;
+
 }
 
 .radiotwo {
