@@ -115,7 +115,7 @@
                         </button>
                         <div class="dropdown-content2">
                             <a @click="ModalSub"> <i class='bx bx-plus'></i>Criar subtarefa </a>
-                            
+
                         </div>
                     </div>
                     <hr class="hr_sub">
@@ -123,17 +123,16 @@
                     <div class="fullSubtasks" v-if="selectedTask.subtasks && selectedTask.subtasks.length">
                         <div class="allSubtasks" v-for="subtask in selectedTask.subtasks" :key="subtask.id">
 
-                            <div class="subtasks">
+                            <div class="subtasks" @mouseenter="showSubtaskIcons(subtask.id)" @mouseleave="hideSubtaskIcons(subtask.id)">
                                 <div class="subtask-title">
                                     {{ subtask.title }}
                                 </div>
                                 <div class="subtask-description">
                                     {{ subtask.description }}
                                 </div>
-                                <div class="subtask-icons">
+                                <div class="subtask-icons" v-show="subtask.showIcons">
                                     <i @click.stop="openUpdateSubtask(subtask)" class='bx bx-edit-alt'></i>
-                                    <i @click.stop="deleteSubtask(subtask)" class='bx bx-trash'
-                                        style="color: red;"></i>
+                                    <i @click.stop="deleteSubtask(subtask)" class='bx bx-trash' style="color: red;"></i>
                                 </div>
                             </div>
 
@@ -339,6 +338,24 @@ export default {
 
     },
     methods: {
+        showSubtaskIcons(subtaskId) {
+            const subtask = this.selectedTask.subtasks.find(subtask => subtask.id === subtaskId);
+            if (subtask) {
+                subtask.showIcons = true;
+            }
+        },
+        hideSubtaskIcons(subtaskId) {
+            const subtask = this.selectedTask.subtasks.find(subtask => subtask.id === subtaskId);
+            if (subtask) {
+                subtask.showIcons = false;
+            }
+        },
+
+
+
+
+
+
         selectTask(task) {
             this.selectedTask = task;
             this.taskToUpdateDate.due_date = task.due_date;
@@ -706,16 +723,19 @@ export default {
 </script>
 
 <style scoped>
-.subtask-icons{
-    position: relative ;
+
+.subtask-icons {
+    position: absolute;
     left: 85%;
-    top: -25px;
+    top: 5px;
 }
-.subtask-icons > i{
+
+.subtask-icons>i {
     font-size: 20px;
     padding: 5px;
     cursor: pointer;
 }
+
 .subtask-label {
     display: flex;
     align-items: self-start;
