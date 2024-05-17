@@ -133,9 +133,8 @@
 
                                 <input
                                     @click="updateSubtaskStatus(subtask.id, subtask.status, subtask.status === 'completed' ? 'pending' : 'completed')"
-                                    type="checkbox" :id="'subtask-status-' + subtask.id" 
-                                    value="completed" :checked="subtask.status === 'completed'"
-                                   >
+                                    type="checkbox" :id="'subtask-status-' + subtask.id" value="completed"
+                                    :checked="subtask.status === 'completed'">
 
 
                                 <span class="checkmark checked"
@@ -990,7 +989,7 @@ export default {
     background-color: #ffffff;
 }
 
-.custom-checkbox input:checked ~ .checkmark {
+.custom-checkbox input:checked~.checkmark {
     background-color: #050505;
 }
 
@@ -1748,7 +1747,4 @@ li {
     top: 45%;
     left: 15%;
 }
-
-
-
 </style>
