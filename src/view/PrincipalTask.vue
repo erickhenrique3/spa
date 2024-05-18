@@ -28,7 +28,7 @@
                 <p v-if="formSubmitted && !newTask.description" class="error-message">Por favor, preencha a descrição da
                     tarefa.</p>
 
-                <input type="text" v-model="newTask.due_date" id="date" placeholder=" Data de vencimento">
+                <input type="date" v-model="newTask.due_date" id="date" placeholder=" Data de vencimento">
                 <p v-if="formSubmitted && !newTask.due_date" class="error-message">Por favor, preencha a data de
                     vencimento da tarefa.</p>
                 <hr>
@@ -230,7 +230,8 @@
             <div class="modal-body-date-task">
                 <h1>Alterar data</h1>
                 <input type="date" v-model="taskToUpdateDate.due_date">
-                <p v-if="formDateSubmitted && !taskToUpdateDate.due_date" class="error-message">Por favor, preencha a data de vencimento.</p>
+                <p v-if="formDateSubmitted && !taskToUpdateDate.due_date" class="error-message">Por favor, preencha a
+                    data de vencimento.</p>
                 <div class="buttons-date">
                     <button type="button" class="btn-close" @click="closeUpdateDate">Cancelar</button>
                     <button type="button" class="btn-save"
@@ -591,8 +592,11 @@ export default {
         postTasks() {
             this.formSubmitted = true;
             if (this.newTask.title && this.newTask.description && this.newTask.due_date) {
+                
+                const formattedDate = moment(this.newTask.due_date).format('DD/MM/YYYY');
+                const taskToSend = { ...this.newTask, due_date: formattedDate };
 
-                axios.post('tasks', this.newTask)
+                axios.post('tasks', taskToSend)
                     .then(response => {
                         console.log('Tarefa criada com sucesso: ', response.data);
                         this.newTask = {
@@ -652,10 +656,10 @@ export default {
                 });
         },
         patchUpdateDate(taskToUpdateDate) {
-            this.formDateSubmitted = true; 
+            this.formDateSubmitted = true;
 
             if (!this.taskToUpdateDate.due_date) {
-                
+
                 return;
             }
 
@@ -666,7 +670,7 @@ export default {
                 .then(response => {
                     console.log('Data da tarefa atualizada com sucesso:', response.data);
                     this.getTasks();
-                    
+
                     this.closeUpdateDate();
                 })
                 .catch(error => {
