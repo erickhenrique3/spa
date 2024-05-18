@@ -220,7 +220,10 @@
         </div>
 
 
-        <div class="modal-update-task" v-if="showUpdateTask">
+
+        <ModalUpdateTask :showUpdateTask="showUpdateTask" :taskToUpdate="taskToUpdate" @close="closeUpdateTask"
+            @task-updated="taskUpdated" />
+        <!-- <div class="modal-update-task" v-if="showUpdateTask">
             <div class="modal-body-update-task">
                 <h1>Editar tarefa</h1>
                 <hr>
@@ -247,7 +250,7 @@
                     <button type="button" class="btn-save" @click.stop="putTask(taskToUpdate.id)">Salvar</button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
         <div class="modal-date-task" v-if="showUpdateDate">
@@ -364,6 +367,7 @@ import 'moment-timezone';
 import ModalCreateTask from '../components/ModalCreateTask'
 import ModalCreateSubtask from '../components/ModalCreateSubtask'
 import ModalUpdateSubtask from '../components/ModalUpdateSubtask'
+import ModalUpdateTask from '../components/ModalUpdateTask'
 
 export default {
 
@@ -371,6 +375,7 @@ export default {
         ModalCreateTask,
         ModalCreateSubtask,
         ModalUpdateSubtask,
+        ModalUpdateTask
     },
 
 
@@ -562,10 +567,11 @@ export default {
             this.formDateSubmitted = false;
 
         },
-        openUpdateTask(task) {
-            this.taskToUpdate = task
-            this.showUpdateTask = true;
-        },
+        // openUpdateTask(task) {
+        //     this.taskToUpdate = task;
+
+        //     this.showUpdateTask = true;
+        // },
 
         openTaskModalClick(task) {
             this.selectedTask = task

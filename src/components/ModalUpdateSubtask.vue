@@ -84,3 +84,95 @@ export default {
     }
 };
 </script>
+<style scoped>
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* display:none; */
+
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ffffff;
+    height: 250px;
+    width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    position: relative;
+
+}
+
+.modal-body input {
+    border: none;
+    font-size: 20px;
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #ffffff;
+
+}
+
+.modal-body input:focus {
+    outline: none;
+}
+
+.modal button {
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-right: 50px;
+    background-color: rgba(237, 237, 237, 0.901);
+    /* border: 1px solid rgba(210, 210, 210, 0.929); */
+
+
+
+}
+
+.modal button:hover {
+    background-color: #000;
+    color: #ffffff;
+}
+
+.buttons {
+    font-size: 20px;
+    display: flex;
+    gap: .8rem;
+    align-items: flex-end;
+    justify-content: flex-end;
+    border-top: 2px solid rgba(237, 237, 237, 0.901);
+    width: 100%;
+    position: relative
+}
+
+.btn-save {
+    position: relative;
+    right: 5%;
+}
+
+.error-message {
+    color: #e92626;
+    cursor: pointer;
+    text-decoration: underline;
+}
+</style>
