@@ -46,8 +46,15 @@
             <form class="modal-body">
 
                 <input type="text" v-model="newSubtask.title" name="title" id="title" placeholder="Nome da subtarefa">
+                <p v-if="formSubtaskSubmitted && !newSubtask.title" class="error-message">Por favor, preencha o título
+                    da subtarefa.</p>
+
                 <input type="text" v-model="newSubtask.description" name="tescripition" id="Description"
                     placeholder="Descrição">
+                <p v-if="formSubtaskSubmitted && !newSubtask.description" class="error-message">Por favor, preencha a
+                    descrição da subtarefa.</p>
+
+
 
 
                 <hr>
@@ -68,8 +75,14 @@
 
                 <input type="text" v-model="taskToUpdateSub.title" name="title" id="title"
                     placeholder="Nome da subtarefa">
+                <p v-if="formSubtaskSubmitted && !taskToUpdateSub.title" class="error-message">Por favor, preencha o
+                    título
+                    da subtarefa.</p>
                 <input type="text" v-model="taskToUpdateSub.description" name="tescripition" id="Description"
                     placeholder="Descrição">
+                <p v-if="formSubtaskSubmitted && !taskToUpdateSub.description" class="error-message">Por favor, preencha
+                    a
+                    descrição da subtarefa.</p>
 
                 <hr>
                 <div class="buttons">
@@ -188,8 +201,22 @@
                 <h1>Editar tarefa</h1>
                 <hr>
                 <input type="text" placeholder="Digite um novo titulo!" v-model="taskToUpdate.title">
+                <p v-if="formTaskSubmitted && !taskToUpdate.title" class="error-message">Por favor, preencha o
+                    título
+                    da subtarefa.</p>
+
                 <input type="text" placeholder="Digite uma nova descrição!" v-model="taskToUpdate.description">
+                <p v-if="formTaskSubmitted && !taskToUpdate.description" class="error-message">Por favor, preencha
+                    a
+                    descrição da subtarefa.</p>
+
+
                 <input type="date" placeholder="Digite uma nova data!" v-model="taskToUpdate.due_date">
+                <p v-if="formTaskSubmitted && !taskToUpdate.due_date" class="error-message">Por favor, preencha
+                    a
+                    data da subtarefa.</p>
+
+
 
                 <div class="buttons-update">
                     <button type="button" class="btn-close" @click.stop="closeUpdateTask">Cancelar</button>
@@ -350,7 +377,9 @@ export default {
                 title: '',
                 description: ''
             },
-            formSubmitted: false
+            formSubmitted: false,
+            formSubtaskSubmitted: false,
+            formTaskSubmitted: false,
 
 
 
@@ -359,18 +388,18 @@ export default {
 
     },
     methods: {
-        closeModalsub(){
+        closeModalsub() {
             this.newSubtask.title = '',
-            this.newSubtask.description = '',
-            this.ShowModalSub = false
+                this.newSubtask.description = '',
+                this.ShowModalSub = false
         },
 
-       closeUpdateModalSub(){
-      
-        this.taskToUpdateSub.title = ''; 
-        this.taskToUpdateSub.description = '';
-        this.showUpdateModalSub = false;
-       },
+        closeUpdateModalSub() {
+
+            this.taskToUpdateSub.title = '';
+            this.taskToUpdateSub.description = '';
+            this.showUpdateModalSub = false;
+        },
 
         showSubtaskIcons(subtaskId) {
             const subtask = this.selectedTask.subtasks.find(subtask => subtask.id === subtaskId);
@@ -527,7 +556,7 @@ export default {
         closeUpdateTask() {
             this.showUpdateTask = false
             this.taskToUpdate = null
-
+            this.getTasks();
         },
         closeModalTaskClick() {
             this.openTaskModal = false
@@ -595,6 +624,14 @@ export default {
 
         },
         putTask(id) {
+            this.formTaskSubmitted = true;
+
+            
+            if (!this.taskToUpdate.title || !this.taskToUpdate.description || !this.taskToUpdate.due_date) {
+               
+                return;
+            }
+
             axios.put(`tasks/${id}`, {
                 title: this.taskToUpdate.title,
                 description: this.taskToUpdate.description,
@@ -657,6 +694,16 @@ export default {
         },
         ////SUBTASK >>>>>>
         postSubtask() {
+            this.formSubtaskSubmitted = true;
+
+            if (!this.newSubtask.title || !this.newSubtask.description) {
+
+                return;
+            }
+
+
+
+
             if (this.selectedTask) {
 
                 this.newSubtask.task_id = this.selectedTask.id;
@@ -673,6 +720,7 @@ export default {
                             task_id: '',
 
                         }
+                        this.formSubtaskSubmitted = false;
                         this.ShowModalSub = false;
                         this.getTasks()
 
@@ -683,6 +731,13 @@ export default {
             }
         },
         putSubtask() {
+
+            this.formSubtaskSubmitted = true;
+
+            if (!this.taskToUpdateSub.title || !this.taskToUpdateSub.description) {
+
+                return;
+            }
 
 
             if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
