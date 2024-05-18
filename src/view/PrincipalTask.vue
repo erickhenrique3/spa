@@ -15,7 +15,11 @@
             </div>
 
         </header>
-        <div class="modal" v-if="ShowModal">
+        <ModalCreateTask :showModal="ShowModal" @close="ShowModal = false" @task-created="getTasks" />
+
+
+
+        <!-- <div class="modal" v-if="ShowModal">
 
             <form class="modal-body" @submit.prevent="postTasks">
 
@@ -38,8 +42,17 @@
                 </div>
             </form>
 
-        </div>
-        <div class="modal" v-if="ShowModalSub">
+        </div> -->
+
+
+        <ModalCreateSubtask :ShowModalSub="ShowModalSub" :newSubtask="newSubtask" 
+        :selectedTask="selectedTask"
+        :formSubtaskSubmitted="formSubtaskSubmitted" @close="ShowModalSub = false" @refresh-tasks="getTasks" />
+
+
+
+
+        <!-- <div class="modal" v-if="ShowModalSub">
 
 
 
@@ -66,7 +79,10 @@
 
 
 
-        </div>
+        </div> -->
+
+
+
         <div class="modal" v-if="showUpdateModalSub && taskToUpdateSub">
 
 
@@ -133,7 +149,7 @@
                             <i class='bx bx-dots-horizontal-rounded'></i>
                         </button>
                         <div class="dropdown-content2">
-                            <a @click="ModalSub"> <i class='bx bx-plus'></i>Criar subtarefa </a>
+                            <a @click="openModalSub"> <i class='bx bx-plus'></i>Criar subtarefa </a>
 
                         </div>
                     </div>
@@ -337,10 +353,15 @@
 import axios from 'axios';
 import moment from 'moment';
 import 'moment-timezone';
+import ModalCreateTask from '../components/ModalCreateTask'
+import ModalCreateSubtask from '../components/ModalCreateSubtask'
 
 export default {
 
-    // name: 'Principal',
+    components: {
+        ModalCreateTask,
+        ModalCreateSubtask
+    },
 
 
     data() {
@@ -462,7 +483,7 @@ export default {
         printTask() {
             window.print()
         },
-        ModalSub() {
+        openModalSub() {
             this.ShowModalSub = true;
             this.openTaskModal = false;
         },
@@ -477,20 +498,9 @@ export default {
                 const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo');
                 return taskDueDate.isSame(today, 'day');
 
-                // const getToday = () => Intl.DateTimeFormat("pt-BR").format(new Date());
-                // this.filteredTasks = this.tasks.filter(task => {
-                //     const today = getToday();
-                //     const taskDueDate = new Date(task.due_date);
-                //     const taskDate = Intl.DateTimeFormat("pt-BR").format(taskDueDate);
-                //     return taskDate === today;
+
             });
-            // const todayWithoutTime = new Date();
-            // todayWithoutTime.setHours(0, 0, 0, 0); 
-            // this.filteredTasks = this.tasks.filter(task => {
-            //     const taskDueDate = new Date(task.due_date);
-            //     taskDueDate.setHours(0, 0, 0, 0); 
-            //     return taskDueDate.getTime() === todayWithoutTime.getTime();
-            // console.log(getToday);
+
 
         },
 
@@ -499,12 +509,7 @@ export default {
             this.filteredTasks = this.tasks.filter(task => {
                 const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo');
                 return taskDueDate.isBefore(today, 'day');
-                // const todayWithoutTime = new Date();
-                // todayWithoutTime.setHours(0, 0, 0, 0);
-                // this.filteredTasks = this.tasks.filter(task => {
-                //     const taskDueDate = new Date(task.due_date);
-                //     taskDueDate.setHours(0, 0, 0, 0);
-                //     return taskDueDate < todayWithoutTime;
+
             });
         },
 
@@ -527,7 +532,7 @@ export default {
 
         },
         stopModal() {
-           this.openTaskModal = false;
+            this.openTaskModal = false;
         },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY');
@@ -592,7 +597,7 @@ export default {
         postTasks() {
             this.formSubmitted = true;
             if (this.newTask.title && this.newTask.description && this.newTask.due_date) {
-                
+
                 const formattedDate = moment(this.newTask.due_date).format('DD/MM/YYYY');
                 const taskToSend = { ...this.newTask, due_date: formattedDate };
 
@@ -1283,6 +1288,8 @@ export default {
     position: relative;
     right: 5%;
 }
+
+
 
 .modal-task {
     /* position: fixed;
