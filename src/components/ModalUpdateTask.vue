@@ -1,7 +1,7 @@
 <template>
     <div class="modal-update-task" v-if="showUpdateTask">
         <div class="modal-body-update-task">
-            <h1>Editar tarefa</h1>
+           
             <hr>
             <input type="text" placeholder="Digite um novo titulo!" v-model="dataTask.title">
             <p v-if="formTaskSubmitted && !dataTask.title" class="error-message">Por favor, preencha o título da tarefa.
@@ -114,13 +114,11 @@ export default {
     position: relative;
 }
 
-.modal-body-update-task h1 {
-    text-align: center;
-}
+
 
 .modal-body-update-task>input {
     border: none;
-    font-size: 20px;
+    font-size: 15px;
     width: 100%;
     height: 40px;
     margin-top: 5px;
@@ -130,7 +128,7 @@ export default {
 }
 
 .modal-body-update-task>button {
-    font-size: 20px;
+    font-size: 15px;
     display: flex;
     gap: .8rem;
     align-items: flex-end;
@@ -142,7 +140,7 @@ export default {
 
 .modal-body-update-task button {
     border: none;
-    font-size: 20px;
+    font-size: 15px;
     cursor: pointer;
     padding: 10px 20px;
     margin-top: 10px;
@@ -156,9 +154,16 @@ export default {
 }
 
 .buttons-update {
-    display: flex;
-    justify-content: space-between;
+    
+    position: relative;
+    left: 45%;
     width: 70%;
-    padding: 5px;
+   
+}
+.error-message {
+    color: #e92626;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: underline;
 }
 </style>

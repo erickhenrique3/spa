@@ -106,7 +106,7 @@ export default {
     align-items: center;
     flex-direction: column;
     background-color: #ffffff;
-    height: 250px;
+    height: 200px;
     width: 600px;
     padding: 20px;
     
@@ -118,7 +118,7 @@ export default {
 
 .modal-body input {
     border: none;
-    font-size: 20px;
+    font-size: 15px;
     width: 100%;
     height: 40px;
     margin-top: 5px;
@@ -134,13 +134,13 @@ export default {
 
 .modal button {
     border: none;
-    font-size: 20px;
+    font-size: 15px;
     cursor: pointer;
     padding: 10px 20px;
     margin-top: 10px;
     margin-right: 50px;
     background-color: rgba(237, 237, 237, 0.901);
-    /* border: 1px solid rgba(210, 210, 210, 0.929); */
+  
 
 
 
@@ -170,6 +170,7 @@ export default {
 .error-message {
     color: #e92626;
     cursor: pointer;
+    font-size: 15px;
     text-decoration: underline;
 }
 </style>

@@ -847,7 +847,7 @@ export default {
 
 .subtask-icons {
     position: absolute;
-    left: 85%;
+    left: 80%;
     top: 5px;
 }
 
@@ -1270,9 +1270,7 @@ export default {
     height: 600px;
     width: 800px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* display: none; */
+   
     position: fixed;
 }
 
@@ -1640,7 +1638,7 @@ li {
 .card>.icons-task .container-icons {
     position: absolute;
     top: 30%;
-    left: 80%;
+    left: 75%;
     display: flex;
     width: 20%;
     gap: .8rem;
