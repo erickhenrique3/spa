@@ -526,8 +526,8 @@ export default {
 
 
         },
-        stopModal(event) {
-            event.stopPropagation();
+        stopModal() {
+           this.openTaskModal = false;
         },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY');
