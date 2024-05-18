@@ -1614,7 +1614,7 @@ li {
     padding: 20px;
     width: 50%;
     border: 1px solid #ccc;
-    box-shadow: 2px 2px 5px #ccc;
+  
     position: relative;
     z-index: 9;
 }
