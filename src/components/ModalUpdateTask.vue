@@ -69,8 +69,8 @@ export default {
                 description: this.dataTask.description,
                 due_date: this.dataTask.due_date
             })
-                .then(response => {
-                    console.log('Tarefa atualizada com sucesso:', response.data);
+                .then(() => {
+                    
                     this.$emit('task-updated');
                     this.closeUpdateTask();
                 })

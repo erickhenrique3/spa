@@ -54,7 +54,7 @@ export default {
             }
 
             if (!this.selectedTask || !this.selectedTask.id) {
-                console.error('Tarefa não selecionada ou ID da tarefa não definido.');
+               
                 return;
             }
 
@@ -63,9 +63,9 @@ export default {
 
             axios
                 .post('/subtasks', this.dataSubtask)
-                .then((response) => {
-                    console.log('Subtarefa salva com sucesso!');
-                    console.log(response.data);
+                .then(() => {
+                   
+                   
                     this.dataSubtask = {
                         title: '',
                         description: '',
@@ -75,9 +75,6 @@ export default {
                     this.$emit('refresh-tasks');
                     this.$emit('close');
 
-                })
-                .catch((error) => {
-                    console.error('Erro ao salvar a subtarefa:', error);
                 });
         }
 

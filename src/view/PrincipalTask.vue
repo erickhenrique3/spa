@@ -221,8 +221,14 @@
 
 
 
-        <ModalUpdateTask :showUpdateTask="showUpdateTask" :taskToUpdate="taskToUpdate" @close="closeUpdateTask"
-            @task-updated="taskUpdated" />
+        <ModalUpdateTask :showUpdateTask="showUpdateTask" :taskToUpdate="taskToUpdate" @close="closeUpdateTask" />
+        <!-- @task-updated="taskUpdated" -->
+
+
+
+
+
+
         <!-- <div class="modal-update-task" v-if="showUpdateTask">
             <div class="modal-body-update-task">
                 <h1>Editar tarefa</h1>
@@ -267,6 +273,9 @@
                 </div>
             </div>
         </div>
+
+        <!-- <ModalUpdateDate :showUpdateDate="showUpdateDate" :dataDueDate="taskToUpdateDate.due_date"
+            @close="closeUpdateDate" :taskToUpdateDate="taskToUpdateDate" @update="patchUpdateDate" /> -->
 
 
 
@@ -368,6 +377,7 @@ import ModalCreateTask from '../components/ModalCreateTask'
 import ModalCreateSubtask from '../components/ModalCreateSubtask'
 import ModalUpdateSubtask from '../components/ModalUpdateSubtask'
 import ModalUpdateTask from '../components/ModalUpdateTask'
+// import ModalUpdateDate from '../components/ModalUpdateDate'
 
 export default {
 
@@ -375,7 +385,8 @@ export default {
         ModalCreateTask,
         ModalCreateSubtask,
         ModalUpdateSubtask,
-        ModalUpdateTask
+        ModalUpdateTask,
+        // ModalUpdateDate
     },
 
 
@@ -390,6 +401,7 @@ export default {
             showUpdateDate: false,
             taskToUpdate: null,
             taskToUpdateDate: {
+                id: '',
                 due_date: ''
             },
             ShowIcons: false,
@@ -419,6 +431,7 @@ export default {
             formSubtaskSubmitted: false,
             formTaskSubmitted: false,
             formDateSubmitted: false,
+            taskId: null
 
 
 
@@ -472,15 +485,13 @@ export default {
 
             if (this.selectedTask && this.selectedTask.id) {
                 this.taskToUpdateSub.id = subtask.id;
-                console.log("ID da sub tarefa:", subtask);
+               
 
 
                 this.showUpdateModalSub = true;
                 this.openTaskModal = false;
 
-            } else {
-                console.error('A tarefa selecionada não está definida ou não possui um ID válido.');
-            }
+            } 
 
 
 
@@ -567,11 +578,11 @@ export default {
             this.formDateSubmitted = false;
 
         },
-        // openUpdateTask(task) {
-        //     this.taskToUpdate = task;
+        openUpdateTask(task) {
+            this.taskToUpdate = task;
 
-        //     this.showUpdateTask = true;
-        // },
+            this.showUpdateTask = true;
+        },
 
         openTaskModalClick(task) {
             this.selectedTask = task
@@ -599,16 +610,11 @@ export default {
             axios.get('tasks')
                 .then((response) => {
                     this.tasks = response.data
-                    console.log(this.tasks)
+                   
                     this.filteredTasks = this.tasks;
                     this.sortTasks();
                 })
-                .catch((error) => {
-                    console.log(error)
-                })
-                .finally(() => {
-                    console.log('A requisição acabou!');
-                })
+                
         },
         postTasks() {
             this.formSubmitted = true;
@@ -618,8 +624,8 @@ export default {
                 const taskToSend = { ...this.newTask, due_date: formattedDate };
 
                 axios.post('tasks', taskToSend)
-                    .then(response => {
-                        console.log('Tarefa criada com sucesso: ', response.data);
+                    .then(() => {
+                       
                         this.newTask = {
                             title: '',
                             description: '',
@@ -639,9 +645,9 @@ export default {
         },
         deleteTask(tasks) {
             axios.delete(`tasks/${tasks}`)
-                .then(response => {
+                .then(() => {
                     this.tasks = this.tasks.filter(task => task.id !== tasks);
-                    console.log('Tarefa excluída com sucesso:', response.data);
+                    
                     this.filteredTasks = this.tasks;
                     this.openTaskModal = false;
 
@@ -665,9 +671,9 @@ export default {
                 description: this.taskToUpdate.description,
                 due_date: this.taskToUpdate.due_date
             })
-                .then(response => {
+                .then(() => {
 
-                    console.log('Tarefa atualizada com sucesso:', response.data);
+                  
                     this.getTasks();
 
                     this.closeUpdateTask();
@@ -688,15 +694,13 @@ export default {
             axios.patch(`tasks/${this.selectedTask.id}/due_date/`, {
                 due_date: formattedDate
             })
-                .then(response => {
-                    console.log('Data da tarefa atualizada com sucesso:', response.data);
+                .then(() => {
+                    
                     this.getTasks();
 
                     this.closeUpdateDate();
-                })
-                .catch(error => {
-                    console.error('Erro ao atualizar a data da tarefa:', error);
                 });
+                
         },
 
         updateTaskStatus(task) {
@@ -705,18 +709,16 @@ export default {
 
             axios.patch(`tasks/${task.id}/status`, { status: newStatus })
 
-                .then(response => {
-                    console.log('Status da tarefa atualizado com sucesso:', response.data);
+                .then(() => {
+                    
 
                     task.status = newStatus;
 
                     this.sortTasks();
                     this.getTasks();
 
-                })
-                .catch(error => {
-                    console.error('Erro ao atualizar o status da tarefa:', error);
                 });
+                
 
         },
         sortTasks() {
@@ -745,10 +747,9 @@ export default {
 
 
                 axios.post('/subtasks', this.newSubtask)
-                    .then(response => {
+                    .then(() => {
 
-                        console.log('Subtarefa salva com sucesso!');
-                        console.log(response.data);
+                        
                         this.newSubtask = {
                             title: '',
                             description: '',
@@ -759,10 +760,8 @@ export default {
                         this.ShowModalSub = false;
                         this.getTasks()
 
-                    })
-                    .catch(error => {
-                        console.error('Erro ao salvar a subtarefa:', error);
                     });
+                    
             }
         },
         putSubtask() {
@@ -780,19 +779,15 @@ export default {
                     title: this.taskToUpdateSub.title,
                     description: this.taskToUpdateSub.description,
                 })
-                    .then(response => {
-                        console.log('Subtarefa atualizada com sucesso:', response.data);
+                    .then(() => {
+                       
 
                         this.showUpdateModalSub = false;
                         this.getTasks();
-                    })
-                    .catch(error => {
-                        console.error('Erro ao atualizar a subtarefa:', error);
                     });
+                    
 
-            } else {
-                console.error('A subtarefa a ser atualizada não está definida.');
-            }
+            } 
 
         },
         updateSubtaskStatus(subtaskId, _currentStatus, newStatus) {
@@ -800,29 +795,25 @@ export default {
 
 
             axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
-                .then(response => {
-                    console.log('Status da subtarefa atualizado:', response.data);
+                .then(() => {
+                   
 
 
                     this.getTasks();
 
 
-                })
-                .catch(error => {
-                    console.error('Erro ao atualizar o status da subtarefa:', error);
                 });
+               
         },
 
         deleteSubtask(subtask) {
             axios.delete(`/subtasks/${subtask.id}`)
-                .then(response => {
-                    console.log('Subtarefa excluída com sucesso:', response.data);
+                .then(() => {
+                    
                     this.openTaskModal = false;
                     this.getTasks();
-                })
-                .catch(error => {
-                    console.error('Erro ao excluir a subtarefa:', error);
                 });
+                
         }
 
 
@@ -831,9 +822,11 @@ export default {
     mounted() {
         axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
         this.getTasks()
+
         this.data = moment(this.data).format('DD/MM/YYYY');
         this.tasks.forEach(task => {
             this.$set(task, 'showIcons', false);
+           
         });
     },
 
@@ -1220,98 +1213,11 @@ export default {
     background-color: #f63535;
 }
 
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    z-index: 10;
-    width: 100vw;
-    height: 100vh;
-
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* display:none; */
-
-}
-
-.modal-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #ffffff;
-    height: 250px;
-    width: 600px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    position: relative;
-
-}
-
-.modal-body input {
-    border: none;
-    font-size: 20px;
-    width: 100%;
-    height: 40px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 5px;
-    background-color: #ffffff;
-
-}
-
-.modal-body input:focus {
-    outline: none;
-}
-
-.modal button {
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin-top: 10px;
-    margin-right: 50px;
-    background-color: rgba(237, 237, 237, 0.901);
-    /* border: 1px solid rgba(210, 210, 210, 0.929); */
-
-
-
-}
-
-.modal button:hover {
-    background-color: #000;
-    color: #ffffff;
-}
-
-.buttons {
-    font-size: 20px;
-    display: flex;
-    gap: .8rem;
-    align-items: flex-end;
-    justify-content: flex-end;
-    border-top: 2px solid rgba(237, 237, 237, 0.901);
-    width: 100%;
-    position: relative
-}
-
-.btn-save {
-    position: relative;
-    right: 5%;
-}
 
 
 
 .modal-task {
-    /* position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
+   
 
     position: fixed;
     top: 50%;
@@ -1474,84 +1380,6 @@ export default {
     background-color: rgba(40, 252, 160, 0.742);
 }
 
-.modal-update-task {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    z-index: 10;
-    width: 100vw;
-    height: 100vh;
-
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-body-update-task {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #ffffff;
-
-    width: 600px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    position: relative;
-}
-
-.modal-body-update-task h1 {
-    text-align: center;
-}
-
-.modal-body-update-task>input {
-    border: none;
-    font-size: 20px;
-    width: 100%;
-    height: 40px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 5px;
-    background-color: #ffffff;
-}
-
-.modal-body-update-task>button {
-    font-size: 20px;
-    display: flex;
-    gap: .8rem;
-    align-items: flex-end;
-    justify-content: flex-end;
-    border-top: 2px solid rgba(237, 237, 237, 0.901);
-    width: 100%;
-    position: relative
-}
-
-.modal-body-update-task button {
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin-top: 10px;
-    margin-right: 50px;
-    background-color: rgba(237, 237, 237, 0.901);
-}
-
-.modal-body-update-task button:hover {
-    background-color: #000;
-    color: #ffffff;
-}
-
-.buttons-update {
-    display: flex;
-    justify-content: space-between;
-    width: 70%;
-    padding: 5px;
-}
 
 
 
@@ -1679,7 +1507,7 @@ header .icons {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
+    
     align-items: center;
     text-align: left;
     margin-top: 100px;
@@ -1769,10 +1597,10 @@ li {
     border: 2px solid #ccc;
     margin-bottom: 10px;
     margin-top: 0;
-    /* margin-left: 20px; */
+   
     position: relative;
-    /* top: 15%; */
-    /* left: 5%; */
+   
+  
     cursor: pointer;
 }
 

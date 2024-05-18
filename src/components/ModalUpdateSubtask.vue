@@ -52,7 +52,7 @@ export default {
 
             if (!this.taskToUpdateSub.id) {
                 
-                console.error('O atributo id em taskToUpdateSub é indefinido.');
+               
                 return;
             }
 
@@ -66,15 +66,12 @@ export default {
                 title: this.dataTaskToUpdateSub.title,
                 description: this.dataTaskToUpdateSub.description
             })
-                .then(response => {
-                    console.log('Subtarefa atualizada com sucesso:', response.data);
+                .then(() => {
+                    
                     this.closeUpdateModalSub();
                     this.$emit('refresh-tasks');
-                })
-                .catch(error => {
-                    console.error('Erro ao atualizar a subtarefa:', error);
-
                 });
+                
         }
     },
     watch: {

@@ -59,15 +59,11 @@ export default {
                 const taskToSend = { ...this.newTask, due_date: formattedDate };
 
                 axios.post('tasks', taskToSend)
-                    .then(response => {
-                        this.$emit('task-created', response.data);
+                    .then(() => {
+                        this.$emit('task-created');
                         this.closeModal();
-                    })
-                    .catch(error => {
-                        console.error('Erro ao criar a tarefa', error);
                     });
-            } else {
-                console.log('Por favor, preencha todos os campos obrigatórios.');
+                   
             }
         }
     }
