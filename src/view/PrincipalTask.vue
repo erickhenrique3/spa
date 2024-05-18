@@ -230,6 +230,7 @@
             <div class="modal-body-date-task">
                 <h1>Alterar data</h1>
                 <input type="date" v-model="taskToUpdateDate.due_date">
+                <p v-if="formDateSubmitted && !taskToUpdateDate.due_date" class="error-message">Por favor, preencha a data de vencimento.</p>
                 <div class="buttons-date">
                     <button type="button" class="btn-close" @click="closeUpdateDate">Cancelar</button>
                     <button type="button" class="btn-save"
@@ -380,6 +381,7 @@ export default {
             formSubmitted: false,
             formSubtaskSubmitted: false,
             formTaskSubmitted: false,
+            formDateSubmitted: false,
 
 
 
@@ -541,6 +543,7 @@ export default {
         closeUpdateDate() {
             this.showUpdateDate = false
             this.taskToUpdate = null
+            this.formDateSubmitted = false;
 
         },
         openUpdateTask(task) {
@@ -626,9 +629,9 @@ export default {
         putTask(id) {
             this.formTaskSubmitted = true;
 
-            
+
             if (!this.taskToUpdate.title || !this.taskToUpdate.description || !this.taskToUpdate.due_date) {
-               
+
                 return;
             }
 
@@ -649,6 +652,12 @@ export default {
                 });
         },
         patchUpdateDate(taskToUpdateDate) {
+            this.formDateSubmitted = true; 
+
+            if (!this.taskToUpdateDate.due_date) {
+                
+                return;
+            }
 
             const formattedDate = this.formatDate(taskToUpdateDate.due_date);
             axios.patch(`tasks/${this.selectedTask.id}/due_date/`, {
@@ -657,6 +666,7 @@ export default {
                 .then(response => {
                     console.log('Data da tarefa atualizada com sucesso:', response.data);
                     this.getTasks();
+                    
                     this.closeUpdateDate();
                 })
                 .catch(error => {
