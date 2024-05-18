@@ -141,6 +141,7 @@ form>input {
     margin-bottom: 20px;
     width: 100%;
     height: 50px;
+    padding: 10px;
 
 }
 

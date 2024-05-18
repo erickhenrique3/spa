@@ -32,7 +32,7 @@
 
 <script>
 export default {
-    // name: 'Login',
+   
 }
 </script>
 
@@ -41,23 +41,17 @@ export default {
     width: 100vw;
     height: 100vh;
 
-    /* display: grid; */
-    /* grid-template-columns: 1fr 1fr; */
+  
     position: relative;
     background-color: #ffffff;
     box-sizing: border-box;
-    /* border: 10px solid; */
+    
 
 }
 
 .box1,
 .box2 {
-    /* position: absolute;
-
-    background-color: #b71010;
-    width: 50%;
-    height: 100vh; */
-
+    
     height: 100vh;
     position: absolute;
     box-sizing: border-box;
@@ -125,17 +119,7 @@ export default {
 }
 
 form {
-    /* font-size: 20px;
-    position: relative;
-    top: 250px;
-    left: 250px;
-    right: 250px;
-    bottom: 250px;
-    width: 50%;
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; */
+   
     position: absolute;
     top: 40%;
     font-size: 20px;
@@ -149,6 +133,7 @@ form>input {
     margin-bottom: 20px;
     width: 100%;
     height: 50px;
+    padding: 10px;
 }
 
 form>label {
@@ -157,16 +142,7 @@ form>label {
 
 form button {
 
-    /* position: absolute;
-    bottom: 0px;
-    right: 0px;
-    width: 150px;
-    height: 50px;
-    background-color: #000000;
-    color: #ffffff;
-    border: none;
-
-    cursor: pointer; */
+    
     color: #ffffff;
     background-color: #000000;
     position: absolute;
