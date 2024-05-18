@@ -45,9 +45,8 @@
         </div> -->
 
 
-        <ModalCreateSubtask :ShowModalSub="ShowModalSub" :newSubtask="newSubtask" 
-        :selectedTask="selectedTask"
-        :formSubtaskSubmitted="formSubtaskSubmitted" @close="ShowModalSub = false" @refresh-tasks="getTasks" />
+        <ModalCreateSubtask :ShowModalSub="ShowModalSub" :newSubtask="newSubtask" :selectedTask="selectedTask"
+            :formSubtaskSubmitted="formSubtaskSubmitted" @close="ShowModalSub = false" @refresh-tasks="getTasks" />
 
 
 
@@ -83,7 +82,9 @@
 
 
 
-        <div class="modal" v-if="showUpdateModalSub && taskToUpdateSub">
+
+
+        <!-- <div class="modal" v-if="showUpdateModalSub && taskToUpdateSub">
 
 
 
@@ -109,7 +110,14 @@
 
 
 
-        </div>
+        </div> -->
+
+        <ModalUpdateSubtask :showUpdateModalSub="showUpdateModalSub" :taskToUpdateSub="taskToUpdateSub"
+            :formSubtaskSubmitted="formSubtaskSubmitted" @close="showUpdateModalSub = false"
+            @refresh-tasks="getTasks" />
+
+
+
 
 
         <div class="modal-task" v-if="openTaskModal">
@@ -355,12 +363,14 @@ import moment from 'moment';
 import 'moment-timezone';
 import ModalCreateTask from '../components/ModalCreateTask'
 import ModalCreateSubtask from '../components/ModalCreateSubtask'
+import ModalUpdateSubtask from '../components/ModalUpdateSubtask'
 
 export default {
 
     components: {
         ModalCreateTask,
-        ModalCreateSubtask
+        ModalCreateSubtask,
+        ModalUpdateSubtask,
     },
 
 
