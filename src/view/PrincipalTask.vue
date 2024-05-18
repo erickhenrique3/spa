@@ -265,7 +265,7 @@
 
 
 
-                        <label class="custom-radio" @click="stopModal">
+                        <label class="custom-radio" @click.stop="stopModal">
                             <input @click="stopModal, updateTaskStatus(task)" type="radio"
                                 :id="'task-status-' + task.id" v-model="task.status" value="completed"
                                 :checked="task.status === 'completed'">
