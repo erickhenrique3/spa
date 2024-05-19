@@ -137,7 +137,7 @@
 
 
         <ModalUpdateTask :showUpdateTask="showUpdateTask" :taskToUpdate="taskToUpdate" @close="closeUpdateTask" />
-        <!-- @task-updated="taskUpdated" -->
+        
 
 
 
@@ -685,21 +685,21 @@ export default {
         //     }
 
         // },
-        // updateSubtaskStatus(subtaskId, _currentStatus, newStatus) {
+        updateSubtaskStatus(subtaskId, _currentStatus, newStatus) {
 
 
 
-        //     axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
-        //         .then(() => {
+            axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
+                .then(() => {
 
 
 
-        //             this.getTasks();
+                    this.getTasks();
 
 
-        //         });
+                });
 
-        // },
+        },
 
         deleteSubtask(subtask) {
             axios.delete(`/subtasks/${subtask.id}`)
