@@ -248,7 +248,9 @@
         </div> -->
 
         <ModalUpdateDate :showUpdateDate="showUpdateDate" :dataDueDate="taskToUpdateDate.due_date"
-            @close="closeUpdateDate" :taskToUpdateDate="taskToUpdateDate" @update="patchUpdateDate" />
+            @close="closeUpdateDate" :taskToUpdateDate="taskToUpdateDate"
+            @update:dataDueDate="updateDataDueDate" 
+            @updateTasks="getTasks" />
 
 
 
@@ -269,8 +271,9 @@
             <div class="conteudo">
                 <h1>Entrada</h1>
                 <div class="card-container">
-                    <div class="card" v-for="task in filteredTasks || []" :key="task.id" @click="openTaskModalClick(task)"
-                        @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
+                    <div class="card" v-for="task in filteredTasks || []" :key="task.id"
+                        @click="openTaskModalClick(task)" @mouseover="task.ShowIcons = true"
+                        @mouseleave="task.ShowIcons = false">
 
 
 
@@ -494,36 +497,36 @@ export default {
 
 
         showTodayTasks() {
-    axios.get('tasks/filter/today')
-        .then(response => {
-           
-            if (response.data && response.data.length > 0) {
-                this.filteredTasks = response.data;
-                this.sortTasks();
-            } 
-        });
-        
-},
+            axios.get('tasks/filter/today')
+                .then(response => {
+
+                    if (response.data && response.data.length > 0) {
+                        this.filteredTasks = response.data;
+                        this.sortTasks();
+                    }
+                });
+
+        },
 
         showOverdueTasks() {
             axios.get('tasks/filter/overdue')
-             
+
                 .then((response) => {
-                   
+
                     this.filteredTasks = response.data;
                     this.sortTasks();
                 });
-                
+
         },
 
         showAllTasks() {
             axios.get('tasks')
                 .then((response) => {
-                   
+
                     this.filteredTasks = response.data;
                     this.sortTasks();
                 });
-                
+
         },
 
 
@@ -532,7 +535,7 @@ export default {
 
 
 
-       
+
 
 
         BackgroundColorDate(dueDate) {
@@ -555,12 +558,12 @@ export default {
         },
         openUpdateDate(task) {
 
-            if (task && task.id) {
-                this.taskToUpdate = { id: task.id, due_date: task.due_date };
-                this.showUpdateDate = true;
-            } else {
-                console.error("A tarefa está ausente ou não tem um ID válido.");
-            }
+            this.taskToUpdateDate = { ...task };
+            this.showUpdateDate = true;
+        },
+
+        updateDataDueDate(newValue) {
+            this.taskToUpdateDate.due_date = newValue;
         },
         closeUpdateDate() {
             this.showUpdateDate = false

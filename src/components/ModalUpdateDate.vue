@@ -40,32 +40,42 @@ export default {
     },
     methods: {
         formatDate(date) {
-            return moment(date).format('YYYY-MM-DD');
+            return moment(date).format('DD/MM/YYYY');
         },
         updateDueDate(value) {
             this.$emit('update:dataDueDate', value);
         },
-        
+
         closeUpdateDate() {
             this.$emit('close');
         },
+       
+      
         patchUpdateDate() {
+           
             this.formDateSubmitted = true;
 
+            
             if (this.dataDueDate) {
+                
                 const formattedDate = this.formatDate(this.dataDueDate);
 
+              
+               
+
+               
                 axios.patch(`/tasks/${this.taskToUpdateDate.id}/due_date`, { due_date: formattedDate })
-                    .then(response => {
-                        console.log('Data da tarefa atualizada com sucesso:', response.data);
+                    .then(() => {
+                        
+                        
+                       
+
+                        this.$emit('updateTasks');
                         this.$emit('close');
-                    })
-                    .catch(error => {
-                        console.error('Erro ao atualizar a data da tarefa:', error);
+                       
                     });
-            } else {
-                console.error('Por favor, preencha a data de vencimento.');
-            }
+                    
+            } 
         }
     }
 };
@@ -95,8 +105,8 @@ export default {
     width: 600px;
     height: 200px;
     padding: 20px;
-   
-    
+
+
     z-index: 10;
     position: relative;
 }
@@ -104,9 +114,10 @@ export default {
 .modal-body-date-task h1 {
     position: absolute;
     top: 5%;
-   
+
 }
-hr{
+
+hr {
     width: 100%;
 }
 
