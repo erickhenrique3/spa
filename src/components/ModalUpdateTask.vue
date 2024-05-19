@@ -2,7 +2,7 @@
     <div class="modal-update-task" v-if="showUpdateTask">
         <div class="modal-body-update-task">
            
-            <hr>
+          
             <input type="text" placeholder="Digite um novo titulo!" v-model="dataTask.title">
             <p v-if="formTaskSubmitted && !dataTask.title" class="error-message">Por favor, preencha o título da tarefa.
             </p>
@@ -14,7 +14,7 @@
             <input type="date" placeholder="Digite uma nova data!" v-model="dataTask.due_date">
             <p v-if="formTaskSubmitted && !dataTask.due_date" class="error-message">Por favor, preencha a data da
                 tarefa.</p>
-
+             <hr>
             <div class="buttons-update">
                 <button type="button" class="btn-close" @click="closeUpdateTask">Cancelar</button>
                 <button type="button" class="btn-save" @click="putTask">Salvar</button>
@@ -112,6 +112,10 @@ export default {
    
     z-index: 10;
     position: relative;
+}
+
+hr{
+    width: 100%;
 }
 
 

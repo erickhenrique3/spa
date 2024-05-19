@@ -5,6 +5,7 @@
             <input type="date" :value="dataDueDate" @input="updateDueDate($event.target.value)">
             <p v-if="formDateSubmitted && !dataDueDate" class="error-message">Por favor, preencha a data de vencimento.
             </p>
+            <hr>
             <div class="buttons-date">
                 <button type="button" class="btn-close" @click="closeUpdateDate">Cancelar</button>
                 <button type="button" class="btn-save" @click="patchUpdateDate">Salvar</button>
@@ -92,7 +93,7 @@ export default {
     flex-direction: column;
     background-color: #ffffff;
     width: 600px;
-    height: 20%;
+    height: 200px;
     padding: 20px;
    
     
@@ -103,16 +104,22 @@ export default {
 .modal-body-date-task h1 {
     position: absolute;
     top: 5%;
+   
+}
+hr{
+    width: 100%;
 }
 
 .modal-body-date-task>.buttons-date {
     position: absolute;
     bottom: 5%;
+    left: 50%;
+    display: flex;
 }
 
 .modal-body-date-task input {
     border: none;
-    font-size: 20px;
+    font-size: 15px;
     width: 100%;
     height: 40px;
     margin-top: 5px;
@@ -123,7 +130,7 @@ export default {
 
 .modal-body-date-task button {
     border: none;
-    font-size: 20px;
+    font-size: 15px;
     cursor: pointer;
     padding: 10px 20px;
     margin-top: 10px;

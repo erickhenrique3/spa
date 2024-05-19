@@ -229,37 +229,10 @@
 
 
 
-        <!-- <div class="modal-update-task" v-if="showUpdateTask">
-            <div class="modal-body-update-task">
-                <h1>Editar tarefa</h1>
-                <hr>
-                <input type="text" placeholder="Digite um novo titulo!" v-model="taskToUpdate.title">
-                <p v-if="formTaskSubmitted && !taskToUpdate.title" class="error-message">Por favor, preencha o
-                    título
-                    da subtarefa.</p>
-
-                <input type="text" placeholder="Digite uma nova descrição!" v-model="taskToUpdate.description">
-                <p v-if="formTaskSubmitted && !taskToUpdate.description" class="error-message">Por favor, preencha
-                    a
-                    descrição da subtarefa.</p>
+       
 
 
-                <input type="date" placeholder="Digite uma nova data!" v-model="taskToUpdate.due_date">
-                <p v-if="formTaskSubmitted && !taskToUpdate.due_date" class="error-message">Por favor, preencha
-                    a
-                    data da subtarefa.</p>
-
-
-
-                <div class="buttons-update">
-                    <button type="button" class="btn-close" @click.stop="closeUpdateTask">Cancelar</button>
-                    <button type="button" class="btn-save" @click.stop="putTask(taskToUpdate.id)">Salvar</button>
-                </div>
-            </div>
-        </div> -->
-
-
-        <div class="modal-date-task" v-if="showUpdateDate">
+        <!-- <div class="modal-date-task" v-if="showUpdateDate">
             <div class="modal-body-date-task">
                 <h1>Alterar data</h1>
                 <input type="date" v-model="taskToUpdateDate.due_date">
@@ -272,10 +245,10 @@
 
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <!-- <ModalUpdateDate :showUpdateDate="showUpdateDate" :dataDueDate="taskToUpdateDate.due_date"
-            @close="closeUpdateDate" :taskToUpdateDate="taskToUpdateDate" @update="patchUpdateDate" /> -->
+        <ModalUpdateDate :showUpdateDate="showUpdateDate" :dataDueDate="taskToUpdateDate.due_date"
+            @close="closeUpdateDate" :taskToUpdateDate="taskToUpdateDate" @update="patchUpdateDate" />
 
 
 
@@ -377,7 +350,7 @@ import ModalCreateTask from '../components/ModalCreateTask'
 import ModalCreateSubtask from '../components/ModalCreateSubtask'
 import ModalUpdateSubtask from '../components/ModalUpdateSubtask'
 import ModalUpdateTask from '../components/ModalUpdateTask'
-// import ModalUpdateDate from '../components/ModalUpdateDate'
+import ModalUpdateDate from '../components/ModalUpdateDate'
 
 export default {
 
@@ -386,7 +359,7 @@ export default {
         ModalCreateSubtask,
         ModalUpdateSubtask,
         ModalUpdateTask,
-        // ModalUpdateDate
+        ModalUpdateDate
     },
 
 
