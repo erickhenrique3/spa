@@ -1,8 +1,8 @@
 <template>
     <div class="modal-update-task" v-if="showUpdateTask">
         <div class="modal-body-update-task">
-           
-          
+
+
             <input type="text" placeholder="Digite um novo titulo!" v-model="dataTask.title">
             <p v-if="formTaskSubmitted && !dataTask.title" class="error-message">Por favor, preencha o título da tarefa.
             </p>
@@ -14,7 +14,7 @@
             <input type="date" placeholder="Digite uma nova data!" v-model="dataTask.due_date">
             <p v-if="formTaskSubmitted && !dataTask.due_date" class="error-message">Por favor, preencha a data da
                 tarefa.</p>
-             <hr>
+            <hr>
             <div class="buttons-update">
                 <button type="button" class="btn-close" @click="closeUpdateTask">Cancelar</button>
                 <button type="button" class="btn-save" @click="putTask">Salvar</button>
@@ -34,8 +34,8 @@ export default {
         },
         taskToUpdate: {
             type: Object,
-
-            required: true
+            default: null,
+           
         }
     },
     data() {
@@ -45,6 +45,7 @@ export default {
                 description: '',
                 due_date: ''
             },
+           
             formTaskSubmitted: false
         };
     },
@@ -70,7 +71,7 @@ export default {
                 due_date: this.dataTask.due_date
             })
                 .then(() => {
-                    
+
                     this.$emit('task-updated');
                     this.closeUpdateTask();
                 })
@@ -108,13 +109,13 @@ export default {
 
     width: 600px;
     padding: 20px;
-   
-   
+
+
     z-index: 10;
     position: relative;
 }
 
-hr{
+hr {
     width: 100%;
 }
 
@@ -158,12 +159,13 @@ hr{
 }
 
 .buttons-update {
-    
+
     position: relative;
     left: 45%;
     width: 70%;
-   
+
 }
+
 .error-message {
     color: #e92626;
     cursor: pointer;

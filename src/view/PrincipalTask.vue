@@ -19,98 +19,13 @@
 
 
 
-        <!-- <div class="modal" v-if="ShowModal">
-
-            <form class="modal-body" @submit.prevent="postTasks">
-
-                <input type="text" v-model="newTask.title" name="Title" id="Title" placeholder="Nome da tarefa">
-                <p v-if="formSubmitted && !newTask.title" class="error-message">Por favor, preencha o título da tarefa.
-                </p>
-
-                <input type="text" v-model="newTask.description" name="Descripition" id="Description"
-                    placeholder="Descrição">
-                <p v-if="formSubmitted && !newTask.description" class="error-message">Por favor, preencha a descrição da
-                    tarefa.</p>
-
-                <input type="date" v-model="newTask.due_date" id="date" placeholder=" Data de vencimento">
-                <p v-if="formSubmitted && !newTask.due_date" class="error-message">Por favor, preencha a data de
-                    vencimento da tarefa.</p>
-                <hr>
-                <div class="buttons">
-                    <button type="button" class="btn-save" @click="closeModal">Cancelar</button>
-                    <button type="button" class="btn-close" @click="postTasks">Criar Tarefa</button>
-                </div>
-            </form>
-
-        </div> -->
+      
 
 
         <ModalCreateSubtask :ShowModalSub="ShowModalSub" :newSubtask="newSubtask" :selectedTask="selectedTask"
             :formSubtaskSubmitted="formSubtaskSubmitted" @close="ShowModalSub = false" @refresh-tasks="getTasks" />
 
 
-
-
-        <!-- <div class="modal" v-if="ShowModalSub">
-
-
-
-            <form class="modal-body">
-
-                <input type="text" v-model="newSubtask.title" name="title" id="title" placeholder="Nome da subtarefa">
-                <p v-if="formSubtaskSubmitted && !newSubtask.title" class="error-message">Por favor, preencha o título
-                    da subtarefa.</p>
-
-                <input type="text" v-model="newSubtask.description" name="tescripition" id="Description"
-                    placeholder="Descrição">
-                <p v-if="formSubtaskSubmitted && !newSubtask.description" class="error-message">Por favor, preencha a
-                    descrição da subtarefa.</p>
-
-
-
-
-                <hr>
-                <div class="buttons">
-                    <button type="button" class="btn-save" @click="closeModalsub()">Cancelar</button>
-                    <button type="button" class="btn-close" @click="postSubtask">Salvar</button>
-                </div>
-            </form>
-
-
-
-        </div> -->
-
-
-
-
-
-        <!-- <div class="modal" v-if="showUpdateModalSub && taskToUpdateSub">
-
-
-
-            <form class="modal-body">
-
-                <input type="text" v-model="taskToUpdateSub.title" name="title" id="title"
-                    placeholder="Nome da subtarefa">
-                <p v-if="formSubtaskSubmitted && !taskToUpdateSub.title" class="error-message">Por favor, preencha o
-                    título
-                    da subtarefa.</p>
-                <input type="text" v-model="taskToUpdateSub.description" name="tescripition" id="Description"
-                    placeholder="Descrição">
-                <p v-if="formSubtaskSubmitted && !taskToUpdateSub.description" class="error-message">Por favor, preencha
-                    a
-                    descrição da subtarefa.</p>
-
-                <hr>
-                <div class="buttons">
-                    <button type="button" class="btn-save" @click="closeUpdateModalSub()">Cancelar</button>
-                    <button type="button" class="btn-close" @click="putSubtask(taskToUpdateSub.id)">Salvar</button>
-                </div>
-            </form>
-
-
-
-        </div> -->
 
         <ModalUpdateSubtask :showUpdateModalSub="showUpdateModalSub" :taskToUpdateSub="taskToUpdateSub"
             :formSubtaskSubmitted="formSubtaskSubmitted" @close="showUpdateModalSub = false"
@@ -232,20 +147,7 @@
 
 
 
-        <!-- <div class="modal-date-task" v-if="showUpdateDate">
-            <div class="modal-body-date-task">
-                <h1>Alterar data</h1>
-                <input type="date" v-model="taskToUpdateDate.due_date">
-                <p v-if="formDateSubmitted && !taskToUpdateDate.due_date" class="error-message">Por favor, preencha a
-                    data de vencimento.</p>
-                <div class="buttons-date">
-                    <button type="button" class="btn-close" @click="closeUpdateDate">Cancelar</button>
-                    <button type="button" class="btn-save"
-                        @click="selectedTask && patchUpdateDate(taskToUpdateDate)">Salvar</button>
-
-                </div>
-            </div>
-        </div> -->
+        
 
         <ModalUpdateDate :showUpdateDate="showUpdateDate" :dataDueDate="taskToUpdateDate.due_date"
             @close="closeUpdateDate" :taskToUpdateDate="taskToUpdateDate"
@@ -375,7 +277,7 @@ export default {
             openTaskModal: false,
             showUpdateTask: false,
             showUpdateDate: false,
-            taskToUpdate: null,
+            taskToUpdate: {},
             taskToUpdateDate: {
                 id: '',
                 due_date: ''
@@ -1374,74 +1276,6 @@ export default {
 
 
 
-.modal-date-task {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    z-index: 10;
-    width: 100vw;
-    height: 100vh;
-
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-body-date-task {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #ffffff;
-
-    width: 600px;
-    height: 20%;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    position: relative;
-}
-
-.modal-body-date-task h1 {
-    position: absolute;
-    top: 5%;
-
-}
-
-.modal-body-date-task>.buttons-date {
-    position: absolute;
-    bottom: 5%;
-}
-
-.modal-body-date-task input {
-    border: none;
-    font-size: 20px;
-    width: 100%;
-    height: 40px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 5px;
-    background-color: #ffffff;
-}
-
-.modal-body-date-task button {
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin-top: 10px;
-    margin-right: 50px;
-    background-color: rgba(237, 237, 237, 0.901);
-}
-
-.modal-body-date-task button:hover {
-    background-color: #000;
-    color: #ffffff;
-}
 
 
 
