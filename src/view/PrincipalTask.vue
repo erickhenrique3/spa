@@ -19,9 +19,6 @@
 
 
 
-      
-
-
         <ModalCreateSubtask :ShowModalSub="ShowModalSub" :newSubtask="newSubtask" :selectedTask="selectedTask"
             :formSubtaskSubmitted="formSubtaskSubmitted" @close="ShowModalSub = false" @refresh-tasks="getTasks" />
 
@@ -137,21 +134,11 @@
 
 
         <ModalUpdateTask :showUpdateTask="showUpdateTask" :taskToUpdate="taskToUpdate" @close="closeUpdateTask" />
-        
 
 
-
-
-
-
-
-
-
-        
 
         <ModalUpdateDate :showUpdateDate="showUpdateDate" :dataDueDate="taskToUpdateDate.due_date"
-            @close="closeUpdateDate" :taskToUpdateDate="taskToUpdateDate"
-            @update:dataDueDate="updateDataDueDate" 
+            @close="closeUpdateDate" :taskToUpdateDate="taskToUpdateDate" @update:dataDueDate="updateDataDueDate"
             @updateTasks="getTasks" />
 
 
@@ -270,7 +257,7 @@ export default {
 
     data() {
         return {
-            newStatus: '',
+            // newStatus: '',
             ShowModal: false,
             ShowModalSub: false,
             showTooltip: false,
@@ -283,7 +270,7 @@ export default {
                 due_date: ''
             },
             ShowIcons: false,
-            selectedColor: '',
+            // selectedColor: '',
             tasks: [],
             selectedTask: null,
             newTask: {
@@ -309,7 +296,7 @@ export default {
             formSubtaskSubmitted: false,
             formTaskSubmitted: false,
             formDateSubmitted: false,
-            taskId: null
+            // taskId: null
 
 
 
