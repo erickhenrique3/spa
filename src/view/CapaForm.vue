@@ -10,26 +10,26 @@
                 <strong>Erick Henrique</strong>😎
             </footer>
             <div class="icon">
-             <router-link to="/login" >
-                <i class='bx bx-chevrons-right' style="color: black;"></i>
-             </router-link>
-           
-            
+                <router-link to="/login">
+                    <i class='bx bx-chevrons-right' style="color: black;"></i>
+                </router-link>
+
+
+            </div>
         </div>
-        </div>
-        
+
     </div>
-    
+
 </template>
 
 <script>
 export default {
     // name: 'Capa',
     methods: {
-    proximo() {
-        console.log('ok');
+        proximo() {
+            console.log('ok');
+        }
     }
-}
 }
 
 
@@ -68,8 +68,8 @@ export default {
     position: absolute;
     top: 300px;
     left: 200px;
-   
-    
+
+
 }
 
 .box2 {
@@ -82,32 +82,35 @@ export default {
 
     background-color: #fff;
 }
-.box2 h3{
+
+.box2 h3 {
     position: absolute;
     top: 200px;
     left: 100px;
     font-size: 64px;
     font-weight: 800;
     line-height: 60px;
-   
-    
+
+
 }
 
-footer{
+footer {
     position: absolute;
     top: 834px;
     left: 100px;
-    
+
 }
-.icon{
-   
+
+.icon {
+
     position: absolute;
     top: 600px;
     left: 90px;
     font-size: 100px;
     transition: transform 0.8s ease-in-out;
 }
-.icon:hover{
+
+.icon:hover {
     transform: translateY(-10px);
     cursor: pointer;
 }

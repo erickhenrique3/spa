@@ -11,7 +11,7 @@
         <div class="box2">
             <h1>Login</h1>
             <form>
-               
+
                 <label for="form-label">Endereço de e-mail</label>
                 <input type="text" name="email" id="" placeholder="Digite seu e-mail" autocomplete="off">
 
@@ -32,7 +32,7 @@
 
 <script>
 export default {
-   
+
 }
 </script>
 
@@ -41,17 +41,17 @@ export default {
     width: 100vw;
     height: 100vh;
 
-  
+
     position: relative;
     background-color: #ffffff;
     box-sizing: border-box;
-    
+
 
 }
 
 .box1,
 .box2 {
-    
+
     height: 100vh;
     position: absolute;
     box-sizing: border-box;
@@ -62,7 +62,8 @@ export default {
 
 
 }
-.box2>h1{
+
+.box2>h1 {
     margin-top: 250px;
     font-size: 40px;
 }
@@ -74,6 +75,7 @@ export default {
     left: 27px;
 
 }
+
 .box1>h3 {
     text-align: center;
     position: absolute;
@@ -81,6 +83,7 @@ export default {
     left: 30px;
     font-size: 40px
 }
+
 .box1>p {
     font-size: 20px;
     color: #575757fb;
@@ -91,14 +94,16 @@ export default {
     left: 200px;
 
 }
+
 .icon {
     font-size: 100px;
     position: absolute;
     top: 150px;
     left: 30px;
     transition: transform 0.3s ease;
-    
+
 }
+
 .box2 {
 
     position: absolute;
@@ -108,22 +113,26 @@ export default {
     background-color: rgb(255, 255, 255);
 
 }
-.box1:hover{
+
+.box1:hover {
     background-color: #000000;
 }
-.box1:hover h3,.box1:hover p{
+
+.box1:hover h3,
+.box1:hover p {
     color: #ffffff;
 }
-.box1:hover .icon{
+
+.box1:hover .icon {
     transform: translateY(-20px);
 }
 
 form {
-   
+
     position: absolute;
     top: 40%;
     font-size: 20px;
-    
+
 
 }
 
@@ -142,7 +151,7 @@ form>label {
 
 form button {
 
-    
+
     color: #ffffff;
     background-color: #000000;
     position: absolute;

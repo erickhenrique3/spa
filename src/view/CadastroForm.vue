@@ -3,7 +3,7 @@
         <div class="box1">
             <h1>Inscreva-se</h1>
             <form>
-                
+
                 <label for="form-label">Nome completo</label>
                 <input type="text" name="name" id="" placeholder="Digite seu nome" autocomplete="off">
 
@@ -39,7 +39,7 @@ export default {
 
 <style scoped>
 .container {
-    
+
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -98,7 +98,7 @@ export default {
 
 }
 
-.box1 h1{
+.box1 h1 {
     font-size: 40px;
     margin-top: 150px;
     margin-left: 90px;
@@ -115,19 +115,22 @@ export default {
 
 }
 
-.box2:hover{
+.box2:hover {
     background-color: #000000;
 }
-.box2:hover h3,.box2:hover p{
+
+.box2:hover h3,
+.box2:hover p {
     color: #ffffff;
 }
-.box2:hover .icon{
+
+.box2:hover .icon {
     transform: translateY(-20px);
 }
 
 
 form {
-    
+
     position: absolute;
     left: 10%;
     top: 30%;
@@ -136,7 +139,7 @@ form {
 }
 
 form>input {
-   
+
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
@@ -151,7 +154,7 @@ form>label {
 
 form button {
 
-   
+
     color: #ffffff;
     background-color: #000000;
     position: absolute;
@@ -161,6 +164,7 @@ form button {
     height: 50px;
     cursor: pointer;
 }
+
 .a {
     position: absolute;
     top: 400px;
