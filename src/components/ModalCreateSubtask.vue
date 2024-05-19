@@ -5,15 +5,13 @@
 			<p v-if="formSubtaskSubmitted && !dataSubtask.title" class="error-message">Por favor, preencha o título da
 				subtarefa.</p>
 			<input type="text" v-model="dataSubtask.description" name="description" id="Description" placeholder="Descrição">
-			<p v-if="formSubtaskSubmitted && !dataSubtask.description" class="error-message">Por favor, preencha a
-				descrição da subtarefa.</p>
+			<p v-if="formSubtaskSubmitted && !dataSubtask.description" class="error-message">Por favor, preencha a descrição
+				da subtarefa.</p>
 			<hr>
 			<div class="buttons">
 				<button type="button" class="btn-save" @click="closeModalSub">Cancelar</button>
 				<button type="button" class="btn-close" @click="postSubtask">Salvar</button>
 			</div>
-
-
 		</form>
 	</div>
 </template>
@@ -28,54 +26,47 @@ export default {
 			required: true
 		},
 		newSubtask: Object,
-		formSubtaskSubmitted: Boolean,
 		selectedTask: Object
 	},
 	data() {
 		return {
 			dataSubtask: { ...this.newSubtask },
-			isFormSubmitted: false
+			formSubtaskSubmitted: false
 		};
 	},
 	methods: {
 		closeModalSub() {
 			this.dataSubtask.title = '';
 			this.dataSubtask.description = '';
+			this.formSubtaskSubmitted = false;
 			this.$emit('close');
 		},
 
-
 		postSubtask() {
-			this.isFormSubmitted = true;
+			this.formSubtaskSubmitted = true;
 
 			if (!this.dataSubtask.title || !this.dataSubtask.description) {
 				return;
 			}
 
 			if (!this.selectedTask || !this.selectedTask.id) {
-
 				return;
 			}
 
 			this.dataSubtask.task_id = this.selectedTask.id;
 
-
 			axios.post('/subtasks', this.dataSubtask)
 				.then(() => {
-
-
 					this.dataSubtask = {
 						title: '',
 						description: '',
 						task_id: '',
 					};
-					this.isFormSubmitted = false;
+					this.formSubtaskSubmitted = false;
 					this.$emit('refresh-tasks');
 					this.$emit('close');
-
 				});
 		}
-
 	}
 };
 </script>
@@ -86,17 +77,13 @@ export default {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-
 	z-index: 10;
 	width: 100vw;
 	height: 100vh;
-
 	background-color: rgba(0, 0, 0, 0.8);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* display:none; */
-
 }
 
 .modal-body {
@@ -108,11 +95,8 @@ export default {
 	height: 200px;
 	width: 600px;
 	padding: 20px;
-
-
 	z-index: 10;
 	position: relative;
-
 }
 
 .modal-body input {
@@ -124,7 +108,6 @@ export default {
 	margin-bottom: 5px;
 	padding: 5px;
 	background-color: #ffffff;
-
 }
 
 .modal-body input:focus {
@@ -139,10 +122,6 @@ export default {
 	margin-top: 10px;
 	margin-right: 50px;
 	background-color: rgba(237, 237, 237, 0.901);
-	/* border: 1px solid rgba(210, 210, 210, 0.929); */
-
-
-
 }
 
 .modal button:hover {
@@ -158,7 +137,7 @@ export default {
 	justify-content: flex-end;
 	border-top: 2px solid rgba(237, 237, 237, 0.901);
 	width: 100%;
-	position: relative
+	position: relative;
 }
 
 .btn-save {
