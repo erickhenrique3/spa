@@ -47,6 +47,10 @@ export default {
     methods: {
         closeUpdateModalSub() {
             this.$emit('close');
+            this.dataTaskToUpdateSub.title = '',
+            this.dataTaskToUpdateSub.description = '',
+            this.formSubtaskSubmitted = false;
+
         },
         putSubtask() {
 
