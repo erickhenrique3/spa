@@ -511,33 +511,33 @@ export default {
                 })
 
         },
-        postTasks() {
-            this.formSubmitted = true;
-            if (this.newTask.title && this.newTask.description && this.newTask.due_date) {
+        // postTasks() {
+        //     this.formSubmitted = true;
+        //     if (this.newTask.title && this.newTask.description && this.newTask.due_date) {
 
-                const formattedDate = moment(this.newTask.due_date).format('DD/MM/YYYY');
-                const taskToSend = { ...this.newTask, due_date: formattedDate };
+        //         const formattedDate = moment(this.newTask.due_date).format('DD/MM/YYYY');
+        //         const taskToSend = { ...this.newTask, due_date: formattedDate };
 
-                axios.post('tasks', taskToSend)
-                    .then(() => {
+        //         axios.post('tasks', taskToSend)
+        //             .then(() => {
 
-                        this.newTask = {
-                            title: '',
-                            description: '',
-                            due_date: '',
-                        };
-                        this.getTasks();
-                        this.filteredTasks = this.tasks;
-                        this.closeModal();
+        //                 this.newTask = {
+        //                     title: '',
+        //                     description: '',
+        //                     due_date: '',
+        //                 };
+        //                 this.getTasks();
+        //                 this.filteredTasks = this.tasks;
+        //                 this.closeModal();
 
-                    })
-                    .catch(error => {
-                        console.error('Erro ao criar a tarefa', error);
-                    });
-            } else {
-                console.log('Por favor, preencha todos os campos obrigatórios.');
-            }
-        },
+        //             })
+        //             .catch(error => {
+        //                 console.error('Erro ao criar a tarefa', error);
+        //             });
+        //     } else {
+        //         console.log('Por favor, preencha todos os campos obrigatórios.');
+        //     }
+        // },
         deleteTask(tasks) {
             axios.delete(`tasks/${tasks}`)
                 .then(() => {
@@ -552,51 +552,51 @@ export default {
                 });
 
         },
-        putTask(id) {
-            this.formTaskSubmitted = true;
+        // putTask(id) {
+        //     this.formTaskSubmitted = true;
 
 
-            if (!this.taskToUpdate.title || !this.taskToUpdate.description || !this.taskToUpdate.due_date) {
+        //     if (!this.taskToUpdate.title || !this.taskToUpdate.description || !this.taskToUpdate.due_date) {
 
-                return;
-            }
+        //         return;
+        //     }
 
-            axios.put(`tasks/${id}`, {
-                title: this.taskToUpdate.title,
-                description: this.taskToUpdate.description,
-                due_date: this.taskToUpdate.due_date
-            })
-                .then(() => {
+        //     axios.put(`tasks/${id}`, {
+        //         title: this.taskToUpdate.title,
+        //         description: this.taskToUpdate.description,
+        //         due_date: this.taskToUpdate.due_date
+        //     })
+        //         .then(() => {
 
 
-                    this.getTasks();
+        //             this.getTasks();
 
-                    this.closeUpdateTask();
-                })
-                .catch(error => {
-                    console.error('Erro ao atualizar a tarefa:', error);
-                });
-        },
-        patchUpdateDate(taskToUpdateDate) {
-            this.formDateSubmitted = true;
+        //             this.closeUpdateTask();
+        //         })
+        //         .catch(error => {
+        //             console.error('Erro ao atualizar a tarefa:', error);
+        //         });
+        // },
+        // patchUpdateDate(taskToUpdateDate) {
+        //     this.formDateSubmitted = true;
 
-            if (!this.taskToUpdateDate.due_date) {
+        //     if (!this.taskToUpdateDate.due_date) {
 
-                return;
-            }
+        //         return;
+        //     }
 
-            const formattedDate = this.formatDate(taskToUpdateDate.due_date);
-            axios.patch(`tasks/${this.selectedTask.id}/due_date/`, {
-                due_date: formattedDate
-            })
-                .then(() => {
+        //     const formattedDate = this.formatDate(taskToUpdateDate.due_date);
+        //     axios.patch(`tasks/${this.selectedTask.id}/due_date/`, {
+        //         due_date: formattedDate
+        //     })
+        //         .then(() => {
 
-                    this.getTasks();
+        //             this.getTasks();
 
-                    this.closeUpdateDate();
-                });
+        //             this.closeUpdateDate();
+        //         });
 
-        },
+        // },
 
         updateTaskStatus(task) {
             const newStatus = task.status === 'completed' ? 'pending' : 'completed';
@@ -625,81 +625,81 @@ export default {
             });
         },
         ////SUBTASK >>>>>>
-        postSubtask() {
-            this.formSubtaskSubmitted = true;
+        // postSubtask() {
+        //     this.formSubtaskSubmitted = true;
 
-            if (!this.newSubtask.title || !this.newSubtask.description) {
+        //     if (!this.newSubtask.title || !this.newSubtask.description) {
 
-                return;
-            }
-
-
-
-
-            if (this.selectedTask) {
-
-                this.newSubtask.task_id = this.selectedTask.id;
-
-
-                axios.post('/subtasks', this.newSubtask)
-                    .then(() => {
-
-
-                        this.newSubtask = {
-                            title: '',
-                            description: '',
-                            task_id: '',
-
-                        }
-                        this.formSubtaskSubmitted = false;
-                        this.ShowModalSub = false;
-                        this.getTasks()
-
-                    });
-
-            }
-        },
-        putSubtask() {
-
-            this.formSubtaskSubmitted = true;
-
-            if (!this.taskToUpdateSub.title || !this.taskToUpdateSub.description) {
-
-                return;
-            }
-
-
-            if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
-                axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
-                    title: this.taskToUpdateSub.title,
-                    description: this.taskToUpdateSub.description,
-                })
-                    .then(() => {
-
-
-                        this.showUpdateModalSub = false;
-                        this.getTasks();
-                    });
-
-
-            }
-
-        },
-        updateSubtaskStatus(subtaskId, _currentStatus, newStatus) {
+        //         return;
+        //     }
 
 
 
-            axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
-                .then(() => {
+
+        //     if (this.selectedTask) {
+
+        //         this.newSubtask.task_id = this.selectedTask.id;
+
+
+        //         axios.post('/subtasks', this.newSubtask)
+        //             .then(() => {
+
+
+        //                 this.newSubtask = {
+        //                     title: '',
+        //                     description: '',
+        //                     task_id: '',
+
+        //                 }
+        //                 this.formSubtaskSubmitted = false;
+        //                 this.ShowModalSub = false;
+        //                 this.getTasks()
+
+        //             });
+
+        //     }
+        // },
+        // putSubtask() {
+
+        //     this.formSubtaskSubmitted = true;
+
+        //     if (!this.taskToUpdateSub.title || !this.taskToUpdateSub.description) {
+
+        //         return;
+        //     }
+
+
+        //     if (this.taskToUpdateSub && this.taskToUpdateSub.id) {
+        //         axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
+        //             title: this.taskToUpdateSub.title,
+        //             description: this.taskToUpdateSub.description,
+        //         })
+        //             .then(() => {
+
+
+        //                 this.showUpdateModalSub = false;
+        //                 this.getTasks();
+        //             });
+
+
+        //     }
+
+        // },
+        // updateSubtaskStatus(subtaskId, _currentStatus, newStatus) {
 
 
 
-                    this.getTasks();
+        //     axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
+        //         .then(() => {
 
 
-                });
 
-        },
+        //             this.getTasks();
+
+
+        //         });
+
+        // },
 
         deleteSubtask(subtask) {
             axios.delete(`/subtasks/${subtask.id}`)
