@@ -229,7 +229,7 @@
 
 
 
-       
+
 
 
         <!-- <div class="modal-date-task" v-if="showUpdateDate">
@@ -254,13 +254,13 @@
 
         <div class="box1">
             <div>
-                <button @click="showAllTasks">
+                <button @click="showAllTasks()">
                     <i class='bx bx-store-alt' style='color:rgba(32,32,32,0.92)'></i> Entrada
                 </button>
-                <button @click="showTodayTasks">
+                <button @click="showTodayTasks()">
                     <i class='bx bx-notepad'></i> Tarefas de hoje
                 </button>
-                <button @click="showOverdueTasks">
+                <button @click="showOverdueTasks()">
                     <i class='bx bx-error-alt'></i> Vencidos
                 </button>
             </div>
@@ -269,7 +269,7 @@
             <div class="conteudo">
                 <h1>Entrada</h1>
                 <div class="card-container">
-                    <div class="card" v-for="task in filteredTasks" :key="task.id" @click="openTaskModalClick(task)"
+                    <div class="card" v-for="task in filteredTasks || []" :key="task.id" @click="openTaskModalClick(task)"
                         @mouseover="task.ShowIcons = true" @mouseleave="task.ShowIcons = false">
 
 
@@ -304,7 +304,7 @@
                             <i class='bx bx-notepad'></i>{{ formatDate(task.due_date)
                             }}</span>
                         <hr>
-                        <div v-if="task.subtasks.length > 0">
+                        <div v-if="task.subtasks && Array.isArray(task.subtasks) && task.subtasks.length > 0">
 
                             <div v-for="subtask in task.subtasks" :key="subtask.id" class="cardsSub">
 
@@ -324,7 +324,7 @@
                                 </label>
                             </div>
                         </div>
-                        <hr v-if="task.subtasks.length > 0">
+                        <hr v-if="task.subtasks && Array.isArray(task.subtasks) && task.subtasks.length > 0">
                         <button @click.stop="ShowModal = true"><i class='bx bx-plus' style='color: #000;'></i> Criar
                             tarefa
                         </button>
@@ -458,13 +458,13 @@ export default {
 
             if (this.selectedTask && this.selectedTask.id) {
                 this.taskToUpdateSub.id = subtask.id;
-               
+
 
 
                 this.showUpdateModalSub = true;
                 this.openTaskModal = false;
 
-            } 
+            }
 
 
 
@@ -491,31 +491,48 @@ export default {
             const formattedTime = new Date(dateTime).toLocaleTimeString();
             return formattedTime;
         },
+
+
         showTodayTasks() {
-            const today = moment().tz('America/Sao_Paulo').startOf('day');
-            this.filteredTasks = this.tasks.filter(task => {
-                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo');
-                return taskDueDate.isSame(today, 'day');
-
-
-            });
-
-
-        },
+    axios.get('tasks/filter/today')
+        .then(response => {
+           
+            if (response.data && response.data.length > 0) {
+                this.filteredTasks = response.data;
+                this.sortTasks();
+            } 
+        });
+        
+},
 
         showOverdueTasks() {
-            const today = moment().tz('America/Sao_Paulo').startOf('day');
-            this.filteredTasks = this.tasks.filter(task => {
-                const taskDueDate = moment.tz(task.due_date, 'America/Sao_Paulo');
-                return taskDueDate.isBefore(today, 'day');
-
-            });
+            axios.get('tasks/filter/overdue')
+             
+                .then((response) => {
+                   
+                    this.filteredTasks = response.data;
+                    this.sortTasks();
+                });
+                
         },
-
 
         showAllTasks() {
-            this.filteredTasks = this.tasks;
+            axios.get('tasks')
+                .then((response) => {
+                   
+                    this.filteredTasks = response.data;
+                    this.sortTasks();
+                });
+                
         },
+
+
+
+
+
+
+
+       
 
 
         BackgroundColorDate(dueDate) {
@@ -583,11 +600,11 @@ export default {
             axios.get('tasks')
                 .then((response) => {
                     this.tasks = response.data
-                   
+
                     this.filteredTasks = this.tasks;
                     this.sortTasks();
                 })
-                
+
         },
         postTasks() {
             this.formSubmitted = true;
@@ -598,7 +615,7 @@ export default {
 
                 axios.post('tasks', taskToSend)
                     .then(() => {
-                       
+
                         this.newTask = {
                             title: '',
                             description: '',
@@ -620,7 +637,7 @@ export default {
             axios.delete(`tasks/${tasks}`)
                 .then(() => {
                     this.tasks = this.tasks.filter(task => task.id !== tasks);
-                    
+
                     this.filteredTasks = this.tasks;
                     this.openTaskModal = false;
 
@@ -646,7 +663,7 @@ export default {
             })
                 .then(() => {
 
-                  
+
                     this.getTasks();
 
                     this.closeUpdateTask();
@@ -668,12 +685,12 @@ export default {
                 due_date: formattedDate
             })
                 .then(() => {
-                    
+
                     this.getTasks();
 
                     this.closeUpdateDate();
                 });
-                
+
         },
 
         updateTaskStatus(task) {
@@ -683,7 +700,7 @@ export default {
             axios.patch(`tasks/${task.id}/status`, { status: newStatus })
 
                 .then(() => {
-                    
+
 
                     task.status = newStatus;
 
@@ -691,7 +708,7 @@ export default {
                     this.getTasks();
 
                 });
-                
+
 
         },
         sortTasks() {
@@ -722,7 +739,7 @@ export default {
                 axios.post('/subtasks', this.newSubtask)
                     .then(() => {
 
-                        
+
                         this.newSubtask = {
                             title: '',
                             description: '',
@@ -734,7 +751,7 @@ export default {
                         this.getTasks()
 
                     });
-                    
+
             }
         },
         putSubtask() {
@@ -753,14 +770,14 @@ export default {
                     description: this.taskToUpdateSub.description,
                 })
                     .then(() => {
-                       
+
 
                         this.showUpdateModalSub = false;
                         this.getTasks();
                     });
-                    
 
-            } 
+
+            }
 
         },
         updateSubtaskStatus(subtaskId, _currentStatus, newStatus) {
@@ -769,24 +786,24 @@ export default {
 
             axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
                 .then(() => {
-                   
+
 
 
                     this.getTasks();
 
 
                 });
-               
+
         },
 
         deleteSubtask(subtask) {
             axios.delete(`/subtasks/${subtask.id}`)
                 .then(() => {
-                    
+
                     this.openTaskModal = false;
                     this.getTasks();
                 });
-                
+
         }
 
 
@@ -799,7 +816,7 @@ export default {
         this.data = moment(this.data).format('DD/MM/YYYY');
         this.tasks.forEach(task => {
             this.$set(task, 'showIcons', false);
-           
+
         });
     },
 
@@ -1190,7 +1207,7 @@ export default {
 
 
 .modal-task {
-   
+
 
     position: fixed;
     top: 50%;
@@ -1243,7 +1260,7 @@ export default {
     height: 600px;
     width: 800px;
     padding: 20px;
-   
+
     position: fixed;
 }
 
@@ -1478,7 +1495,7 @@ header .icons {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    
+
     align-items: center;
     text-align: left;
     margin-top: 100px;
@@ -1568,10 +1585,10 @@ li {
     border: 2px solid #ccc;
     margin-bottom: 10px;
     margin-top: 0;
-   
+
     position: relative;
-   
-  
+
+
     cursor: pointer;
 }
 
@@ -1585,7 +1602,7 @@ li {
     padding: 20px;
     width: 50%;
     border: 1px solid #ccc;
-  
+
     position: relative;
     z-index: 9;
 }
