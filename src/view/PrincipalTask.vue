@@ -447,7 +447,7 @@ export default {
 
 		showTodayTasks() {
 			axios.get("tasks/filter/today").then((response) => {
-				if (response.data && response.data.length > 0) {
+				if (response.data && response.data.length >= 0) {
 					this.filteredTasks = response.data;
 					this.sortTasks();
 				}
