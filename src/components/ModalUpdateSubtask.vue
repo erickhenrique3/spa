@@ -65,7 +65,7 @@ export default {
 				return;
 			}
 
-			axios.put(`/subtasks/${this.taskToUpdateSub.id}`, {
+			axios.put(`/tasks/subtasks/${this.taskToUpdateSub.id}`, {
 				title: this.dataTaskToUpdateSub.title,
 				description: this.dataTaskToUpdateSub.description
 			})

@@ -55,7 +55,7 @@ export default {
 
 			this.dataSubtask.task_id = this.selectedTask.id;
 
-			axios.post('/subtasks', this.dataSubtask)
+			axios.post('/tasks/subtasks', this.dataSubtask)
 				.then(() => {
 					this.dataSubtask = {
 						title: '',

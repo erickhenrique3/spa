@@ -648,7 +648,7 @@ export default {
 
 
 
-			axios.patch(`/subtasks/${subtaskId}`, { status: newStatus })
+			axios.patch(`/tasks/subtasks/${subtaskId}`, { status: newStatus })
 				.then(() => {
 
 
@@ -661,7 +661,7 @@ export default {
 		},
 
 		deleteSubtask(subtask) {
-			axios.delete(`/subtasks/${subtask.id}`)
+			axios.delete(`/tasks/subtasks/${subtask.id}`)
 				.then(() => {
 
 					this.openTaskModal = false;
